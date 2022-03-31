@@ -596,14 +596,19 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
 
+.bg-background-surface{
+  --tw-bg-opacity: 1;
+  background-color: rgb(16 16 17 / var(--tw-bg-opacity));
+}
+
 .bg-gray-100{
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
-.bg-slate-200{
+.bg-brand-secondary-300{
   --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
+  background-color: rgb(189 200 205 / var(--tw-bg-opacity));
 }
 
 .bg-white{

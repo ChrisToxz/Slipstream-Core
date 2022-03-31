@@ -5,40 +5,27 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Dashboard</title>
         <link href="css/app.css" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="antialiased">
+    <body class="antialiased bg-background-surface">
+        @if (Route::has('login'))
+            <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+                    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+                        @auth
+                            <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                        @else
+                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
 
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="bg-slate-200">Hey</div>
-
-            <div> <!-- Header -->
-                <header>
-                    <div>Logo</div>
-                    <nav>
-                        <ul>
-                            <li>Dashboard</li>
-                            <li>Settings</li>
-                            <li>Logout</li>
-                        </ul>
-                    </nav>
-                </header>
-            </div> <!-- End Header -->
-
-            <div> <!-- Sidebar -->
+                            @if (Route::has('register'))
+                                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                            @endif
+                        @endauth
+                    </div>
+            </div>
+        @endif
+        
+        <div class="flex"><!-- Main wrapper -->
+            <div class="flex w-16 h-screen bg-gray-900 mr-5"> <!-- Sidebar -->
                 <ul>
                     <li>
                         <span>X</span>
@@ -51,8 +38,22 @@
                     </li>
                 </ul>
             </div><!-- End Sidebar -->
+ 
+            
+            <header class="flex h-20 flex-row justify-between bg-gray-800 w-screen pr-10 mt-5"><!-- Header -->
+                <div class="self-center"><img src="media/logo.png" alt=""></div>
+                <nav class="bg-slate-400 rounded-full self-center font-display text-lg text-gray-200">
+                    <ul class="flex flex-row">
+                        <li class="p-2">Dashboard</li>
+                        <li class="p-2">Settings</li>
+                        <li class="p-2">Logout</li>
+                    </ul>
+                </nav>
+            </header> <!-- End Header -->
 
-            <div><!-- Main -->
+            
+
+            {{-- <div><!-- Main -->
                 <div><!-- Video Card -->
 
                     <div><!-- Video Information -->
@@ -91,7 +92,7 @@
                         Version Nr
                     </div>
                 </footer>
-            </div><!-- End Footer -->
+            </div><!-- End Footer --> --}}
 
         </div>
     </body>
