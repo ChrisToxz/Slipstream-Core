@@ -60,9 +60,9 @@
                 </header> <!-- End Header -->
 
                 <div class="flex px-16"><!-- Videocards -->
-                    <div class="bg-green-600 flex basis-1/3 relative z-0"><!-- Video Card -->
-                        <div class="absolute z-2"><!-- video overlay -->
-                            <div><!-- Video Information -->
+                    <div class="bg-green-600 flex basis-1/3 relative z-0 aspect-video"><!-- Video Card -->
+                        <div class="absolute z-2 bg-slate-100 w-max"><!-- video overlay -->
+                            <div class="bg-background-secondary flex basis-full"><!-- Video Information -->
                                 <div>
                                     <p>
                                         Video info
@@ -87,7 +87,7 @@
                         </div>
 
                         <div class=""><!-- Media -->
-                            <img class="aspect-video" src="media/stock1.jpg" alt="">
+                            <img class="" src="media/stock1.jpg" alt="">
                         </div>
 
                     </div><!-- End Video Card -->
