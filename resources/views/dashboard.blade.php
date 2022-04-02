@@ -25,7 +25,7 @@
 
                 <header class="flex h-20 flex-row justify-between mt-5 mx-8"><!-- Header -->
                     <div class="self-center"><img src="media/logo.png" alt=""></div>
-                    <nav class="basis-1/6 bg-background-secondary rounded-md self-center font-display text-base text-gray-200 py-2">
+                    <nav class="basis-1/6 bg-background-secondary rounded-md self-center text-base text-gray-200 py-2">
                         <ul class="flex flex-row justify-around">
                             <li class="">Dashboard</li>
                             <li class="">Settings</li>
@@ -34,38 +34,134 @@
                     </nav>
                 </header> <!-- End Header -->
 
-                <div class="flex px-16"><!-- Videocards -->
-                    <div class="bg-green-600 flex basis-1/3 relative z-0 aspect-video"><!-- Video Card -->
-                        <div class="absolute z-2 bg-slate-100 w-max"><!-- video overlay -->
-                            <div class="bg-background-secondary flex basis-full"><!-- Video Information -->
+                <div class="flex px-8 pt-12 gap-2 flex-wrap"><!-- Videocards -->
+
+                    <div class="flex w-1/3 relative z-0 aspect-video"><!-- Video Card -->
+                        <div class="absolute z-2 w-full flex flex-col justify-end h-full"><!-- video overlay -->
+                            <div class="bg-black opacity-80 flex justify-between rounded-b-lg text-opacity-100 text-white px-4 py-2"><!-- Video Information -->
                                 <div>
-                                    <p>
-                                        Video info
+                                    <p class="text-lg">
+                                        <b>Super F1 Cup Short vid</b>
+                                    </p>
+                                    <p class="text-sm text-de">
+                                       Epic short vid about a dope F1 race Car.
                                     </p>
                                 </div>
-                                <div>
-                                    <ul>
-                                        <li>btn1</li>
-                                        <li>btn2</li>
-                                        <li>btn3</li>
-                                        <li>btn4</li>
+                                <div class="flex self-center h-5/6">
+                                    <ul class="flex">
+                                        <li class="px-1 self-center">XX</li>
+                                        <li class="px-1 self-center">XX</li>
+                                        <li class="px-1 self-center">XX</li>
+                                        <li class="px-1 self-center">XX</li>
                                     </ul>
                                 </div>
                             </div>
-
-                            <div><!-- badges -->
-                                <div>
-                                    <span>Icon</span>
-                                    <p>1080P</p>
+                            <div class="flex order-first h-full p-4 justify-between"><!-- badges -->
+                                <div class="p-2 h-fit bg-black opacity-80 rounded-lg text-white text-opacity-100">
+                                    <p>
+                                        <span>Icon</span>
+                                        HLS
+                                    </p>
                                 </div>
+
+                                <div class="p-2 h-fit bg-black opacity-80 rounded-lg text-white text-opacity-100">
+                                    <p>
+                                        <span>Icon</span>
+                                        HLS
+                                    </p>
+                                </div>
+
                             </div>
                         </div>
-
-                        <div class=""><!-- Media -->
-                            <img class="" src="media/stock1.jpg" alt="">
+                        <div ><!-- Media -->
+                            <img class="rounded-lg" src="media/stock1.jpg" alt="">
                         </div>
-
                     </div><!-- End Video Card -->
+
+                    <div class="flex w-1/3 relative z-0 aspect-video"><!-- Video Card -->
+                        <div class="absolute z-2 w-full flex flex-col justify-end h-full"><!-- video overlay -->
+                            <div class="bg-black opacity-80 flex justify-between rounded-b-lg text-opacity-100 text-white px-4 py-2"><!-- Video Information -->
+                                <div>
+                                    <p class="text-lg">
+                                        <b>Super F1 Cup Short vid</b>
+                                    </p>
+                                    <p class="text-sm text-de">
+                                       Epic short vid about a dope F1 race Car.
+                                    </p>
+                                </div>
+                                <div class="flex self-center h-5/6">
+                                    <ul class="flex">
+                                        <li class="px-1 self-center">XX</li>
+                                        <li class="px-1 self-center">XX</li>
+                                        <li class="px-1 self-center">XX</li>
+                                        <li class="px-1 self-center">XX</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="flex order-first h-full p-4 justify-between"><!-- badges -->
+                                <div class="p-2 h-fit bg-black opacity-80 rounded-lg text-white text-opacity-100">
+                                    <p>
+                                        <span>Icon</span>
+                                        HLS
+                                    </p>
+                                </div>
+
+                                <div class="p-2 h-fit bg-black opacity-80 rounded-lg text-white text-opacity-100">
+                                    <p>
+                                        <span>Icon</span>
+                                        HLS
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div ><!-- Media -->
+                            <img class="rounded-lg" src="media/stock1.jpg" alt="">
+                        </div>
+                    </div><!-- End Video Card -->
+
+                    <div class="flex w-1/3 relative z-0 aspect-video"><!-- Video Card -->
+                        <div class="absolute z-2 w-full flex flex-col justify-end h-full"><!-- video overlay -->
+                            <div class="bg-black opacity-80 flex justify-between rounded-b-lg text-opacity-100 text-white px-4 py-2"><!-- Video Information -->
+                                <div>
+                                    <p class="text-lg">
+                                        <b>Super F1 Cup Short vid</b>
+                                    </p>
+                                    <p class="text-sm text-de">
+                                       Epic short vid about a dope F1 race Car.
+                                    </p>
+                                </div>
+                                <div class="flex self-center h-5/6">
+                                    <ul class="flex">
+                                        <li class="px-1 self-center">XX</li>
+                                        <li class="px-1 self-center">XX</li>
+                                        <li class="px-1 self-center">XX</li>
+                                        <li class="px-1 self-center">XX</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="flex order-first h-full p-4 justify-between"><!-- badges -->
+                                <div class="p-2 h-fit bg-black opacity-80 rounded-lg text-white text-opacity-100">
+                                    <p>
+                                        <span>Icon</span>
+                                        HLS
+                                    </p>
+                                </div>
+
+                                <div class="p-2 h-fit bg-black opacity-80 rounded-lg text-white text-opacity-100">
+                                    <p>
+                                        <span>Icon</span>
+                                        HLS
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div ><!-- Media -->
+                            <img class="rounded-lg" src="media/stock1.jpg" alt="">
+                        </div>
+                    </div><!-- End Video Card -->
+
                 </div><!-- end Videocards -->
             </div><!-- End Main -->
 
