@@ -46,10 +46,10 @@
                 <div class="mx-20 mt-10"><!-- playlists -->
                     <div class="text-xl font-medium mb-2 text-white">Playlists</div>
                     <div class="grid grid-cols-6 gap-4">
+                        <div class="aspect-video"><img class="rounded-md" src="https://picsum.photos/1920/1080" alt=""></div>
                         <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
-                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
-                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
-                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="https://picsum.photos/1920/1080" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="https://picsum.photos/1920/1080" alt=""></div>
                         <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
                         <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
                     </div>

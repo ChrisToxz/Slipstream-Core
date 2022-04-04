@@ -32,7 +32,7 @@
             </div>
         </div>
         <div ><!-- Media -->
-            <img class="rounded-lg" src="media/stock1.jpg" alt="">
+            <img class="rounded-lg" src="https://picsum.photos/1920/1080" alt="">
         </div>
     </div><!-- End Video Card -->
 </div>
