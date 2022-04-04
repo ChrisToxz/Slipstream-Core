@@ -15,7 +15,6 @@
                         <li class="px-1 self-center cursor-pointer transition-all hover:text-status-warning-500"><i class='bx bxs-edit-alt'></i></li>
                         <li class="px-1 self-center cursor-pointer transition-all hover:text-brand-primary-500"><i class='bx bx-cloud-download'></i></li>
                         <li class="px-1 self-center cursor-pointer transition-all hover:text-status-success-500"><i class='bx bxs-copy-alt'></i></li>
-                        <li class="px-1 self-center cursor-pointer transition-all hover:text-status-error-500"><i class='bx bxs-trash'></i></li>
                     </ul>
                 </div>
             </div>
