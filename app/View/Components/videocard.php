@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
+
 class videocard extends Component
 {
     /**
@@ -12,7 +13,8 @@ class videocard extends Component
      * @return void
      */
     public $message;
-    public function __construct($message)
+    public function __construct($message = null)
+
     {
         $this->message = $message;
     }

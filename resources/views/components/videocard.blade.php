@@ -32,8 +32,7 @@
             </div>
         </div>
         <div ><!-- Media -->
-            <img class="rounded-lg" src="https://picsum.photos/1920/1080" alt="">
-            {{$message}}
+            <img class="rounded-lg" src="{{ $message }}" alt="">
         </div>
     </div><!-- End Video Card -->
 </div>

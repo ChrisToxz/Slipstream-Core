@@ -35,25 +35,25 @@
                 </header>
 
                 <div class="grid gap-8 self-center mx-20 mt-8 grid-cols-3"><!-- Videocards -->
-                    <x-videocard message="$message"></x-videocard>
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
+                    <x-videocard message="media/stock1.jpg" />
+                    <x-videocard message="media/stock2.jpg" />
+                    <x-videocard message="media/stock3.jpg" />
+                    <x-videocard message="media/stock4.jpg" />
+                    <x-videocard message="media/stock5.jpg" />
+                    <x-videocard message="media/stock6.jpg" />
                 </div>
 
-                <div class="mx-20 mt-10"><!-- playlists -->
+                {{-- <div class="mx-20 mt-10"><!-- playlists -->
                     <div class="text-xl font-medium mb-2 text-white">Playlists</div>
                     <div class="grid grid-cols-6 gap-4">
-                        <div class="aspect-video"><img class="rounded-md" src="https://picsum.photos/1920/1080" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock3.jpg" alt=""></div>
                         <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
-                        <div class="aspect-video"><img class="rounded-md" src="https://picsum.photos/1920/1080" alt=""></div>
-                        <div class="aspect-video"><img class="rounded-md" src="https://picsum.photos/1920/1080" alt=""></div>
-                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
-                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock4.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock2.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock6.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock5.jpg" alt=""></div>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
 
