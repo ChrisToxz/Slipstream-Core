@@ -2,25 +2,36 @@
 
 @section('content')
             {{-- Dev --}}
-                <div class="absolute bottom-0 right-0 w-10 h-10 2xl:bg-red-500 xl:bg-orange-500 lg:bg-yellow-500 md:bg-green-500 sm:bg-blue-500"></div>
+                <div class="absolute bottom-0 right-0 w-10 h-10 2xl:bg-red-500 xl:bg-orange-500 lg:bg-yellow-500 md:bg-green-500 sm:bg-blue-500 "></div>
             {{-- Dev --}}
-            <div class="flex justify-center w-16 h-screen bg-background-secondary"> <!-- Sidebar -->
-                <ul class="flex flex-col h-1/3 mt-32">
-                    <li class="bg-background-tertiary w-10 h-10 mb-1 rounded-full flex justify-center items-center">
-                        <span>-</span>
+            <div class="flex justify-center w-auto h-screen bg-background-secondary
+            transition-all duration-300"> <!-- Sidebar -->
+
+                <ul class="flex flex-col h-1/3 mt-32 text-white font-bold">
+                    <li class="bg-background-surface min-w-[3rem] h-12 mb-1 mx-2 rounded-md flex justify-center items-center cursor-pointer whitespace-nowrap
+                    transition-all duration-300
+                    hover:bg-brand-primary-500 hover:after:content-['acing_day'] hover:px-2">
+                        <span>R</span>
                     </li>
-                    <li class="bg-background-tertiary w-10 h-10 mb-1 rounded-full flex justify-center items-center">
-                        <span>-</span>
+
+                    <li class="bg-background-surface min-w-[3rem] h-12 mb-1 mx-2 rounded-md flex justify-center items-center cursor-pointer whitespace-nowrap
+                    transition-all duration-300
+                    hover:bg-brand-primary-500 hover:after:content-['lightsim'] hover:px-2">
+                        <span>F</span>
                     </li>
-                    <li class="bg-background-tertiary w-10 h-10 mb-1 rounded-full flex justify-center items-center">
-                        <span>-</span>
+
+                    <li class="bg-background-surface min-w-[3rem] h-12 mb-1 mx-2 rounded-md flex justify-center items-center cursor-pointer whitespace-nowrap
+                    transition-all duration-300
+                    hover:bg-brand-primary-500 hover:after:content-['ood_contest'] hover:px-2">
+                        <span>F</span>
                     </li>
-                    <li class="bg-background-tertiary w-10 h-10 mb-1 rounded-full flex justify-center items-center">
-                        <span>-</span>
+
+                    <li class="bg-background-surface min-w-[3rem] h-12 mb-1 mx-2 rounded-md flex justify-center items-center cursor-pointer whitespace-nowrap
+                    transition-all duration-300
+                    hover:bg-brand-primary-500 hover:after:content-['ungee_jumping'] hover:px-2">
+                        <span>B</span>
                     </li>
-                    <li class="bg-background-tertiary w-10 h-10 mb-1 rounded-full flex justify-center items-center">
-                        <span>-</span>
-                    </li>
+
                 </ul>
             </div>
 
