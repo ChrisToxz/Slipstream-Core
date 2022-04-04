@@ -19,9 +19,9 @@
                         <span>-</span>
                     </li>
                 </ul>
-            </div><!-- End Sidebar -->
+            </div>
 
-            <div class="flex flex-col basis-full"><!-- content area -->
+            <div class="flex flex-col basis-full mb-10"><!-- content area -->
 
                 <header class="flex h-20 flex-row justify-between mt-5 mx-8"><!-- Header -->
                     <div class="self-center"><img src="media/logo.png" alt=""></div>
@@ -32,22 +32,30 @@
                             <li class="transition-all cursor-pointer hover:text-brand-primary-500">Logout</li>
                         </ul>
                     </nav>
-                </header> <!-- End Header -->
+                </header>
 
-                <div class="grid gap-8 self-center mx-8 mt-12 grid-cols-3"><!-- Videocards -->
+                <div class="grid gap-8 self-center mx-20 mt-8 grid-cols-3"><!-- Videocards -->
+                    <x-videocard />
+                    <x-videocard />
+                    <x-videocard />
+                    <x-videocard />
+                    <x-videocard />
+                    <x-videocard />
+                </div>
 
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
-                    <x-videocard />
+                <div class="mx-20 mt-10"><!-- playlists -->
+                    <div class="text-xl font-medium mb-2 text-white">Playlists</div>
+                    <div class="grid grid-cols-6 gap-4">
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
+                        <div class="aspect-video"><img class="rounded-md" src="media/stock1.jpg" alt=""></div>
+                    </div>
+                </div>
 
-                </div><!-- end Videocards -->
-            </div><!-- End Main -->
+            </div>
 
                 {{-- <div><!-- footer -->
                     <footer>
