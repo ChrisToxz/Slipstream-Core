@@ -35,7 +35,7 @@
                 </header>
 
                 <div class="grid gap-8 self-center mx-20 mt-8 grid-cols-3"><!-- Videocards -->
-                    <x-videocard />
+                    <x-videocard message="$message"></x-videocard>
                     <x-videocard />
                     <x-videocard />
                     <x-videocard />
