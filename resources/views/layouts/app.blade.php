@@ -6,6 +6,7 @@
     <title>Dashboard</title>
     <link href="css/app.css" rel="stylesheet">
     @livewireStyles
+    @livewire('livewire-ui-modal')
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
