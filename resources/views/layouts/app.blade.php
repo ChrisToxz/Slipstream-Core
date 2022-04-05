@@ -5,8 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Dashboard</title>
     <link href="css/app.css" rel="stylesheet">
+    @livewireStyles
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body class="antialiased bg-background-surface font-brand font-light">
     @if (Route::has('login'))
@@ -28,5 +32,9 @@
     <div class="flex flex-row"><!-- Main wrapper -->
         @yield('content')
     </div>
+
+    @livewireScripts
+    @livewire('livewire-ui-modal')
+
 </body>
 </html>
