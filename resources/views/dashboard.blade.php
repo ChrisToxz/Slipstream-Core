@@ -34,8 +34,7 @@
 
                 </ul>
             </div>
-
-            <div class="flex flex-col basis-full mb-10"><!-- content area -->
+            <div class="flex flex-col basis-full mb-10"> <!-- content area -->
 
                 <header class="flex h-20 flex-row justify-between mt-5 mx-8"><!-- Header -->
                     <div class="self-center"><img src="media/logo.png" alt=""></div>
