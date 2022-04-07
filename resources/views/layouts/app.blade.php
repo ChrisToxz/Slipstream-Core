@@ -47,9 +47,7 @@
         $("#dropmessage").text("Drag it to here!");
         console.log('drag to here');
     });
-    $("html").on("drop", function(e){
-        $("#dropmessage").text("Drop to here or click to select");
-    })
+
 </script>
 </body>
 </html>

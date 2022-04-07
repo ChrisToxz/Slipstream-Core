@@ -15,7 +15,7 @@
     <div class="">
         <input id="file" hidden type="file" wire:model="media" x-ref="file" x-on:change="file = $refs.file.files[0].name">
         <button hidden type="button" onclick="document.querySelector('input[type=\'file\']').click();">Select media</button>
-        <p class="text-center align-middle" id="dropmessage">Drop media here or click to select!</p>
+        <p class="text-center align-middle" id="dropmessage" x-show="!file">Drop media here or click to select!</p>
     </div>
     <!-- File Input -->
 
@@ -36,8 +36,8 @@
     </div>
 
     <script>
+{{--        TODO : REWRITE!!! --}}
         $(function() {
-
             $("html").on("drop", function(e) { e.preventDefault(); e.stopPropagation(); });
             // Drag enter
             $('.upload-area').on('dragenter', function (e) {
@@ -58,30 +58,28 @@
                 e.stopPropagation();
                 e.preventDefault();
                 console.log('set file');
-                $("#dropmessage").text("");
-                $("input[type='file']").prop("files", e.originalEvent.dataTransfer.files);
-                file.dispatchEvent(new Event('change'))
+                console.log(e.originalEvent.dataTransfer.files.length);
+                if(e.originalEvent.dataTransfer.files.length) {
+                    $("input[type='file']").prop("files", e.originalEvent.dataTransfer.files);
+                    file.dispatchEvent(new Event('change'))
+                    console.log('file have been set');
+                }else{
+                    $("input[type='file']").val('');
+                    console.log('not a file');
+                    $("#dropmessage").text("Please try again or click here to select media");
 
-            //     // Upload a file:
-            // @this.upload('media', document.querySelector('input[type="file"]').files[0], (uploadedFilename) => {
-            //     // Success callback.
-            // }, () => {
-            //     // Error callback.
-            // }, (event) => {
-            //     // Progress callback.
-            //     // event.detail.progress contains a number between 1 and 100 as the upload progresses.
-            // })
+                }
             });
 
             // Open file selector on div click
             $(".upload-area").click(function(){
-                document.querySelector('input[type=\'file\']').click();
+                if(document.querySelector('input[type=\'file\']').files.length == 0 ) {
+                    document.querySelector('input[type=\'file\']').click();
+                }
             });
 
             window.addEventListener('resetform', event => {
-
                 document.getElementById('reset').click()
-
             })
         });
     </script>
