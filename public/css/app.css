@@ -428,6 +428,39 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.container{
+  width: 100%;
+}
+@media (min-width: 640px){
+
+  .container{
+    max-width: 640px;
+  }
+}
+@media (min-width: 768px){
+
+  .container{
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px){
+
+  .container{
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px){
+
+  .container{
+    max-width: 1280px;
+  }
+}
+@media (min-width: 1536px){
+
+  .container{
+    max-width: 1536px;
+  }
+}
 .fixed{
   position: fixed;
 }
@@ -460,6 +493,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .order-first{
   order: -9999;
+}
+.m-auto{
+  margin: auto;
 }
 .mx-2{
   margin-left: 0.5rem;
@@ -572,6 +608,15 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: -moz-fit-content;
   height: fit-content;
 }
+.h-72{
+  height: 18rem;
+}
+.max-h-10{
+  max-height: 2.5rem;
+}
+.max-h-96{
+  max-height: 24rem;
+}
 .min-h-screen{
   min-height: 100vh;
 }
@@ -674,8 +719,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-bottom-right-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
 }
+.border-8{
+  border-width: 8px;
+}
 .border-t{
   border-top-width: 1px;
+}
+.border-dashed{
+  border-style: dashed;
 }
 .border-gray-200{
   --tw-border-opacity: 1;
@@ -867,6 +918,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
+.backdrop-blur-sm{
+  --tw-backdrop-blur: blur(4px);
+  -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+          backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
 .transition-all{
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -874,9 +930,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .delay-75{
   transition-delay: 75ms;
-}
-.delay-1000{
-  transition-delay: 1000ms;
 }
 .duration-300{
   transition-duration: 300ms;
