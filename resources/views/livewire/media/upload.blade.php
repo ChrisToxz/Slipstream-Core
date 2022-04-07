@@ -5,11 +5,17 @@
     x-on:livewire-upload-error="isUploading = false"
     x-on:livewire-upload-progress="progress = $event.detail.progress"
 
+    class="upload-area text-opacity-100 text-white px-4 py-2 border-dashed border-8"
+
 >
-    <div class="upload-area" style="height:100px; border-style: solid;">
+    <div class="flex h-screen h-72">
+        <div class="m-auto">
+
+
+    <div class="">
         <input id="file" hidden type="file" wire:model="media" x-ref="file" x-on:change="file = $refs.file.files[0].name">
         <button hidden type="button" onclick="document.querySelector('input[type=\'file\']').click();">Select media</button>
-        <div style="text-align:center" id="dropmessage">Drop media here or click to select!</div>
+        <p class="text-center align-middle" id="dropmessage">Drop media here or click to select!</p>
     </div>
     <!-- File Input -->
 
@@ -25,6 +31,8 @@
     <!-- Progress Bar -->
     <div x-show="isUploading" x-cloak>
         <progress max="100" x-bind:value="progress"></progress>
+    </div>
+        </div>
     </div>
 
     <script>
