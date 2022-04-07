@@ -29,13 +29,7 @@
 
     <script>
         $(function() {
-            // dragover
-            $("html").on("dragover", function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                $("#dropmessage").text("Drag it to here!");
-                console.log('drag to here');
-            });
+
             $("html").on("drop", function(e) { e.preventDefault(); e.stopPropagation(); });
             // Drag enter
             $('.upload-area').on('dragenter', function (e) {
@@ -60,15 +54,15 @@
                 $("input[type='file']").prop("files", e.originalEvent.dataTransfer.files);
                 file.dispatchEvent(new Event('change'))
 
-                // Upload a file:
-            @this.upload('media', document.querySelector('input[type="file"]').files[0], (uploadedFilename) => {
-                // Success callback.
-            }, () => {
-                // Error callback.
-            }, (event) => {
-                // Progress callback.
-                // event.detail.progress contains a number between 1 and 100 as the upload progresses.
-            })
+            //     // Upload a file:
+            // @this.upload('media', document.querySelector('input[type="file"]').files[0], (uploadedFilename) => {
+            //     // Success callback.
+            // }, () => {
+            //     // Error callback.
+            // }, (event) => {
+            //     // Progress callback.
+            //     // event.detail.progress contains a number between 1 and 100 as the upload progresses.
+            // })
             });
 
             // Open file selector on div click

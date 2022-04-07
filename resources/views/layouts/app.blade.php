@@ -11,6 +11,8 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
+
 </head>
 <body class="antialiased bg-background-surface font-brand font-light">
     @if (Route::has('login'))
@@ -35,6 +37,16 @@
 
     @livewireScripts
     @livewire('livewire-ui-modal')
-
+    <script src="./js/app.js"></script>
+<script>
+    // dragover
+    $("html").on("dragover", function(e) {
+        Livewire.emit('openModal', 'media.upload')
+        e.preventDefault();
+        e.stopPropagation();
+        $("#dropmessage").text("Drag it to here!");
+        console.log('drag to here');
+    });
+</script>
 </body>
 </html>
