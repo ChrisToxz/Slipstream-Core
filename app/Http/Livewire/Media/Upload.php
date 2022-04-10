@@ -80,6 +80,7 @@ class Upload extends ModalComponent
 
         $this->dispatchBrowserEvent('resetform');
         $this->emit('refreshTags');
+        $this->closeModal();
     }
 
     public function render()
