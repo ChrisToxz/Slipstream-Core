@@ -191,7 +191,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        'MediaHelper' => \App\Helpers\Media::class,
     ])->toArray(),
 
 ];
