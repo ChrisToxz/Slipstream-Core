@@ -51,7 +51,21 @@
 
                     <livewire:media.showcards />
 
+                <script>
+{{--                    TODO: Move to main js file --}}
+                    function copyToClipboard(text) {
+                        var $temp = $("<input>");
+                        $("body").append($temp);
+                        $temp.val(text).select();
+                        document.execCommand("copy");
+                        $temp.remove();
 
+                        $("#tooltip-copy").text("Copied!");
+                        window.setTimeout(function() {
+                            $("#tooltip-copy").text("Copy");
+                        }, 2000);
+                    }
+                </script>
                 {{-- <div class="mx-20 mt-10"><!-- playlists -->
                     <div class="text-xl font-medium mb-2 text-white">Playlists</div>
                     <div class="grid grid-cols-6 gap-4">
