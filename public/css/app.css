@@ -525,9 +525,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .mt-5{
   margin-top: 1.25rem;
 }
-.mt-8{
-  margin-top: 2rem;
-}
 .mt-10{
   margin-top: 2.5rem;
 }
@@ -551,6 +548,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .ml-4{
   margin-left: 1rem;
+}
+.mt-8{
+  margin-top: 2rem;
 }
 .ml-12{
   margin-left: 3rem;
@@ -610,12 +610,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 .h-72{
   height: 18rem;
-}
-.max-h-10{
-  max-height: 2.5rem;
-}
-.max-h-96{
-  max-height: 24rem;
 }
 .min-h-screen{
   min-height: 100vh;
@@ -752,13 +746,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-bg-opacity: 1;
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
-.bg-gray-500{
-  --tw-bg-opacity: 1;
-  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
-}
-.bg-blue-500{
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+.bg-opacity-10{
+  --tw-bg-opacity: 0.1;
 }
 .p-6{
   padding: 1.5rem;

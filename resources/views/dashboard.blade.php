@@ -48,14 +48,9 @@
                     </nav>
                 </header>
 
-                <div class="grid gap-8 self-center mx-20 mt-8 lg:grid-cols-3 md:grid-cols-2"><!-- Videocards -->
-                    <x-videocard message="media/stock1.jpg" />
-                    <x-videocard message="media/stock2.jpg" />
-                    <x-videocard message="media/stock3.jpg" />
-                    <x-videocard message="media/stock4.jpg" />
-                    <x-videocard message="media/stock5.jpg" />
-                    <x-videocard message="media/stock6.jpg" />
-                </div>
+
+                    <livewire:media.showcards />
+
 
                 {{-- <div class="mx-20 mt-10"><!-- playlists -->
                     <div class="text-xl font-medium mb-2 text-white">Playlists</div>
