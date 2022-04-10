@@ -1,10 +1,11 @@
 <div class="aspect-video">
+
     <div class="bg-white bg-opacity-10 flex relative rounded-lg z-0 aspect-video shadow-md transition-all duration-300 delay-75 hover:scale-[0.99]"><!-- Video Card -->
         <div class="absolute z-2 w-full flex flex-col justify-end h-full"><!-- video overlay -->
             <div class="bg-black opacity-80 flex justify-between rounded-b-lg text-opacity-100 text-white px-4 py-2"><!-- Video Information -->
                 <div>
                     <p class="text-lg">
-                        <b>{{ $tag->title }}</b>
+                        <a href="{{url('/v/'.$tag->tag)}}" target="_blank"><b>{{ $tag->title }}</b></a>
                     </p>
                     <p class="text-sm text-de">
                         {{ $tag->description }}
@@ -34,7 +35,9 @@
 
             </div>
         </div>
+
         <img class="rounded-lg" src="{{asset('storage/media/'.$tag->thumb())}}" alt="">
+
         <div ><!-- Media -->
 
         </div>
@@ -43,4 +46,5 @@
         Copy link
         <div class="tooltip-arrow" data-popper-arrow></div>
     </div>
+
 </div>
