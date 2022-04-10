@@ -80,6 +80,7 @@ class Upload extends ModalComponent
 
         $this->dispatchBrowserEvent('resetform');
         $this->emit('refreshTags');
+        toastr()->livewire()->addSuccess('Media uploaded!');
         $this->closeModal();
     }
 
