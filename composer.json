@@ -12,6 +12,9 @@
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.10",
         "pbmedia/laravel-ffmpeg": "^8.0",
+        "php-flasher/flasher": "^0.9.8",
+        "php-flasher/flasher-livewire": "^0.9.8",
+        "php-flasher/flasher-toastr-laravel": "^0.9.8",
         "wire-elements/modal": "^1.0"
     },
     "require-dev": {

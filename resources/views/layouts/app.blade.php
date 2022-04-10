@@ -35,6 +35,8 @@
         @yield('content')
     </div>
 
+    @flasher_render <!-- this render all flasher notifications. -->
+    @flasher_livewire_render <!-- this render livewire notifications only. -->
     @livewireScripts
     @livewire('livewire-ui-modal')
     <script src="./js/app.js"></script>
