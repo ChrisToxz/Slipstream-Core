@@ -34,8 +34,9 @@
 
             </div>
         </div>
+        <img class="rounded-lg" src="{{asset('storage/media/'.$tag->thumb())}}" alt="">
         <div ><!-- Media -->
-            <img class="rounded-lg" src="{{asset('storage/media/'.$tag->thumb())}}" alt="">
+
         </div>
     </div><!-- End Video Card -->
     <div id="tooltip-copy" role="tooltip" class="z-50 inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
