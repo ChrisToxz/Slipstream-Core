@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Media;
 
 use App\Helpers;
+use App\Models\Image;
 use App\Models\Tag;
 use App\Models\Video;
 use Livewire\WithFileUploads;
@@ -55,13 +56,30 @@ class Upload extends ModalComponent
                     'avg_frame_rate'    => $ffmpeg->getVideoStream()->get('avg_frame_rate'),
                     'tags'              => $ffmpeg->getVideoStream()->get('tags'),]
             ]);
+
+            $ffmpeg->getFrameFromSeconds(0.1)->export()->toDisk('media')->save($tag->tag.'/thumb.jpg');
+
+
         }
 
         if(Helpers\Media::isImage($this->media->path())){
+            list($w, $h) = getimagesize($this->media->path());
 
+            $media = Image::create([
+                'original' => $hash,
+                'info' => [
+                    'size'  => round($this->media->getSize()/1000000), // to MB
+                    'width' => $w,
+                    'height' => $h
+                ]
+            ]);
         }
 
+        $this->media->storeAs($tag->tag, $hash, 'media');
         $media->tag()->save($tag);
+
+        $this->dispatchBrowserEvent('resetform');
+        $this->emit('refreshTags');
     }
 
     public function render()
