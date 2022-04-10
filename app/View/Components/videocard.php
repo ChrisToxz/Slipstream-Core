@@ -13,10 +13,12 @@ class videocard extends Component
      * @return void
      */
     public $message;
-    public function __construct($message = null)
+    public $tag;
+    public function __construct($message = null, $tag = null)
 
     {
         $this->message = $message;
+        $this->tag = $tag;
     }
 
     /**

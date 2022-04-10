@@ -30,4 +30,14 @@ class Tag extends Model
 
         return $model;
     }
+
+    public function thumb()
+    {
+        if($this->taggable_type == Video::class){
+            return $this->tag.'/thumb.jpg';
+        }
+        if($this->taggable_type == Image::class){
+            return $this->tag.'/'.$this->media['original'];
+        }
+    }
 }
