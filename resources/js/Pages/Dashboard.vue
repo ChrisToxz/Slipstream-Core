@@ -1,22 +1,26 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
+import MainLayout from "@/Layouts/MainLayout.vue";
+
 </script>
 
 <template>
     <Head title="Dashboard" />
-
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Dashboard</h2>
-        </template>
-
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900 dark:text-gray-100">You're logged in!</div>
-                </div>
-            </div>
+    <MainLayout>
+        <div class="flex flex-col basis-full mb-10"> <!-- content area -->
+            <header class="flex h-20 flex-row justify-between mt-5 mx-8"><!-- Header -->
+                <div class="self-center"><img src="img/logo.png" alt=""></div>
+                <nav class="basis-1/6 bg-background-secondary rounded-md self-center text-base text-gray-200 py-2 px-4">
+                    <ul class="flex justify-around gap-8 sm:gap-2">
+                        <li class="transition-all cursor-pointer hover:text-brand-red-500">Dashboard </li>
+                        <li class="transition-all cursor-pointer hover:text-brand-primary-500">Settings</li>
+                        <button>Upload</button>
+                    </ul>
+                </nav>
+            </header>
         </div>
-    </AuthenticatedLayout>
+    </MainLayout>
 </template>
+
+<style>
+</style>
