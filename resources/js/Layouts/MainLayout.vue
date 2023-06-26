@@ -14,9 +14,9 @@
                 </div>
                 <nav class="basis-1/6 self-center bg-background-secondary rounded-md">
                     <ul class="flex justify-around gap-8 sm:gap-2">
-                        <li class=""><NavItem class="text-blue-400">Dashboard </NavItem></li>
-                        <li class=""><NavItem>Settings</NavItem></li>
-                        <button><NavItem>Upload</NavItem></button>
+                        <li><NavItem class="text-[#0580c5]">Dashboard </NavItem></li>
+                        <li><NavItem class="text-gray-200">Settings</NavItem></li>
+                        <button class="text-gray-200"><NavItem>Upload</NavItem></button>
                     </ul>
                 </nav>
             </header>
@@ -27,7 +27,3 @@
         <slot />
     </section>
 </template>
-
-<style scoped>
-
-</style>
