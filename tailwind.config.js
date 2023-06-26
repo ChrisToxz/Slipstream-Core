@@ -15,6 +15,12 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            backgroundColor: {
+                'background-secondary': '#2B2B2B',
+            },
+            minHeight: {
+                'calc-screen-140': 'calc(100vh - 140px)',
+            }
         },
     },
 
