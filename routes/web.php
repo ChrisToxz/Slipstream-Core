@@ -18,11 +18,11 @@ use Inertia\Inertia;
 
 Route::get('/', function () {
     return inertia('Dashboard');
-});
+})->name('dashboard');
 
 Route::get('/upload', function () {
     return inertia('Upload');
-});
+})->name('upload');
 
 
 Route::get('/a', function () {
@@ -44,4 +44,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

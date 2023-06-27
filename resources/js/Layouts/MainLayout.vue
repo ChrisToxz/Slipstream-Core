@@ -1,8 +1,13 @@
 <script setup>
 import NavItem from '@/Components/NavItem.vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 
+console.log(usePage().url)
+
+const navItemClass = (route) => {
+  return usePage().url === '/' + route ? 'text-[#0580c5]' : 'text-gray-200'
+}
 </script>
 
 <template>
@@ -18,9 +23,9 @@ import { Head, Link } from '@inertiajs/vue3'
           </div>
           <nav class="basis-1/6 self-center bg-background-secondary rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
-              <li><NavItem class="text-[#0580c5]">Dashboard </NavItem></li>
+              <li><Link href="/"><NavItem :class="navItemClass('')">Dashboard </NavItem></Link></li>
               <li><NavItem class="text-gray-200">Settings</NavItem></li>
-              <button class="text-gray-200"><NavItem>Upload</NavItem></button>
+              <li><Link :href="route('upload')"><NavItem :class="navItemClass('upload')">Upload</NavItem></Link></li>
             </ul>
           </nav>
         </header>
