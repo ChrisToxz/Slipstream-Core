@@ -20,6 +20,10 @@ Route::get('/', function () {
     return inertia('Dashboard');
 });
 
+Route::get('/upload', function () {
+    return inertia('Upload');
+});
+
 
 Route::get('/a', function () {
     return Inertia::render('Welcome', [
