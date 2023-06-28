@@ -20,6 +20,10 @@ Route::get('/', function () {
     return inertia('Dashboard');
 })->name('dashboard');
 
+Route::get('/settings', function () {
+    return inertia('Settings');
+})->name('settings');
+
 Route::get('/upload', function () {
     return inertia('Upload');
 })->name('upload');
@@ -33,10 +37,6 @@ Route::get('/a', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
