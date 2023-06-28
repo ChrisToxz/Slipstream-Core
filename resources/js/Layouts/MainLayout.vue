@@ -1,7 +1,11 @@
 <script setup>
 import NavItem from '@/Components/NavItem.vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
+import UploadModal from '@/Components/UploadModal.vue'
+import { ref } from 'vue'
+import { Link } from '@inertiajs/vue3'
 
+let showUploadModal = ref(false)
 </script>
 
 <template>
@@ -17,9 +21,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
           </div>
           <nav class="basis-1/6 self-center bg-background-secondary rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
-              <li><NavItem link="dashboard">Dashboard </NavItem> </li>
-              <li><NavItem link="settings" class="text-gray-200">Settings</NavItem></li>
-              <li><NavItem link="upload">Upload</NavItem></li>
+              <li><Link :href="route('dashboard')"><NavItem link="dashboard">Dashboard </NavItem></Link></li>
+              <li><Link :href="route('settings')"><NavItem link="settings" class="text-gray-200">Settings</NavItem></Link></li>
+              <li><NavItem @click="$event => showUploadModal = true">Upload</NavItem></li>
             </ul>
           </nav>
         </header>
@@ -29,4 +33,5 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
   <section id="content" class="min-h-calc-screen-140 bg-neutral-900">
     <slot />
   </section>
+  <UploadModal v-if="showUploadModal" @close="$event => showUploadModal = false" />
 </template>

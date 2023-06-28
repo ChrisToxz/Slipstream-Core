@@ -9,13 +9,15 @@ const form = reactive({
 
 let isValidFile = ref(null)
 let fileDisplay = ref('')
-let tite = ref('')
+let title = ref('')
 let description = ref('')
 let type = ref('')
 let error = ref({
   text: null,
   file: null,
 })
+
+let isPlaying = ref(false)
 
 const getUploadedFile = (e) => {
   form.file = e.target.files[0]
@@ -29,6 +31,18 @@ const getUploadedFile = (e) => {
   }
 
   fileDisplay.value = URL.createObjectURL(e.target.files[0])
+}
+
+const playVideo = () => {
+  this.$refs.videoPlayer.play()
+}
+
+const handlePlay = () => {
+  this.isPlaying = true
+}
+
+const handlePause = () => {
+  this.isPlaying = false
 }
 </script>
 
@@ -54,11 +68,11 @@ const getUploadedFile = (e) => {
 
   <div v-if="fileDisplay && isValidFile === true" class="w-[710px] ml-[130px] flex flex-col justify-center relative pt-10">
     <div class="w-full relative">
-      <div class="bg-[rgba(5,128,197,0.6)] rounded-full w-[38px] h-[38px] flex items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      <div v-show="!isPlaying" class="bg-[rgba(5,128,197,0.6)] rounded-full w-[38px] h-[38px] flex items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" @click="playVideo">
         <Play color="white" />
       </div>
       <div class="w-full h-[462px]">
-        <video controls class="w-full rounded-lg" :src="fileDisplay" alt="thumbnail" />
+        <video ref="videoPlayer" controls class="w-full rounded-lg" :src="fileDisplay" @play="handlePlay" @pause="handlePause" />
       </div>
     </div>
     <div class="w-full h-[26px] bg-[#0a0a0a] rounded-2xl mt-4 flex justify-center items-center">

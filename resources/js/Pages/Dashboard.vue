@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/VideoCard.vue'
 
@@ -7,7 +7,7 @@ import VideoCard from '@/Components/VideoCard.vue'
 
 <template>
   <Head title="Dashboard" />
-  <MainLayout>
+  <MainLayout class="relative">
     <div class="w-full flex justify-center">
       <div class="w-[calc(100%-46px)] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-[26px]">
         <VideoCard />
