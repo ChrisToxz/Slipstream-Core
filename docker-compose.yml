@@ -39,9 +39,25 @@ services:
         networks:
             - slipstream_network
 
+    # Dev
+    pma:
+        image: phpmyadmin:latest
+        restart: always
+        ports:
+            - 8080:80
+        environment:
+            - PMA_USER=root
+            - PMA_PASSWORD=yoursecretdbpass
+        depends_on:
+            - db
+        networks:
+            - slipstream_network
+
+
 volumes:
     dbdata:
 
 networks:
     slipstream_network:
         driver: bridge
+
