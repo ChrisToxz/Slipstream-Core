@@ -1,13 +1,7 @@
 <script setup>
 import NavItem from '@/Components/NavItem.vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
-import { Link, usePage } from '@inertiajs/vue3'
 
-console.log(usePage().url)
-
-const navItemClass = (route) => {
-  return usePage().url === '/' + route ? 'text-[#0580c5]' : 'text-gray-200'
-}
 </script>
 
 <template>
@@ -23,9 +17,9 @@ const navItemClass = (route) => {
           </div>
           <nav class="basis-1/6 self-center bg-background-secondary rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
-              <li><Link href="/"><NavItem :class="navItemClass('')">Dashboard </NavItem></Link></li>
-              <li><NavItem class="text-gray-200">Settings</NavItem></li>
-              <li><Link :href="route('upload')"><NavItem :class="navItemClass('upload')">Upload</NavItem></Link></li>
+              <li><NavItem link="dashboard">Dashboard </NavItem> </li>
+              <li><NavItem link="settings" class="text-gray-200">Settings</NavItem></li>
+              <li><NavItem link="upload">Upload</NavItem></li>
             </ul>
           </nav>
         </header>
