@@ -6,7 +6,7 @@ import UploadSettings from '@/Components/UploadSettings.vue'
 
 <template>
   <MainLayout>
-    <div class="flex">
+    <div id="settings" class="flex w-full bg-[#1C1C1C] rounded-md">
       <VideoPreview />
       <UploadSettings />
     </div>
