@@ -3,16 +3,14 @@ import Play from '~icons/ion/play'
 </script>
 
 <template>
-  <div class="w-[710px] ml-[50px] flex flex-col justify-center relative pt-10">
-    <div class="flex flex-col mb-6">
-      <label class="text-gray-200" for="title">Title</label>
-      <input id="title" class="w-[380px] bg-[#1A1A1A] border-[#0580c5] rounded-lg" type="text" />
-    </div>
+  <div class="w-[710px] ml-[130px] flex flex-col justify-center relative pt-10">
     <div class="w-full relative">
       <div class="bg-[rgba(5,128,197,0.6)] rounded-full w-[38px] h-[38px] flex items-center justify-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
         <Play color="white" />
       </div>
-      <img class="w-full rounded-lg" src="/img/thumbnail.jpg" alt="thumbnail" />
+      <div class="w-full h-[462px]">
+        <img class="w-full rounded-lg" src="/img/thumbnail.jpg" alt="thumbnail" />
+      </div>
     </div>
     <div class="w-full h-[26px] bg-[#0a0a0a] rounded-2xl mt-4 flex justify-center items-center">
       <div class="bg-[#363636] w-[693px] h-[10px] rounded-2xl">
