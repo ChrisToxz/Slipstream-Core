@@ -3,28 +3,16 @@
 </script>
 
 <template>
-  <div class="ml-[60px] mt-10 flex flex-col text-gray-200">
-    <label class="" for="description">Description</label>
-    <textarea id="description" />
-    <label class="" for="access-policy">Access Policy</label>
-    <select id="access-policy" />
-    <label for="retention-policy">Retention Policy</label>
-    <select id="retention-policy" />
-    <div class="flex">
-      <div class="flex flex-col">
-        <label for="resolution">Resolution</label>
-        <input id="resolution" type="text" />
-        <label for="codec">Codec</label>
-        <input id="codec" type="text" />
-        <label for="codec2">Codec</label>
-        <input id="codec2" type="text" />
-        <label for="hash">Hash</label>
-        <input id="hash" type="text" />
-      </div>
-      <div class="flex flex-col">
-        <label for="raw">Raw Video Info</label>
-        <textarea id="raw" cols="30" rows="10" />
-      </div>
+  <div class="ml-[100px] flex flex-col text-gray-200 h-full justify-center w-[380px]">
+    <label class="text-gray-200" for="title">Title</label>
+    <input id="title" class="bg-[#1A1A1A] border-[#0580c5] rounded-lg" type="text" />
+    <label class="mt-4" for="description">Description</label>
+    <textarea id="description" class="h-[300px] bg-[#1A1A1A] border-[#0580c5] rounded-lg" />
+    <label class="mt-4" for="type">Type</label>
+    <select id="type" class="bg-[#1A1A1A] border-[#0580c5] rounded-lg" />
+    <div class="flex mt-4 justify-between">
+      <button class="bg-[#0580c5] py-2 px-6 rounded-lg">Submit</button>
+      <button class="bg-red-800 py-2 px-6 rounded-lg">Cancel</button>
     </div>
   </div>
 </template>
