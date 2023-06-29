@@ -1,5 +1,6 @@
 <script setup>
 import Download from '~icons/teenyicons/download-outline'
+import Back from '~icons/material-symbols/arrow-back'
 import {reactive, ref} from 'vue'
 import { router } from '@inertiajs/vue3'
 
@@ -46,18 +47,30 @@ const saveMedia = () => {
   error.value.type = null
   error.value.file = null
 
-  router.post('/slips', form, {
-    forceFormData: true,
-    onError: errors => {
-      errors && errors.title ? error.value.title = errors.title : ''
-      errors && errors.description ? error.value.description = errors.description : ''
-      errors && errors.type ? error.value.type = errors.type : ''
-      errors && errors.file ? error.value.file = errors.file : ''
-    },
-    onSuccess: () => {
-      closeModal()
-    },
-  })
+  if (!form.title) {
+    error.value.title = 'Please enter a title'
+  }
+  if (!form.description) {
+    error.value.description = 'Please enter a description'
+  }
+  if (!form.type) {
+    error.value.type = 'Please specify type'
+  }
+
+  if (Object.values(error.value).every(v => v === null)) {
+    router.post('/slips', form, {
+      forceFormData: true,
+      onError: errors => {
+        errors && errors.title ? error.value.title = errors.title : ''
+        errors && errors.description ? error.value.description = errors.description : ''
+        errors && errors.type ? error.value.type = errors.type : ''
+        errors && errors.file ? error.value.file = errors.file : ''
+      },
+      onSuccess: () => {
+        closeModal()
+      },
+    })
+  }
 }
 
 const closeModal = () => {
@@ -76,6 +89,7 @@ const closeModal = () => {
       <div class="w-3/4">
         <!-- Input -->
         <div v-if="!fileDisplay && isUploading === false">
+          <Back color="white" width="25" height="25" class="absolute top-4 left-4 cursor-pointer" @click="$event => closeModal()" />
           <div class="my-20 flex justify-center items-center flex-col mx-32">
             <label for="file" class="flex flex-col items-center justify-center mb-4 text-center text-white w-32 cursor-pointer">
               <Download color="white" width="50" height="50" />
