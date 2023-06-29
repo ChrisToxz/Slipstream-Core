@@ -1,9 +1,14 @@
 <script setup>
+import SlipLayout from '@/Layouts/SlipLayout.vue'
+import ShowSlipModal from '@/Components/ShowSlipModal.vue'
+
 const props = defineProps({
   slip: Object,
 })
 </script>
 
 <template>
-  <h1>{{ slip.title }}</h1>
+  <SlipLayout>
+    <ShowSlipModal :slip="slip" />
+  </SlipLayout>
 </template>
