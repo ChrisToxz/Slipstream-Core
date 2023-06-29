@@ -85,7 +85,7 @@ const closeModal = () => {
 
 <template>
   <div class="backdrop-blur-md w-full h-full absolute top-0 left-0">
-    <div class="flex justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-gray-800 rounded-2xl">
+    <div class="flex justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-neutral-800 rounded-2xl">
       <div class="w-3/4">
         <!-- Input -->
         <div v-if="!fileDisplay && isUploading === false">

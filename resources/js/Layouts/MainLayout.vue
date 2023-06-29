@@ -19,11 +19,11 @@ let showUploadModal = ref(false)
           <div class="self-center">
             <ApplicationLogo />
           </div>
-          <nav class="basis-1/6 self-center bg-background-secondary rounded-md">
+          <nav class="basis-1/6 self-center bg-brand-secondary-700 rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
               <li><Link :href="route('dashboard')"><NavItem link="dashboard">Dashboard </NavItem></Link></li>
               <li><Link :href="route('settings')"><NavItem link="settings" class="text-gray-200">Settings</NavItem></Link></li>
-              <li><NavItem @click="$event => showUploadModal = true">Upload</NavItem></li>
+              <li><NavItem @click="showUploadModal = true">Upload</NavItem></li>
             </ul>
           </nav>
         </header>
@@ -33,5 +33,5 @@ let showUploadModal = ref(false)
       <slot />
     </section>
   </div>
-  <UploadModal v-if="showUploadModal" @close="$event => showUploadModal = false" />
+  <UploadModal v-if="showUploadModal" @close="showUploadModal = false" />
 </template>

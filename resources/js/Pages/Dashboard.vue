@@ -1,8 +1,11 @@
 <script setup>
+import {ref} from 'vue'
 import { Head } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/VideoCard.vue'
+import ShowSlipModal from '@/Components/ShowSlipModal.vue'
 
+let showSlipModal = ref(false)
 </script>
 
 <template>
@@ -10,13 +13,14 @@ import VideoCard from '@/Components/VideoCard.vue'
   <MainLayout class="relative">
     <div class="w-full flex justify-center">
       <div class="w-[calc(100%-3rem)] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-7">
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
-        <VideoCard />
+        <VideoCard @click="showSlipModal = true" />
+        <VideoCard @click="showSlipModal = true" />
+        <VideoCard @click="showSlipModal = true" />
+        <VideoCard @click="showSlipModal = true" />
       </div>
     </div>
   </MainLayout>
+  <ShowSlipModal v-if="showSlipModal" @close="showSlipModal = false" />
 </template>
 
 <style>
