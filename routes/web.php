@@ -16,9 +16,15 @@ use Inertia\Inertia;
 |
 */
 
+Route::get('/', [\App\Http\Controllers\SlipController::class, 'index'])->name('dashboard');
 
-ROute::get('/', [\App\Http\Controllers\SlipController::class, 'index']);
-Route::resource('slip', \App\Http\Controllers\SlipController::class)->except('index');
+Route::get('/settings', function () {
+    return inertia('Settings');
+})->name('settings');
+
+Route::get('/upload', function () {
+    return inertia('Upload');
+})->name('upload');
 
 require __DIR__.'/auth.php';
 
