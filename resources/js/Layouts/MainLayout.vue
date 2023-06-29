@@ -9,7 +9,7 @@ let showUploadModal = ref(false)
 </script>
 
 <template>
-  <div class="antialiased bg-background-surface font-brand font-light bg-neutral-900">
+  <div class="antialiased bg-background-surface font-brand font-light bg-neutral-900 min-h-screen">
     <div class="flex flex-row">
       <!-- Main wrapper -->
       <div class="flex flex-col basis-full mb-10">
@@ -29,9 +29,9 @@ let showUploadModal = ref(false)
         </header>
       </div>
     </div>
+    <section id="content">
+      <slot />
+    </section>
   </div>
-  <section id="content" class="min-h-calc-screen-140 bg-neutral-900">
-    <slot />
-  </section>
   <UploadModal v-if="showUploadModal" @close="$event => showUploadModal = false" />
 </template>
