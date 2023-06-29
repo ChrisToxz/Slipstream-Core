@@ -64,7 +64,6 @@ const relativeTime = computed(
         </div>
       </div>
     </div>
-    <!--      TODO: :class="{ 'scale-[1.1]': hoverEffect }" -->
-    <img :class="hoverEffect ? 'scale-[1.1]' : ''" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" src="/img/thumbnail.jpg" alt="racing thumbnail" />
+    <img :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" src="/img/thumbnail.jpg" alt="racing thumbnail" />
   </div>
 </template>

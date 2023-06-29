@@ -6,6 +6,7 @@ import {router, useForm} from '@inertiajs/vue3'
 
 const emit = defineEmits(['close'])
 
+
 const form = useForm({
   title: null,
   description: null,

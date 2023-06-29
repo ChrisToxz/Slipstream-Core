@@ -15,7 +15,7 @@ services:
         environment:
             PUID: 1000
             PGID: 1000
-#            DB_HOST: slipstream-db
+            DB_HOST: slipstream-db
 #            DB_PASSWORD: yoursecretdbpass
         volumes:
             - ./:/var/www/html
