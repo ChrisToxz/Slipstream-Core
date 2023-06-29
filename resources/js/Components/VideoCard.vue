@@ -37,7 +37,7 @@ const relativeTime = computed(
       </div>
       <div class="bg-black opacity-80 flex justify-between text-opacity-100 text-white px-4 py-2">
         <div>
-          <Link href="/">
+          <Link :href="route('slip', slip.id)">
             <p class="text-lg">
               {{ slip.title }}
             </p>
