@@ -1,19 +1,20 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import {computed, ref} from 'vue'
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
 import Play from '~icons/ion/play'
+import moment from 'moment'
 
 const hoverEffect = ref(false)
 
 const props = defineProps({
-    slip: Object,
+  slip: Object,
 })
 
 const relativeTime = computed(
-    () => moment(props.slip.created_at).fromNow(),
+  () => moment(props.slip.created_at).fromNow(),
 )
 </script>
 
@@ -38,14 +39,14 @@ const relativeTime = computed(
         <div>
           <Link href="/">
             <p class="text-lg">
-                {{ slip.title }}
+              {{ slip.title }}
             </p>
           </Link>
           <p class="text-sm text-de text-brand-primary-400">
-              {{ slip.description }}
+            {{ slip.description }}
           </p>
           <p class="text-sm text-gray-500">
-              Created {{ relativeTime }}
+            Created {{ relativeTime }}
           </p>
         </div>
         <div class="flex self-center h-5/6">
