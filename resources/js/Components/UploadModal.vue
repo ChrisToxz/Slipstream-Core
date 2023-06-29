@@ -130,7 +130,7 @@ const closeModal = () => {
 
               <div class="flex justify-center items-center">
                 <div class="rounded-md overflow-hidden">
-                  <video :src="fileDisplay" />
+                  <video :src="fileDisplay" controls autoplay muted />
                   <div v-if="form.errors.file" class="text-red-600">
                     {{ form.errors.file }}
                   </div>
