@@ -18,6 +18,8 @@ use Inertia\Inertia;
 
 Route::get('/', [\App\Http\Controllers\SlipController::class, 'index'])->name('dashboard');
 
+Route::resource('slips', \App\Http\Controllers\SlipController::class);
+
 Route::get('/settings', function () {
     return inertia('Settings');
 })->name('settings');
@@ -26,7 +28,7 @@ Route::get('/upload', function () {
     return inertia('Upload');
 })->name('upload');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 /* not for now */
 //Route::get('/a', function () {
