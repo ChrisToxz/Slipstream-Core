@@ -20,7 +20,11 @@ let error = ref({
   file: null,
 })
 
+let isUploading = ref(false)
+
 const getUploadedFile = (e) => {
+  isUploading.value = true
+
   form.file = e.target.files[0]
   let extension = form.file.name.substring(form.file.name.lastIndexOf('.') + 1)
 
@@ -28,10 +32,12 @@ const getUploadedFile = (e) => {
     isValidFile.value = true
   } else {
     isValidFile.value = false
+    isUploading.value = false
     return
   }
 
   fileDisplay.value = URL.createObjectURL(e.target.files[0])
+  isUploading.value = false
 }
 
 const saveMedia = () => {
@@ -69,7 +75,7 @@ const closeModal = () => {
     <div class="flex justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-gray-800 rounded-2xl">
       <div class="w-3/4">
         <!-- Input -->
-        <div v-if="!fileDisplay">
+        <div v-if="!fileDisplay && isUploading === false">
           <div class="my-20 flex justify-center items-center flex-col mx-32">
             <label for="file" class="flex flex-col items-center justify-center mb-4 text-center text-white w-32 cursor-pointer">
               <Download color="white" width="50" height="50" />
@@ -80,46 +86,47 @@ const closeModal = () => {
             <p v-if="!fileDisplay && isValidFile === false" class="text-red-500 text-center p-2 font-extrabold">File not accepted</p>
           </div>
         </div>
-        <!-- File selected -->
-        <div>
-          <!-- Finished uploading -->
-          <div v-if="fileDisplay && isValidFile === true">
-            <div class="my-4">
-              <div class="mb-4">
-                <h1 class="text-4xl font-light text-white">
-                  Save your media
-                </h1>
-              </div>
-              <div class="grid grid-cols-2 gap-8 text-white">
-                <div>
-                  <label class="mb-2" for="title">Title</label>
-                  <input id="title" v-model="form.title" class="w-full mb-4 bg-gray-700 border-0" type="text" />
-                  <p v-if="error && error.title" class="text-red-500 p-2 font-extrabold">{{ error.title }}</p>
-                  <label class="mb-2" for="description">Description</label>
-                  <textarea id="description" v-model="form.description" rows="1" placeholder="Description..." class="w-full bg-gray-700" />
-                  <p v-if="error && error.description" class="text-red-500 p-2 font-extrabold">{{ error.description }}</p>
-                  <div class="mb-2">
-                    <label for="type">Type</label>
+        <!-- File Preparing -->
+        <div v-if="isUploading" class="text-white mx-32 my-32 flex justify-center items-center">
+          Preparing...
+        </div>
+        <!-- Finished uploading -->
+        <div v-if="fileDisplay && isValidFile === true && isUploading === false">
+          <div class="my-4">
+            <div class="mb-4">
+              <h1 class="text-4xl font-light text-white">
+                Save your media
+              </h1>
+            </div>
+            <div class="grid grid-cols-2 gap-8 text-white">
+              <div>
+                <label class="mb-2" for="title">Title</label>
+                <input id="title" v-model="form.title" class="w-full mb-4 bg-gray-700 border-0" type="text" />
+                <p v-if="error && error.title" class="text-red-500 p-2 font-extrabold">{{ error.title }}</p>
+                <label class="mb-2" for="description">Description</label>
+                <textarea id="description" v-model="form.description" rows="1" placeholder="Description..." class="w-full bg-gray-700" />
+                <p v-if="error && error.description" class="text-red-500 p-2 font-extrabold">{{ error.description }}</p>
+                <div class="mb-2">
+                  <label for="type">Type</label>
 
-                    <select id="type" v-model="form.type" name="type" autocomplete="off" class="w-full bg-gray-700">
-                      <option value="1">None (Original file)</option>
-                      <option value="2">Optimized for web (264)</option>
-                      <option value="3">Optimized for streaming (x264/HLS)</option>
-                    </select>
-                    <p v-if="error && error.type" class="text-red-500 p-2 font-extrabold">{{ error.type }}</p>
-                  </div>
+                  <select id="type" v-model="form.type" name="type" autocomplete="off" class="w-full bg-gray-700">
+                    <option value="1">None (Original file)</option>
+                    <option value="2">Optimized for web (264)</option>
+                    <option value="3">Optimized for streaming (x264/HLS)</option>
+                  </select>
+                  <p v-if="error && error.type" class="text-red-500 p-2 font-extrabold">{{ error.type }}</p>
                 </div>
-                <div class="flex justify-center items-center">
-                  <div class="rounded-md overflow-hidden">
-                    <video :src="fileDisplay" />
-                  </div>
+              </div>
+              <div class="flex justify-center items-center">
+                <div class="rounded-md overflow-hidden">
+                  <video :src="fileDisplay" />
                 </div>
               </div>
             </div>
-            <div class="pt-4 mb-4 text-white">
-              <button class="bg-blue-500 rounded-lg p-2 mr-2" @click="$event => saveMedia()">Save media</button>
-              <button class="bg-red-800 rounded-lg p-2" @click="$event => closeModal()">Cancel</button>
-            </div>
+          </div>
+          <div class="pt-4 mb-4 text-white">
+            <button class="bg-blue-500 rounded-lg p-2 mr-2" @click="$event => saveMedia()">Save media</button>
+            <button class="bg-red-800 rounded-lg p-2" @click="$event => closeModal()">Cancel</button>
           </div>
         </div>
       </div>
