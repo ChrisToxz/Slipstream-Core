@@ -16,9 +16,9 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return inertia('Dashboard');
-})->name('dashboard');
+Route::get('/', [\App\Http\Controllers\SlipController::class, 'index'])->name('dashboard');
+
+Route::resource('slips', \App\Http\Controllers\SlipController::class);
 
 Route::get('/settings', function () {
     return inertia('Settings');
@@ -28,20 +28,26 @@ Route::get('/upload', function () {
     return inertia('Upload');
 })->name('upload');
 
-
-Route::get('/a', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
 require __DIR__ . '/auth.php';
+
+/* not for now */
+//Route::get('/a', function () {
+//    return Inertia::render('Welcome', [
+//        'canLogin' => Route::has('login'),
+//        'canRegister' => Route::has('register'),
+//        'laravelVersion' => Application::VERSION,
+//        'phpVersion' => PHP_VERSION,
+//    ]);
+//});
+//
+//Route::get('/dashboard', function () {
+//    return Inertia::render('Dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+//
+//Route::middleware('auth')->group(function () {
+//    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+//});
+
+

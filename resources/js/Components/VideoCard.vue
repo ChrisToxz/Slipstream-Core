@@ -1,18 +1,27 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import {computed, ref} from 'vue'
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
 import Play from '~icons/ion/play'
+import moment from 'moment'
 
 const hoverEffect = ref(false)
+
+const props = defineProps({
+  slip: Object,
+})
+
+const relativeTime = computed(
+  () => moment(props.slip.created_at).fromNow(),
+)
 </script>
 
 <template>
   <div class="bg-white bg-opacity-10 flex relative rounded-lg z-0 aspect-video shadow-md overflow-hidden" @mouseover="hoverEffect = true" @mouseleave="hoverEffect = false">
     <div class="absolute z-2 w-full flex flex-col justify-between h-full">
-      <div class="w-[calc(100%-1rem)] ml-2 flex justify-between mt-2">
+      <div class="flex justify-between mt-2 px-2">
         <div class="flex flex-col text-gray-200 rounded-lg text-center text-sm">
           <p class="bg-[rgba(5,128,197,0.6)] rounded-lg">Public</p>
           <p class="bg-[rgba(5,128,197,0.6)] rounded-lg px-2 mt-2">200 Views</p>
@@ -30,14 +39,14 @@ const hoverEffect = ref(false)
         <div>
           <Link href="/">
             <p class="text-lg">
-              Example Title
+              {{ slip.title }}
             </p>
           </Link>
           <p class="text-sm text-de text-brand-primary-400">
-            Lorem ipsum dolor sit...
+            {{ slip.description }}
           </p>
           <p class="text-sm text-gray-500">
-            Date: 6/26/32
+            Created {{ relativeTime }}
           </p>
         </div>
         <div class="flex self-center h-5/6">
@@ -55,6 +64,7 @@ const hoverEffect = ref(false)
         </div>
       </div>
     </div>
+    <!--      TODO: :class="{ 'scale-[1.1]': hoverEffect }" -->
     <img :class="hoverEffect ? 'scale-[1.1]' : ''" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" src="/img/thumbnail.jpg" alt="racing thumbnail" />
   </div>
 </template>
