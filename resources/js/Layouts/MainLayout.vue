@@ -1,12 +1,15 @@
 <script setup>
 import NavItem from '@/Components/NavItem.vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
-import { Head, Link } from '@inertiajs/vue3'
+import UploadModal from '@/Components/UploadModal.vue'
+import { ref } from 'vue'
+import { Link } from '@inertiajs/vue3'
 
+let showUploadModal = ref(false)
 </script>
 
 <template>
-  <div class="antialiased bg-background-surface font-brand font-light bg-neutral-900">
+  <div class="antialiased bg-background-surface font-brand font-light bg-neutral-900 min-h-screen">
     <div class="flex flex-row">
       <!-- Main wrapper -->
       <div class="flex flex-col basis-full mb-10">
@@ -18,16 +21,17 @@ import { Head, Link } from '@inertiajs/vue3'
           </div>
           <nav class="basis-1/6 self-center bg-background-secondary rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
-              <li><NavItem class="text-[#0580c5]">Dashboard </NavItem></li>
-              <li><NavItem class="text-gray-200">Settings</NavItem></li>
-              <button class="text-gray-200"><NavItem>Upload</NavItem></button>
+              <li><Link :href="route('dashboard')"><NavItem link="dashboard">Dashboard </NavItem></Link></li>
+              <li><Link :href="route('settings')"><NavItem link="settings" class="text-gray-200">Settings</NavItem></Link></li>
+              <li><NavItem @click="$event => showUploadModal = true">Upload</NavItem></li>
             </ul>
           </nav>
         </header>
       </div>
     </div>
+    <section id="content">
+      <slot />
+    </section>
   </div>
-  <section id="content" class="min-h-calc-screen-140 bg-neutral-900">
-    <slot />
-  </section>
+  <UploadModal v-if="showUploadModal" @close="$event => showUploadModal = false" />
 </template>
