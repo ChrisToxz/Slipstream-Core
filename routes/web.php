@@ -18,7 +18,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', [SlipController::class, 'index'])->name('dashboard');
-Route::get('/v/{id}', [SlipController::class, 'show'])->name('slip');
+Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
 
 Route::resource('slips', SlipController::class);
 

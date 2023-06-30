@@ -1,8 +1,8 @@
 <script setup>
 import Download from '~icons/teenyicons/download-outline'
 import Back from '~icons/material-symbols/arrow-back'
-import {reactive, ref} from 'vue'
-import {router, useForm} from '@inertiajs/vue3'
+import {ref} from 'vue'
+import {useForm} from '@inertiajs/vue3'
 
 const emit = defineEmits(['close'])
 
@@ -25,6 +25,7 @@ const getUploadedFile = (e) => {
 
   form.file = e.target.files[0]
 
+  // Validate File
   if(validTypes.includes(form.file['type'])){
     isValidFile.value = true
   }else{
@@ -83,7 +84,7 @@ const closeModal = () => {
       <div class="w-3/4">
         <!-- Input -->
         <div v-if="!fileDisplay && isUploading === false">
-          <Back color="white" width="25" height="25" class="absolute top-4 left-4 cursor-pointer" @click="$event => closeModal()" />
+          <Back color="white" width="25" height="25" class="absolute top-4 left-4 cursor-pointer" @click="closeModal()" />
           <div class="my-20 flex justify-center items-center flex-col mx-32">
             <label for="file" class="flex flex-col items-center justify-center mb-4 text-center text-white w-32 cursor-pointer">
               <Download color="white" width="50" height="50" />
@@ -107,6 +108,7 @@ const closeModal = () => {
               </h1>
             </div>
             <div class="grid grid-cols-2 gap-8 text-white">
+              <!-- Upload Inputs -->
               <div>
                 <label class="mb-2" for="title">Title</label>
                 <input id="title" v-model="form.title" class="w-full bg-gray-700 border-0" type="text" />
@@ -141,8 +143,8 @@ const closeModal = () => {
           </div>
 
           <div class="pt-4 mb-4 text-white">
-            <button class="bg-blue-500 rounded-lg p-2 mr-2" @click="$event => saveMedia()">Save media</button>
-            <button class="bg-red-800 rounded-lg p-2" @click="$event => closeModal()">Cancel</button>
+            <button class="bg-blue-500 rounded-lg p-2 mr-2" @click="saveMedia()">Save media</button>
+            <button class="bg-red-800 rounded-lg p-2" @click="closeModal()">Cancel</button>
           </div>
         </div>
       </div>

@@ -19,10 +19,8 @@ class SlipController extends Controller
         //          ->with(['slips' => $slips]);
     }
 
-    public function show($id)
+    public function show(Slip $slip)
     {
-        $slip = Slip::findOrFail($id);
-
         return inertia('Slip', [
             'slip' => $slip
         ]);
