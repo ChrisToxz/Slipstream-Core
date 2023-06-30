@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('slips', function (Blueprint $table) {
             $table->id();
+            $table->string('token');
 
             $table->string('title');
             $table->string('description')->nullable();
