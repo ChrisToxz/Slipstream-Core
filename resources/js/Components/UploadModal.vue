@@ -42,35 +42,6 @@ const saveMedia = () => {
   form.post('/slips', {
     onSuccess: () => closeModal(),
   })
-  // error.value.title = null
-  // error.value.description = null
-  // error.value.type = null
-  // error.value.file = null
-  //
-  // if (!form.title) {
-  //   error.value.title = 'Please enter a title'
-  // }
-  // if (!form.description) {
-  //   error.value.description = 'Please enter a description'
-  // }
-  // if (!form.type) {
-  //   error.value.type = 'Please specify type'
-  // }
-  //
-  // if (Object.values(error.value).every(v => v === null)) {
-  //   router.post('/slips', form, {
-  //     forceFormData: true,
-  //     onError: errors => {
-  //       errors && errors.title ? error.value.title = errors.title : ''
-  //       errors && errors.description ? error.value.description = errors.description : ''
-  //       errors && errors.type ? error.value.type = errors.type : ''
-  //       errors && errors.file ? error.value.file = errors.file : ''
-  //     },
-  //     onSuccess: () => {
-  //       closeModal()
-  //     },
-  //   })
-  // }
 }
 
 const closeModal = () => {
@@ -118,7 +89,7 @@ const closeModal = () => {
 
 
                 <label class="mb-2" for="description">Description</label>
-                <textarea id="description" v-model="form.description" rows="1" placeholder="Description..." class="w-full bg-gray-700" />
+                <textarea id="description" v-model="form.description" rows="1" placeholder="Description..." class="w-full bg-gray-700 focus:border-none" />
                 <div v-if="form.errors.description" class="text-red-500 font-extrabold">{{ form.errors.description }}</div>
 
 
