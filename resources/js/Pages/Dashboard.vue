@@ -2,7 +2,6 @@
 import { Head } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/VideoCard.vue'
-import SettingsModal from '@/Components/SettingsModal.vue'
 
 const props = defineProps({
   slips: Object,
@@ -19,7 +18,6 @@ const props = defineProps({
       </div>
     </div>
   </MainLayout>
-  <SettingsModal />
 </template>
 <style>
 </style>

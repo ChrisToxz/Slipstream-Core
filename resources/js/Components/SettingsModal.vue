@@ -1,5 +1,9 @@
 <script setup>
 
+const emit = defineEmits(['close'])
+const closeModal = () => {
+  emit('close')
+}
 </script>
 
 <template>
@@ -89,9 +93,12 @@
           </div>
         </div>
       </div>
-      <div class="mx-4">
+      <div class="mx-4 flex justify-between">
         <button>
           Save Changes
+        </button>
+        <button @click="closeModal">
+          Cancel
         </button>
       </div>
     </div>

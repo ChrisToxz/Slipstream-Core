@@ -1,10 +1,12 @@
 <script setup>
+import { ref } from 'vue'
 import NavItem from '@/Components/NavItem.vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 import UploadModal from '@/Components/UploadModal.vue'
-import { ref } from 'vue'
+import SettingsModal from '@/Components/SettingsModal.vue'
 
 let showUploadModal = ref(false)
+let showSettingsModal = ref(false)
 </script>
 
 <template>
@@ -21,7 +23,7 @@ let showUploadModal = ref(false)
           <nav class="basis-1/6 self-center bg-brand-secondary-700 rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
               <li><NavItem link="dashboard">Dashboard </NavItem></li>
-              <li><NavItem link="settings" class="text-gray-200">Settings</NavItem></li>
+              <li><NavItem @click="showSettingsModal = true">Settings</NavItem></li>
               <li><NavItem @click="showUploadModal = true">Upload</NavItem></li>
             </ul>
           </nav>
@@ -34,4 +36,5 @@ let showUploadModal = ref(false)
     </section>
   </div>
   <UploadModal v-if="showUploadModal" @close="showUploadModal = false" />
+  <SettingsModal v-if="showSettingsModal" @close="showSettingsModal = false" />
 </template>
