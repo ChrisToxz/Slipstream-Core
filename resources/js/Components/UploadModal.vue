@@ -25,6 +25,7 @@ const getUploadedFile = (e) => {
 
   form.file = e.target.files[0]
 
+  // Validate File
   if(validTypes.includes(form.file['type'])){
     isValidFile.value = true
   }else{
@@ -107,6 +108,7 @@ const closeModal = () => {
               </h1>
             </div>
             <div class="grid grid-cols-2 gap-8 text-white">
+              <!-- Upload Inputs -->
               <div>
                 <label class="mb-2" for="title">Title</label>
                 <input id="title" v-model="form.title" class="w-full bg-gray-700 border-0" type="text" />

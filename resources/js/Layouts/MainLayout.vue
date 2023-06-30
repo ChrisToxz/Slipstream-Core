@@ -12,12 +12,12 @@ let showUploadModal = ref(false)
     <div class="flex">
       <!-- Main wrapper -->
       <div class="flex flex-col basis-full mb-10">
-        <!-- content area -->
+        <!-- Header -->
         <header class="flex h-20 justify-between mt-5 mx-8">
-          <!-- Header -->
           <div class="self-center">
             <ApplicationLogo />
           </div>
+          <!-- Navigation -->
           <nav class="basis-1/6 self-center bg-brand-secondary-700 rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
               <li><NavItem link="dashboard">Dashboard </NavItem></li>
@@ -28,6 +28,7 @@ let showUploadModal = ref(false)
         </header>
       </div>
     </div>
+    <!-- Content -->
     <section id="content">
       <slot />
     </section>
