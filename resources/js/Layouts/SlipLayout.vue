@@ -4,7 +4,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 </script>
 
 <template>
-  <header class="fixed top-0 left-0 w-full bg-gradient-to-t from-transparent to-neutral-800">
+  <header class="fixed w-full bg-gradient-to-t from-transparent to-neutral-800">
     <div class="p-4">
       <ApplicationLogo />
     </div>
@@ -12,16 +12,10 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
   <section id="view_slip">
     <slot />
   </section>
-  <footer class="fixed bottom-0 left-0 w-full py-2 flex align-center justify-end bg-gradient-to-b from-transparent to-neutral-800">
+  <footer class="fixed bottom-0 w-full py-2 flex align-center justify-end bg-gradient-to-b from-transparent to-neutral-800">
     <a href="https://github.com/ChrisToxz/Slipstream-Core" target="_blank">
       <p class="text-white">Powered By</p>
-      <ApplicationLogo class="w-40 mr-2" />
+      <ApplicationLogo class="w-40 mr-4" />
     </a>
   </footer>
 </template>
-
-<style scoped>
-header {
-
-}
-</style>
