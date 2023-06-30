@@ -44,7 +44,6 @@ let showSettingsModal = ref(false)
 <style scoped>
 .modal-enter-from {
     transform: translateX(100%);
-    opacity: 0;
 }
 
 .modal-enter-active {
@@ -53,7 +52,6 @@ let showSettingsModal = ref(false)
 
 .modal-enter-to {
     transform: translateX(0);
-    opacity: 1;
 }
 
 .modal-leave-active {
@@ -62,11 +60,9 @@ let showSettingsModal = ref(false)
 
 .modal-leave-from {
     transform: translateX(0);
-    opacity: 1;
 }
 
 .modal-leave-to {
     transform: translateX(100%);
-    opacity: 0;
 }
 </style>
