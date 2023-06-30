@@ -39,7 +39,9 @@ const getUploadedFile = (e) => {
 
 
 const saveMedia = () => {
-  form.post('/slips')
+  form.post('/slips', {
+    onSuccess: () => closeModal(),
+  })
   // error.value.title = null
   // error.value.description = null
   // error.value.type = null
