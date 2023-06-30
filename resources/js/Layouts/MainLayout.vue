@@ -36,5 +36,37 @@ let showSettingsModal = ref(false)
     </section>
   </div>
   <UploadModal v-if="showUploadModal" @close="showUploadModal = false" />
-  <SettingsModal v-if="showSettingsModal" @close="showSettingsModal = false" />
+  <transition name="modal">
+    <SettingsModal v-if="showSettingsModal" @close="showSettingsModal = false" />
+  </transition>
 </template>
+
+<style scoped>
+.modal-enter-from {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.modal-enter-active {
+    transition: all 0.3s ease-out;
+}
+
+.modal-enter-to {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.modal-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.modal-leave-from {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.modal-leave-to {
+    transform: translateX(100%);
+    opacity: 0;
+}
+</style>

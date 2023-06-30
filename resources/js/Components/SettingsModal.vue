@@ -9,11 +9,9 @@ const closeModal = () => {
 <template>
   <div class="text-white px4 absolute top-0 flex justify-end">
     <div class="p-8 w-1/2 bg-neutral-900">
-      <div class="p-4">
-        <h1 class="text-4xl leading-6 font-light text-brand-primary-500">
-          Settings
-        </h1>
-      </div>
+      <h1 class="text-4xl p-4 leading-6 font-light text-brand-primary-500">
+        Settings
+      </h1>
 
       <!-- Main Content -->
       <div class="px-4 flex justify-between gap-12">
