@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Slip;
 use Illuminate\Http\Request;
+use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class SlipController extends Controller
 {
@@ -34,12 +35,25 @@ class SlipController extends Controller
          * Validation check correct mimemtypes that we could accept
          * Trigger jobs to save file and run converting if selected
          */
-        if ($request->file()) {
+        if ($file = $request->file) {
+
             $request->validate([
                 'title' => 'nullable|string|max:200',
                 'description' => 'nullable|string|max:200',
-                'file' => 'file|mimetypes:video/mp4,video/mpeg|max:1'
+                'file' => 'file|mimetypes:video/mp4,video/mpeg|max:999991'
             ]);
+
+            $title = $request->title ?: $file->getClientOriginalName();
+
+            $slip = Slip::create([
+                'title' => $title,
+                'description' => $request->description,
+                'thumb' => 'placeholder',
+            ]);
+
+//            $ffmpeg = FFmpeg::openUrl($file->getRealPath());
+//            $ffmpeg->getFrameFromSeconds(0.1)->export()->toDisk('tags')->save($tag->tag . '/thumb.jpg');
+//            dd();
         }
 
         // return error
