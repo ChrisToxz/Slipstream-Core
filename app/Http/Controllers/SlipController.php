@@ -15,9 +15,6 @@ class SlipController extends Controller
         return inertia('Dashboard', [
             'slips' => $slips
         ]);
-
-        //        return inertia('Dashboard')
-        //          ->with(['slips' => $slips]);
     }
 
     public function show(Slip $slip)
@@ -36,7 +33,6 @@ class SlipController extends Controller
          * Trigger jobs to save file and run converting if selected
          */
         if ($file = $request->file) {
-
             $request->validate([
                 'title' => 'nullable|string|max:200',
                 'description' => 'nullable|string|max:200',
@@ -53,7 +49,5 @@ class SlipController extends Controller
             $ffmpeg = FFmpeg::openUrl($file->getRealPath());
             $ffmpeg->getFrameFromSeconds(0.1)->export()->toDisk('slips')->save($slip->token . '/thumb.jpg');
         }
-
-        // return error
     }
 }
