@@ -6,6 +6,8 @@ import WarningButton from '@/Components/Reusable/WarningButton.vue'
 import Download from '~icons/teenyicons/download-outline'
 import Back from '~icons/material-symbols/arrow-back'
 import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
+import PrimaryTextarea from '@/Components/Reusable/PrimaryTextarea.vue'
+import PrimarySelect from '@/Components/Reusable/PrimarySelect.vue'
 
 const emit = defineEmits(['close'])
 let isValidFile = ref(null)
@@ -53,7 +55,7 @@ const closeModal = () => {
 
 <template>
   <div class="backdrop-blur-md w-full h-full absolute top-0 left-0">
-    <div class="flex justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-gray-800 rounded-2xl">
+    <div class="flex justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-neutral-900 rounded-2xl">
       <div class="w-3/4">
         <!-- Input -->
         <div v-if="!fileDisplay && isUploading === false">
@@ -89,17 +91,17 @@ const closeModal = () => {
 
 
                 <label class="mb-2" for="description">Description</label>
-                <textarea id="description" v-model="form.description" rows="1" placeholder="Description..." class="w-full bg-gray-700" />
+                <PrimaryTextarea id="description" v-model="form.description" rows="1" placeholder="Description..." />
                 <p v-if="form.errors.description" class="text-red-500 font-extrabold">{{ form.errors.description }}</p>
 
 
                 <div class="mb-2">
                   <label for="type">Type</label>
-                  <select id="type" v-model="form.type" name="type" autocomplete="off" class="w-full bg-gray-700">
+                  <PrimarySelect id="type" v-model="form.type" name="type" autocomplete="off">
                     <option value="1">None (Original file)</option>
                     <option value="2">Optimized for web (264)</option>
                     <option value="3">Optimized for streaming (x264/HLS)</option>
-                  </select>
+                  </PrimarySelect>
                   <div v-if="form.errors.type" class="text-red-500 font-extrabold">{{ form.errors.type }}</div>
                 </div>
               </div>
@@ -115,7 +117,7 @@ const closeModal = () => {
             </div>
           </div>
 
-          <div class="pt-4 mb-4 text-white flex">
+          <div class="pt-4 mb-4 text-white flex lg:w-1/2">
             <div class="w-1/3">
               <PrimaryButton @click="saveMedia()">Save media</PrimaryButton>
             </div>

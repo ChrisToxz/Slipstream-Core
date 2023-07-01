@@ -32,8 +32,7 @@ const closeModal = () => {
       <!-- Main Content -->
       <div class="px-4 flex justify-between gap-12 border-l border-neutral-800">
         <div class="flex flex-col">
-          <!-- col 1 -->
-
+          <!-- Inputs -->
           <div class="mb-8">
             <label class="font-light pb-2" for="siteTitle">
               Site Title
@@ -101,9 +100,11 @@ const closeModal = () => {
             Save Changes
           </PrimaryButton>
         </div>
-        <WarningButton @click="closeModal">
-          Cancel
-        </WarningButton>
+        <div class="w-32">
+          <WarningButton @click="closeModal">
+            Cancel
+          </WarningButton>
+        </div>
       </div>
     </div>
   </div>
