@@ -1,5 +1,7 @@
 <script setup>
 import {ref} from 'vue'
+import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
+import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
 
 const visitors = ref(true)
 
@@ -29,7 +31,7 @@ const closeModal = () => {
             <label class="font-light pb-2" for="siteTitle">
               Site Title
             </label>
-            <input id="siteTitle" class="w-full bg-brand-secondary-700 border border-black focus:border-brand-primary-600 focus:ring-transparent" type="text" />
+            <PrimaryTextInput id="siteTitle" />
             <sub class="text-brand-primary-500 text-sm">The name your guests will see</sub>
           </div>
 
@@ -47,14 +49,14 @@ const closeModal = () => {
 
           <div class="my-8 flex justify-between">
             <div class="flex flex-col w-5/12 mr-2">
-              <input id="360" class="w-full bg-brand-secondary-700 border border-black focus:border-brand-primary-600 focus:ring-transparent" type="text" />
+              <PrimaryTextInput id="360" />
               <label class="font-light pb-2 text-brand-primary-500" for="360">
                 360p
               </label>
             </div>
 
             <div class="flex flex-col w-5/12 ml-2">
-              <input id="720" class="w-full bg-brand-secondary-700 border border-black focus:border-brand-primary-600 focus:ring-transparent" type="text" />
+              <PrimaryTextInput id="720" />
               <label class="font-light pb-2 text-brand-primary-500" for="720">
                 720p
               </label>
@@ -63,23 +65,23 @@ const closeModal = () => {
 
           <div class="mb-8 flex justify-between">
             <div class="flex flex-col w-5/12 mr-2">
-              <input id="1080" class="w-full bg-brand-secondary-700 border border-black focus:border-brand-primary-600 focus:ring-transparent" type="text" />
+              <PrimaryTextInput id="1080" />
               <label class="font-light pb-2 text-brand-primary-500" for="1080">
                 1080p
               </label>
             </div>
 
             <div class="flex flex-col w-5/12 ml-2">
-              <input id="720" class="w-full bg-brand-secondary-700 border border-black focus:border-brand-primary-600 focus:ring-transparent" type="text" />
-              <label class="font-light pb-2 text-brand-primary-500" for="720">
-                720p
+              <PrimaryTextInput id="1440" />
+              <label class="font-light pb-2 text-brand-primary-500" for="1440">
+                1440p
               </label>
             </div>
           </div>
 
           <div class="mb-8 flex justify-between">
             <div class="flex flex-col w-5/12 mr-2">
-              <input id="2160" class="w-full bg-brand-secondary-700 border border-black focus:border-brand-primary-600 focus:ring-transparent" type="text" />
+              <PrimaryTextInput id="2160" />
               <label class="font-light pb-2 text-brand-primary-500" for="2160">
                 2160p
               </label>
@@ -90,9 +92,11 @@ const closeModal = () => {
         </div>
       </div>
       <div class="mx-4 flex justify-between">
-        <button class="bg-brand-primary-600 py-2 w-32 rounded-lg hover:bg-brand-primary-700">
-          Save Changes
-        </button>
+        <div class="w-32">
+          <PrimaryButton>
+            Save Changes
+          </PrimaryButton>
+        </div>
         <button class="bg-red-800 py-2 w-32 rounded-lg hover:bg-red-900" @click="closeModal">
           Cancel
         </button>

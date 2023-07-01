@@ -23,8 +23,8 @@ let showSettingsModal = ref(false)
           <nav class="basis-1/6 self-center bg-brand-secondary-700 rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
               <li><NavItem link="dashboard" class="text-brand-primary-500">Dashboard </NavItem></li>
-              <li><NavItem class="text-gray-200" @click="showSettingsModal = true">Settings</NavItem></li>
-              <li><NavItem class="text-gray-200" @click="showUploadModal = true">Upload</NavItem></li>
+              <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showSettingsModal = true">Settings</NavItem></li>
+              <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showUploadModal = true">Upload</NavItem></li>
             </ul>
           </nav>
         </header>
