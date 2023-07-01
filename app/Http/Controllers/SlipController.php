@@ -50,9 +50,8 @@ class SlipController extends Controller
                 'description' => $request->description
             ]);
 
-//            $ffmpeg = FFmpeg::openUrl($file->getRealPath());
-//            $ffmpeg->getFrameFromSeconds(0.1)->export()->toDisk('tags')->save($tag->tag . '/thumb.jpg');
-//            dd();
+            $ffmpeg = FFmpeg::openUrl($file->getRealPath());
+            $ffmpeg->getFrameFromSeconds(0.1)->export()->toDisk('slips')->save($slip->token . '/thumb.jpg');
         }
 
         // return error

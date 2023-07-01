@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Str;
 
 /**
@@ -41,17 +42,17 @@ class Slip extends Model
         return 'token';
     }
 
-//    public static function create(array $attributes = []): Model|\Illuminate\Database\Eloquent\Builder
-//    {
-//        // TODO: improve, make sure its unique too.
-//        $attributes['token'] = Str::random(6);
-//
-//        $model = static::query()->create($attributes);
-//
-//        return $model;
-//    }
+
+    protected function thumb(): Attribute
+    {
+        return new Attribute(
+            get: fn() => \Storage::disk('slips')->url($this->token . '/thumb.jpg')
+        );
+    }
+
     public static function booted()
     {
+        // TODO: Make sure its unique!
         static::creating(function ($slip) {
             $slip->token = Str::random(6);
         });

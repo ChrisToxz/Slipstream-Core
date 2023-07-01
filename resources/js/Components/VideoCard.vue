@@ -17,6 +17,7 @@ const props = defineProps({
 const relativeTime = computed(
   () => moment(props.slip.created_at).fromNow(),
 )
+
 </script>
 
 <template>
@@ -71,6 +72,6 @@ const relativeTime = computed(
       </div>
     </div>
     <!-- Thumbnail -->
-    <img :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" src="/img/thumbnail.jpg" alt="racing thumbnail" />
+    <img :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
   </div>
 </template>
