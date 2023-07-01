@@ -1,15 +1,22 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, nextTick} from 'vue'
 import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
 import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
+import WarningButton from '@/Components/Reusable/WarningButton.vue'
+import ToggleSwitch from '@/Components/Reusable/ToggleSwitch.vue'
 
 const visitors = ref(true)
+const emit = defineEmits(['close'])
 
-const toggleVisitors = () => {
-  visitors.value =!visitors.value
+const updateVisitors = (value) => {
+  visitors.value = value
+
+  // Testing purposes
+  nextTick(() => {
+    console.log(visitors.value)
+  })
 }
 
-const emit = defineEmits(['close'])
 const closeModal = () => {
   emit('close')
 }
@@ -36,10 +43,7 @@ const closeModal = () => {
           </div>
 
           <div class="mb-8 flex items-center">
-            <label class="switch">
-              <input id="visitors" v-model="visitors" type="checkbox" @click="toggleVisitors" />
-              <div class="slider round" />
-            </label>
+            <ToggleSwitch @toggle="updateVisitors" />
             <p class="ml-6">
               Visitors can see video info
             </p>
@@ -97,74 +101,10 @@ const closeModal = () => {
             Save Changes
           </PrimaryButton>
         </div>
-        <button class="bg-red-800 py-2 w-32 rounded-lg hover:bg-red-900" @click="closeModal">
+        <WarningButton @click="closeModal">
           Cancel
-        </button>
+        </WarningButton>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-body {
-    text-align: center;
-    background: #51C3A0;
-    padding: 50px
-}
-.switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-}
-
-.switch input {
-    display: none;
-}
-
-.slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #101010;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-}
-
-.slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: #883535;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-}
-
-.switch input:checked + .slider:before {
-    background-color: #245030;
-}
-
-.switch input:focus + .slider {
-    box-shadow: 0 0 1px #101010;
-}
-
-.switch input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-}
-
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-</style>

@@ -1,10 +1,18 @@
 <script setup>
-import Download from '~icons/teenyicons/download-outline'
-import Back from '~icons/material-symbols/arrow-back'
 import {ref} from 'vue'
 import {useForm} from '@inertiajs/vue3'
+import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
+import WarningButton from '@/Components/Reusable/WarningButton.vue'
+import Download from '~icons/teenyicons/download-outline'
+import Back from '~icons/material-symbols/arrow-back'
+import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
 
 const emit = defineEmits(['close'])
+let isValidFile = ref(null)
+let fileDisplay = ref('')
+let isUploading = ref(false)
+
+const validTypes = ['video/mp4','video/mpeg']
 
 
 const form = useForm({
@@ -13,12 +21,6 @@ const form = useForm({
   type: 1,
   file: null,
 })
-
-let isValidFile = ref(null)
-let fileDisplay = ref('')
-let isUploading = ref(false)
-
-const validTypes = ['video/mp4','video/mpeg']
 
 const getUploadedFile = (e) => {
   isUploading.value = true //?
@@ -40,35 +42,6 @@ const getUploadedFile = (e) => {
 
 const saveMedia = () => {
   form.post('/slips')
-  // error.value.title = null
-  // error.value.description = null
-  // error.value.type = null
-  // error.value.file = null
-  //
-  // if (!form.title) {
-  //   error.value.title = 'Please enter a title'
-  // }
-  // if (!form.description) {
-  //   error.value.description = 'Please enter a description'
-  // }
-  // if (!form.type) {
-  //   error.value.type = 'Please specify type'
-  // }
-  //
-  // if (Object.values(error.value).every(v => v === null)) {
-  //   router.post('/slips', form, {
-  //     forceFormData: true,
-  //     onError: errors => {
-  //       errors && errors.title ? error.value.title = errors.title : ''
-  //       errors && errors.description ? error.value.description = errors.description : ''
-  //       errors && errors.type ? error.value.type = errors.type : ''
-  //       errors && errors.file ? error.value.file = errors.file : ''
-  //     },
-  //     onSuccess: () => {
-  //       closeModal()
-  //     },
-  //   })
-  // }
 }
 
 const closeModal = () => {
@@ -111,13 +84,13 @@ const closeModal = () => {
               <!-- Upload Inputs -->
               <div>
                 <label class="mb-2" for="title">Title</label>
-                <input id="title" v-model="form.title" class="w-full bg-gray-700 border-0" type="text" />
-                <div v-if="form.errors.title" class="text-red-500 font-extrabold">{{ form.errors.title }}</div>
+                <PrimaryTextInput id="title" v-model="form.title" />
+                <p v-if="form.errors.title" class="text-red-500 font-extrabold">{{ form.errors.title }}</p>
 
 
                 <label class="mb-2" for="description">Description</label>
                 <textarea id="description" v-model="form.description" rows="1" placeholder="Description..." class="w-full bg-gray-700" />
-                <div v-if="form.errors.description" class="text-red-500 font-extrabold">{{ form.errors.description }}</div>
+                <p v-if="form.errors.description" class="text-red-500 font-extrabold">{{ form.errors.description }}</p>
 
 
                 <div class="mb-2">
@@ -142,9 +115,13 @@ const closeModal = () => {
             </div>
           </div>
 
-          <div class="pt-4 mb-4 text-white">
-            <button class="bg-blue-500 rounded-lg p-2 mr-2" @click="saveMedia()">Save media</button>
-            <button class="bg-red-800 rounded-lg p-2" @click="closeModal()">Cancel</button>
+          <div class="pt-4 mb-4 text-white flex">
+            <div class="w-1/3">
+              <PrimaryButton @click="saveMedia()">Save media</PrimaryButton>
+            </div>
+            <div class="w-1/3 ml-6">
+              <WarningButton @click="closeModal()">Cancel</WarningButton>
+            </div>
           </div>
         </div>
       </div>
