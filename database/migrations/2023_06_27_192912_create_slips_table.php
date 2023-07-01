@@ -16,7 +16,7 @@ return new class extends Migration {
 
             $table->string('title');
             $table->string('description')->nullable();
-            $table->string('thumb');
+            $table->string('thumb')->nullable(); // TODO: Nasty trick to get the thumb by a custom cast in frontend.
             // TODO: Make it not nullable, just for testing
             $table->nullableMorphs('mediable');
 

@@ -47,8 +47,7 @@ class SlipController extends Controller
 
             $slip = Slip::create([
                 'title' => $title,
-                'description' => $request->description,
-                'thumb' => 'placeholder',
+                'description' => $request->description
             ]);
 
 //            $ffmpeg = FFmpeg::openUrl($file->getRealPath());
