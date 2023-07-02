@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\UploadSlip;
 use App\Models\Slip;
 use Illuminate\Http\Request;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
@@ -48,6 +49,10 @@ class SlipController extends Controller
 
             $ffmpeg = FFmpeg::openUrl($file->getRealPath());
             $ffmpeg->getFrameFromSeconds(0.1)->export()->toDisk('slips')->save($slip->token . '/thumb.jpg');
+
+            $file->store($slip->token, 'slips');
+//            Storage::disk('slips')->put($slip->token . '/' . $file->getClientOriginal,);
+//            UploadSlip::dispatch($slip, $file->getRealPath());
         }
     }
 }
