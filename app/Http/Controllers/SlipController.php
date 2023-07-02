@@ -55,4 +55,10 @@ class SlipController extends Controller
 //            UploadSlip::dispatch($slip, $file->getRealPath());
         }
     }
+
+
+    public function tempUpload(Request $request)
+    {
+        $request->file->store('tmp');
+    }
 }

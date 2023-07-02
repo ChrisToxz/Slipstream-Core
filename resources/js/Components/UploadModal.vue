@@ -2,7 +2,7 @@
 import Download from '~icons/teenyicons/download-outline'
 import Back from '~icons/material-symbols/arrow-back'
 import {ref} from 'vue'
-import {useForm} from '@inertiajs/vue3'
+import {router, useForm} from '@inertiajs/vue3'
 
 const emit = defineEmits(['close'])
 
@@ -21,20 +21,31 @@ let isUploading = ref(false)
 const validTypes = ['video/mp4','video/mpeg']
 
 const getUploadedFile = (e) => {
-  isUploading.value = true //?
-
   form.file = e.target.files[0]
-
   // Validate File
   if(validTypes.includes(form.file['type'])){
     isValidFile.value = true
   }else{
     isValidFile.value = false
-    isUploading.value = false
   }
 
   fileDisplay.value = URL.createObjectURL(e.target.files[0])
-  isUploading.value = false
+
+
+  router.post(route('slips.tempupload'), {file: form.file},{
+    onStart: () => {
+      isUploading.value = true
+    },
+    onProgress: progress => {
+      console.log(progress)
+    },
+    onSuccess: () => {
+      isUploading.value = false
+      console.log('finished')
+    },
+
+  })
+
 }
 
 
@@ -68,12 +79,12 @@ const closeModal = () => {
             <p v-if="!fileDisplay && isValidFile === false" class="text-red-500 text-center p-2 font-extrabold">File not accepted</p>
           </div>
         </div>
-        <!-- File Preparing -->
-        <div v-if="isUploading" class="text-white mx-32 my-32 flex justify-center items-center">
-          Preparing...
-        </div>
+        <!--        &lt;!&ndash; File Preparing &ndash;&gt;-->
+        <!--        <div v-if="isUploading" class="text-white mx-32 my-32 flex justify-center items-center">-->
+        <!--          Preparing...-->
+        <!--        </div>-->
         <!-- Finished uploading -->
-        <div v-if="fileDisplay && isValidFile === true && isUploading === false">
+        <div v-if="fileDisplay && isValidFile === true">
           <div class="my-4">
             <div class="mb-4">
               <h1 class="text-4xl font-light text-white">
@@ -116,7 +127,14 @@ const closeModal = () => {
           </div>
 
           <div class="pt-4 mb-4 text-white">
-            <button class="bg-blue-500 rounded-lg p-2 mr-2" @click="saveMedia()">Save media</button>
+            <button
+              class="bg-blue-500 rounded-lg p-2 mr-2"
+              :disabled="isUploading"
+              @click="isUploading ? null : saveMedia()"
+            >
+              {{ isUploading ? 'Please wait' : 'Save media' }}
+            </button>
+
             <button class="bg-red-800 rounded-lg p-2" @click="closeModal()">Cancel</button>
           </div>
         </div>

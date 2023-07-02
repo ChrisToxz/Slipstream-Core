@@ -43,11 +43,18 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+
         'slips' => [
             'driver' => 'local',
             'root' => storage_path('app/public/slips'),
             'url' => env('APP_URL') . '/storage/slips',
             'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'tmp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/tmp'),
             'throw' => false,
         ]
     ],

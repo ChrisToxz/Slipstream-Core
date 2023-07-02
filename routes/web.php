@@ -20,7 +20,10 @@ use Inertia\Inertia;
 Route::get('/', [SlipController::class, 'index'])->name('dashboard');
 Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
 
+
+Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
 Route::resource('slips', SlipController::class);
+
 
 Route::get('/settings', function () {
     return inertia('Settings');
