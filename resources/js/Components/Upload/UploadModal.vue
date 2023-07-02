@@ -1,6 +1,4 @@
 <script setup>
-import Download from '~icons/teenyicons/download-outline'
-import Back from '~icons/material-symbols/arrow-back'
 import {ref} from 'vue'
 import {useForm} from '@inertiajs/vue3'
 import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
@@ -149,17 +147,19 @@ const closeModal = () => {
             </div>
           </div>
 
-            <div class="pt-4 mb-4 text-white flex lg:w-1/2">
-                <div class="w-1/3">
-                    <PrimaryButton               class="bg-blue-500 rounded-lg p-2 mr-2"
-                                                 :disabled="isUploading"
-                                                 @click="isUploading ? null : saveMedia()"
-                    >
-                        {{ isUploading ? 'Please wait' : 'Save media' }}>Save media</PrimaryButton>
-                </div>
-                <div class="w-1/3 ml-6">
-                    <WarningButton @click="closeModal()">Cancel</WarningButton>
-                </div>
+          <div class="pt-4 mb-4 text-white flex lg:w-1/2">
+            <div class="w-1/3">
+              <PrimaryButton
+                class="bg-blue-500 rounded-lg p-2 mr-2"
+                :disabled="isUploading"
+                @click="isUploading ? null : saveMedia()"
+              >
+                {{ isUploading ? 'Please wait' : 'Save media' }}>Save media
+              </PrimaryButton>
+            </div>
+            <div class="w-1/3 ml-6">
+              <WarningButton @click="closeModal()">Cancel</WarningButton>
+            </div>
           </div>
         </div>
       </div>
