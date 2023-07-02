@@ -1,9 +1,9 @@
 <script setup>
 import { ref } from 'vue'
-import NavItem from '@/Components/NavItem.vue'
-import ApplicationLogo from '@/Components/ApplicationLogo.vue'
-import UploadModal from '@/Components/UploadModal.vue'
-import SettingsModal from '@/Components/SettingsModal.vue'
+import NavItem from '@/Components/Reusable/NavItem.vue'
+import ApplicationLogo from '@/Components/Reusable/ApplicationLogo.vue'
+import UploadModal from '@/Components/Upload/UploadModal.vue'
+import SettingsModal from '@/Components/Settings/SettingsModal.vue'
 
 let showUploadModal = ref(false)
 let showSettingsModal = ref(false)
@@ -22,9 +22,9 @@ let showSettingsModal = ref(false)
           <!-- Navigation -->
           <nav class="basis-1/6 self-center bg-brand-secondary-700 rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
-              <li><NavItem link="dashboard">Dashboard </NavItem></li>
-              <li><NavItem @click="showSettingsModal = true">Settings</NavItem></li>
-              <li><NavItem @click="showUploadModal = true">Upload</NavItem></li>
+              <li><NavItem link="dashboard" class="text-brand-primary-500">Dashboard </NavItem></li>
+              <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showSettingsModal = true">Settings</NavItem></li>
+              <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showUploadModal = true">Upload</NavItem></li>
             </ul>
           </nav>
         </header>

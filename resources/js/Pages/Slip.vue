@@ -1,6 +1,6 @@
 <script setup>
 import SlipLayout from '@/Layouts/SlipLayout.vue'
-import ShowSlipModal from '@/Components/ShowSlipModal.vue'
+import ShowSlipModal from '@/Components/Slip/ShowSlipModal.vue'
 
 const props = defineProps({
   slip: Object,

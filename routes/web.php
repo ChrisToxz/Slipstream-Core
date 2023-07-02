@@ -22,10 +22,6 @@ Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
 
 Route::resource('slips', SlipController::class);
 
-Route::get('/settings', function () {
-    return inertia('Settings');
-})->name('settings');
-
 require __DIR__ . '/auth.php';
 
 /* not for now */
