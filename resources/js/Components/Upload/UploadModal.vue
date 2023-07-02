@@ -1,6 +1,6 @@
 <script setup>
 import {ref} from 'vue'
-import {useForm} from '@inertiajs/vue3'
+import {router, useForm} from '@inertiajs/vue3'
 import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
 import WarningButton from '@/Components/Reusable/WarningButton.vue'
 import Download from '~icons/teenyicons/download-outline'
@@ -26,54 +26,39 @@ let isUploading = ref(false)
 const validTypes = ['video/mp4','video/mpeg']
 
 const getUploadedFile = (e) => {
-  isUploading.value = true //?
-
   form.file = e.target.files[0]
-
   // Validate File
   if(validTypes.includes(form.file['type'])){
     isValidFile.value = true
   }else{
     isValidFile.value = false
-    isUploading.value = false
   }
 
   fileDisplay.value = URL.createObjectURL(e.target.files[0])
-  isUploading.value = false
+
+
+  router.post(route('slips.tempupload'), {file: form.file},{
+    onStart: () => {
+      isUploading.value = true
+    },
+    onProgress: progress => {
+      console.log(progress)
+    },
+    onSuccess: () => {
+      isUploading.value = false
+      console.log('finished')
+    },
+
+  })
+
 }
 
 
+
 const saveMedia = () => {
-  form.post('/slips')
-  // error.value.title = null
-  // error.value.description = null
-  // error.value.type = null
-  // error.value.file = null
-  //
-  // if (!form.title) {
-  //   error.value.title = 'Please enter a title'
-  // }
-  // if (!form.description) {
-  //   error.value.description = 'Please enter a description'
-  // }
-  // if (!form.type) {
-  //   error.value.type = 'Please specify type'
-  // }
-  //
-  // if (Object.values(error.value).every(v => v === null)) {
-  //   router.post('/slips', form, {
-  //     forceFormData: true,
-  //     onError: errors => {
-  //       errors && errors.title ? error.value.title = errors.title : ''
-  //       errors && errors.description ? error.value.description = errors.description : ''
-  //       errors && errors.type ? error.value.type = errors.type : ''
-  //       errors && errors.file ? error.value.file = errors.file : ''
-  //     },
-  //     onSuccess: () => {
-  //       closeModal()
-  //     },
-  //   })
-  // }
+  form.post('/slips', {
+    onSuccess: () => closeModal(),
+  })
 }
 
 const closeModal = () => {
@@ -154,7 +139,7 @@ const closeModal = () => {
                 :disabled="isUploading"
                 @click="isUploading ? null : saveMedia()"
               >
-                {{ isUploading ? 'Please wait' : 'Save media' }}>Save media
+                {{ isUploading ? 'Please wait' : 'Save media' }}
               </PrimaryButton>
             </div>
             <div class="w-1/3 ml-6">
