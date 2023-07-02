@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\OrderStatusUpdated;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SlipController;
 use Illuminate\Foundation\Application;
@@ -23,6 +24,13 @@ Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
 
 Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
 Route::resource('slips', SlipController::class);
+
+Route::get('/fire', function () {
+    OrderStatusUpdated::dispatch();
+
+    return 'Event has been sent!';
+});
+
 
 require __DIR__ . '/auth.php';
 
