@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
 # Clean up
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/* #\
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 #   && npm run prod
 
 # Copy S6 configs
