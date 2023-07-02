@@ -1,7 +1,7 @@
 <script setup>
 import { Head } from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
-import VideoCard from '@/Components/VideoCard.vue'
+import VideoCard from '@/Components/Dashboard/VideoCard.vue'
 
 const props = defineProps({
   slips: Object,

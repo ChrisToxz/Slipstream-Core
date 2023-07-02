@@ -22,7 +22,7 @@ export default {
           'primary-400': '#4dbfff',
           'primary-500': '#00a4ff',
           'primary-600': '#0073b3',
-          'primary-700': '#004266',
+          'primary-700': '#015f91',
           // Secondary colors
           'secondary-300': '#bdc8cd',
           'secondary-400': '#8c9ea8',

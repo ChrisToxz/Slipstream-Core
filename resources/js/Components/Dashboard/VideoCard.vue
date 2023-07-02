@@ -37,9 +37,11 @@ const relativeTime = computed(
       </div>
       <!-- Play Button -->
       <div class="w-full flex justify-center">
-        <div class="bg-[rgba(5,128,197,0.6)] rounded-full w-9 h-9 flex items-center justify-center">
-          <Play color="white" />
-        </div>
+        <Link :href="route('slip', slip.id)">
+          <div class="bg-[rgba(5,128,197,0.6)] rounded-full w-9 h-9 flex items-center justify-center">
+            <Play color="white" />
+          </div>
+        </Link>
       </div>
       <!-- Card Footer -->
       <div class="bg-black opacity-80 flex justify-between text-opacity-100 text-white px-4 py-2">
@@ -58,13 +60,13 @@ const relativeTime = computed(
         </div>
         <div class="flex self-center h-5/6">
           <ul class="flex text-3xl">
-            <li class="bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:text-status-warning-500 mr-2">
+            <li class="bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700 mr-2">
               <Settings color="white" width="25" height="25" />
             </li>
             <li class="px-1 bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700 mr-2">
               <Download color="white" width="25" height="25" />
             </li>
-            <li class="px-1 bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:text-status-success-600">
+            <li class="px-1 bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700">
               <Trash color="white" width="25" height="25" />
             </li>
           </ul>

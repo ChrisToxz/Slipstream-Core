@@ -24,11 +24,6 @@ Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
 Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
 Route::resource('slips', SlipController::class);
 
-
-Route::get('/settings', function () {
-    return inertia('Settings');
-})->name('settings');
-
 require __DIR__ . '/auth.php';
 
 /* not for now */
