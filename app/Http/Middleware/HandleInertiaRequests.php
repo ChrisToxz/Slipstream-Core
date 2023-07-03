@@ -35,6 +35,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'data' => [
+                'originalFileName' => fn() => $request->session()->get('originalFileName'),
                 'tmpPath' => fn() => $request->session()->get('tmpPath')
             ],
             'ziggy' => function () use ($request) {

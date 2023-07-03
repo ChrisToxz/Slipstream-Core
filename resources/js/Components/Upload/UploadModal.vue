@@ -17,6 +17,7 @@ const form = useForm({
   description: null,
   type: 1,
   file: null,
+  originalFileName: null,
 })
 
 let isValidFile = ref(null)
@@ -46,7 +47,8 @@ const getUploadedFile = (e) => {
     },
     onSuccess: (res) => {
       isUploading.value = false
-      form.file = res.props.data.tmpPath
+      form.file             = res.props.data.tmpPath
+      form.originalFileName = res.props.data.originalFileName
     },
 
   })
@@ -62,7 +64,7 @@ const saveMedia = () => {
 }
 
 const closeModal = () => {
-  form.reset()
+  // form.reset()
   emit('close')
 }
 
@@ -101,12 +103,13 @@ const closeModal = () => {
               <!-- Upload Inputs -->
               <div>
                 <label class="mb-2" for="title">Title</label>
+                <!--                <input v-model="form.title" type="text" />-->
                 <PrimaryTextInput id="title" v-model="form.title" />
                 <p v-if="form.errors.title" class="text-red-500 font-extrabold">{{ form.errors.title }}</p>
 
 
                 <label class="mb-2" for="description">Description</label>
-                <PrimaryTextarea id="description" v-model="form.description" rows="1" placeholder="Description..." />
+                <PrimaryTextarea id="description" :v-model="form.description" rows="1" placeholder="Description..." />
                 <p v-if="form.errors.description" class="text-red-500 font-extrabold">{{ form.errors.description }}</p>
 
 

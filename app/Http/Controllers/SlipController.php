@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\CreateSlip;
 use App\Jobs\UploadSlip;
 use App\Models\Slip;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class SlipController extends Controller
@@ -28,34 +31,30 @@ class SlipController extends Controller
 
     public function store(Request $request)
     {
+
+//        $file = new UploadedFile(storage_path('app/' . $request->get('path')), $request->get('originalFileName'));
+//        dd($request->files->set('file', $file));
         /**
          * TODO
          * Validation selected type (Cross check with enum)
          * Validation check correct mimemtypes that we could accept
          * Trigger jobs to save file and run converting if selected
          */
+        $mimeType = Storage::disk('local')->mimeType($request->get('file'));
+        $request->validate([
+            'title' => 'nullable|string|max:200',
+            'description' => 'nullable|string|max:200',
+//            'file' => 'file|mimetypes:video/mp4,video/mpeg|max:99999'
+        ]);
+
+        $title = $request->title ?: $request->get('originalFileName');
+
+        $slip = Slip::create([
+            'title' => $title,
+            'description' => $request->description
+        ]);
         
-        if ($file = $request->file) {
-            $request->validate([
-                'title' => 'nullable|string|max:200',
-                'description' => 'nullable|string|max:200',
-                'file' => 'file|mimetypes:video/mp4,video/mpeg|max:999991'
-            ]);
-
-            $title = $request->title ?: $file->getClientOriginalName();
-
-            $slip = Slip::create([
-                'title' => $title,
-                'description' => $request->description
-            ]);
-
-            $ffmpeg = FFmpeg::openUrl($file->getRealPath());
-            $ffmpeg->getFrameFromSeconds(0.1)->export()->toDisk('slips')->save($slip->token . '/thumb.jpg');
-
-            $file->store($slip->token, 'slips');
-//            Storage::disk('slips')->put($slip->token . '/' . $file->getClientOriginal,);
-//            UploadSlip::dispatch($slip, $file->getRealPath());
-        }
+        CreateSlip::dispatch($slip, $request->get('file'));
     }
 
 
@@ -63,12 +62,15 @@ class SlipController extends Controller
     {
         if ($request->file) {
             $validator = \Validator::make($request->all(), [
-                'file' => 'file|mimetypes:video/mp4,video/mpeg|max:1'
+                'file' => 'file|mimetypes:video/mp4,video/mpeg|max:999999'
             ]);
             if ($validator->fails()) {
                 dd('To be done, error handling');
             }
         }
-        return Redirect::back()->with('tmpPath', $request->file->store('tmp'));
+        return Redirect::back()->with([
+            'originalFileName' => $request->file->getClientOriginalName(),
+            'tmpPath' => $request->file->store('tmp')
+        ]);
     }
 }
