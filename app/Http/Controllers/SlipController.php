@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\UploadSlip;
 use App\Models\Slip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class SlipController extends Controller
@@ -33,6 +34,8 @@ class SlipController extends Controller
          * Validation check correct mimemtypes that we could accept
          * Trigger jobs to save file and run converting if selected
          */
+
+        dd($request->get('file'));
         if ($file = $request->file) {
             $request->validate([
                 'title' => 'nullable|string|max:200',
@@ -59,6 +62,6 @@ class SlipController extends Controller
 
     public function tempUpload(Request $request)
     {
-        $request->file->store('tmp');
+        return Redirect::back()->with('tmpPath', $request->file->store('tmp'));
     }
 }

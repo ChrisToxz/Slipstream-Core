@@ -44,9 +44,9 @@ const getUploadedFile = (e) => {
     onProgress: progress => {
       console.log(progress)
     },
-    onSuccess: () => {
+    onSuccess: (res) => {
       isUploading.value = false
-      console.log('finished')
+      form.file = res.props.data.tmpPath
     },
 
   })
