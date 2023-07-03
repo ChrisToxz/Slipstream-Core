@@ -34,8 +34,7 @@ class SlipController extends Controller
          * Validation check correct mimemtypes that we could accept
          * Trigger jobs to save file and run converting if selected
          */
-
-        dd($request->get('file'));
+        
         if ($file = $request->file) {
             $request->validate([
                 'title' => 'nullable|string|max:200',
@@ -62,6 +61,14 @@ class SlipController extends Controller
 
     public function tempUpload(Request $request)
     {
+        if ($request->file) {
+            $validator = \Validator::make($request->all(), [
+                'file' => 'file|mimetypes:video/mp4,video/mpeg|max:1'
+            ]);
+            if ($validator->fails()) {
+                dd('To be done, error handling');
+            }
+        }
         return Redirect::back()->with('tmpPath', $request->file->store('tmp'));
     }
 }
