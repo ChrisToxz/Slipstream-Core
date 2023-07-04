@@ -18,8 +18,10 @@ const relativeTime = computed(
   () => moment(props.slip.created_at).fromNow(),
 )
 
+const percentage = ref(0)
+
 window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) => {
-  console.log(e)
+  percentage.value = e.percentage
 })
 
 </script>
@@ -34,6 +36,16 @@ window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) 
           <p class="bg-[rgba(5,128,197,0.6)] rounded-lg">Public</p>
           <p class="bg-[rgba(5,128,197,0.6)] rounded-lg px-2 mt-2">200 Views</p>
         </div>
+        <div>
+          <!--            Just for testing sake! -->
+          <div class="bg-red-500 rounded-lg px-2 text-gray-200 text-sm">
+            <p class="text-center">
+              Debug:
+            </p>
+            {{ percentage }} % - {{ slip.status }}
+          </div>
+        </div>
+
         <!-- TimeStamp -->
         <div>
           <p class="text-gray-200">00:00</p>
