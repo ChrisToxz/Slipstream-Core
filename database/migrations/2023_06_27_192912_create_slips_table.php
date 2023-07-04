@@ -16,8 +16,7 @@ return new class extends Migration {
 
             $table->string('title');
             $table->string('description')->nullable();
-            $table->string('thumb')->nullable(); // TODO: Nasty trick to get the thumb by a custom cast in frontend.
-            // TODO: Make it not nullable, just for testing
+            // TODO: Make it not nullable, just for testing. Hmm it should be nullable because if first creates a token
             $table->nullableMorphs('mediable');
 
             $table->string('status')->default('pending');

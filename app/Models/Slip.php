@@ -36,6 +36,7 @@ class Slip extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'description', 'thumb'];
+    protected $appends = ['thumb'];
 
     const STATUS_PENDING = 'pending';
     const STATUS_PROCESSING = 'processing';
