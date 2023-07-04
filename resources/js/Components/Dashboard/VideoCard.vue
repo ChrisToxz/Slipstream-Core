@@ -26,7 +26,7 @@ window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) 
 
 <template>
   <!-- Main Wrapper -->
-  <div class="bg-white bg-opacity-10 flex relative rounded-lg z-0 aspect-video shadow-md overflow-hidden" @mouseover="hoverEffect = true" @mouseleave="hoverEffect = false">
+  <div class="bg-white bg-opacity-10 flex relative rounded-lg z-0 aspect-video shadow-md overflow-hidden transition-all duration-500 ease-in-out" :class="{ 'scale-[1.05]': hoverEffect }" @mouseover="hoverEffect = true" @mouseleave="hoverEffect = false">
     <div class="absolute z-2 w-full flex flex-col justify-between h-full">
       <div class="flex justify-between mt-2 px-2">
         <!-- Top Left Icons -->
@@ -78,6 +78,6 @@ window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) 
       </div>
     </div>
     <!-- Thumbnail -->
-    <img :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
+    <img :class="{ 'scale-[1.025]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
   </div>
 </template>
