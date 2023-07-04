@@ -30,4 +30,4 @@ COPY --chown=1000:1000 . /var/www/html
 
 EXPOSE 80
 
-CMD ["su", "webuser", "-c", "php artisan queue:listen --tries=3"]
+CMD ["su", "webuser", "-c", "php artisan queue:listen --tries=3 --timeout=3600"]
