@@ -59,7 +59,7 @@ class SlipController extends Controller
         GenerateThumb::dispatchSync($slip, $request->get('file'));
 
         // To the final processing
-        $type = 1;
+        $type = 2;
         CreateSlip::dispatch($slip, $request->get('file'), $type);
     }
 

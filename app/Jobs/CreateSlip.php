@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Enums\VideoType;
 use App\Models\Slip;
 use App\Models\Video;
+use FFMpeg\Format\Video\X264;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -47,7 +48,15 @@ class CreateSlip implements ShouldQueue
                 break;
             case VideoType::X264:
                 $output->writeln("<info>Running X264 process</info>");
+                $originalBitrateFormat = (new X264('libmp3lame', 'libx264'))->setKiloBitrate(500); // 360
 
+                FFMpeg::fromDisk('local')->open($this->tmpPath)
+                    ->export()->onProgress(function ($percentage) use ($output) {
+                        $output->writeln($percentage);
+                    })->toDisk('slips')->inFormat($originalBitrateFormat)->save($this->slip->token . '/' . $streamhash . '.mp4');
+
+                $video = Video::create(['file' => $streamhash . '.mp4']);
+                $video->slip()->save($this->slip);
                 break;
             case VideoType::HLS:
                 $output->writeln("<info>Running HLS Process</info>");
