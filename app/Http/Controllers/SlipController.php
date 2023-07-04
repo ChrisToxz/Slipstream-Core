@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\CreateSlip;
+use App\Jobs\GenerateThumb;
 use App\Jobs\UploadSlip;
 use App\Models\Slip;
 use Illuminate\Http\Request;
@@ -15,7 +16,7 @@ class SlipController extends Controller
 {
     public function index()
     {
-        $slips = Slip::latest()->get();
+        $slips = Slip::latest()->with('mediable')->get();
 
         return inertia('Dashboard', [
             'slips' => $slips
@@ -53,8 +54,13 @@ class SlipController extends Controller
             'title' => $title,
             'description' => $request->description
         ]);
-        
-        CreateSlip::dispatch($slip, $request->get('file'));
+
+        // Generate Thumbnail
+        GenerateThumb::dispatchSync($slip, $request->get('file'));
+
+        // To the final processing
+        $type = 1;
+        CreateSlip::dispatch($slip, $request->get('file'), $type);
     }
 
 

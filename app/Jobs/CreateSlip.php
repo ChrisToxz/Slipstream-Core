@@ -2,13 +2,17 @@
 
 namespace App\Jobs;
 
+use App\Enums\VideoType;
 use App\Models\Slip;
+use App\Models\Video;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class CreateSlip implements ShouldQueue
@@ -20,10 +24,10 @@ class CreateSlip implements ShouldQueue
      */
     public function __construct(
         public Slip   $slip,
-        public string $tmpPath
+        public string $tmpPath,
+        public int    $type
     )
     {
-        //
     }
 
     /**
@@ -31,7 +35,25 @@ class CreateSlip implements ShouldQueue
      */
     public function handle(): void
     {
-        $ffmpeg = FFmpeg::fromDisk('local')->open($this->tmpPath);
-        $ffmpeg->getFrameFromSeconds(0.1)->export()->toDisk('slips')->save($this->slip->token . '/thumb.jpg');
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+
+        $streamhash = Str::random(40);
+        switch ($this->type) {
+            case VideoType::Original:
+                $output->writeln("<info>Running original process</info>");
+                Storage::move($this->tmpPath, "public/slips/{$this->slip->token}/{$streamhash}.mp4");
+                $video = Video::create(['file' => $streamhash . '.mp4']);
+                $video->slip()->save($this->slip);
+                break;
+            case VideoType::X264:
+                $output->writeln("<info>Running X264 process</info>");
+
+                break;
+            case VideoType::HLS:
+                $output->writeln("<info>Running HLS Process</info>");
+                break;
+            default:
+                throw new \Exception('Invalid video type.');
+        }
     }
 }

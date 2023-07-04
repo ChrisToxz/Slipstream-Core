@@ -31,7 +31,8 @@ else
 fi
 
 echo "🕛 Starting queue"
-s6-setuidgid webuser php $WEBUSER_HOME/artisan queue:work --tries=3 &
+# TODO: Change to worker
+#s6-setuidgid webuser php $WEBUSER_HOME/artisan queue:listen --tries=3 &
 
 echo "✅ Slipstream started."
 echo ""

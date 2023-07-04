@@ -42,6 +42,11 @@ class Slip extends Model
         return 'token';
     }
 
+    public function mediable()
+    {
+        return $this->morphTo();
+    }
+
 
     protected function thumb(): Attribute
     {
