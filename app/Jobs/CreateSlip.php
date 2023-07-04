@@ -41,6 +41,8 @@ class CreateSlip implements ShouldQueue
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 
         $streamhash = Str::random(40);
+
+        $this->slip->setStatus(Slip::STATUS_PROCESSING);
         switch ($this->type) {
             case VideoType::Original:
                 $output->writeln("<info>Running original process</info>");
@@ -67,5 +69,7 @@ class CreateSlip implements ShouldQueue
             default:
                 throw new \Exception('Invalid video type.');
         }
+
+        $this->slip->setStatus(Slip::STATUS_FINISHED);
     }
 }

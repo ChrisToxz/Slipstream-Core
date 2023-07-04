@@ -20,6 +20,8 @@ return new class extends Migration {
             // TODO: Make it not nullable, just for testing
             $table->nullableMorphs('mediable');
 
+            $table->string('status')->default('pending');
+
             $table->timestamps();
         });
     }

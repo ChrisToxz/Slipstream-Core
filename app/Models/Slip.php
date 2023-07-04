@@ -37,6 +37,11 @@ class Slip extends Model
 
     protected $fillable = ['title', 'description', 'thumb'];
 
+    const STATUS_PENDING = 'pending';
+    const STATUS_PROCESSING = 'processing';
+    const STATUS_FINISHED = 'finished';
+
+
     public function getRouteKeyName()
     {
         return 'token';
@@ -53,6 +58,23 @@ class Slip extends Model
         return new Attribute(
             get: fn() => \Storage::disk('slips')->url($this->token . '/thumb.jpg')
         );
+    }
+
+
+    public function setStatus($status)
+    {
+        $allowedStatuses = [
+            self::STATUS_PENDING,
+            self::STATUS_PROCESSING,
+            self::STATUS_FINISHED,
+        ];
+
+        if (in_array($status, $allowedStatuses)) {
+            $this->status = $status;
+            $this->save();
+        }
+
+        return $this;
     }
 
     public static function booted()
