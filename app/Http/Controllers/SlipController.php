@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VideoType;
 use App\Jobs\CreateSlip;
 use App\Jobs\GenerateThumb;
 use App\Jobs\UploadSlip;
@@ -59,7 +60,7 @@ class SlipController extends Controller
         GenerateThumb::dispatchSync($slip, $request->get('file'));
 
         // To the final processing
-        $type = 2;
+        $type = VideoType::HLS;
         CreateSlip::dispatch($slip, $request->get('file'), $type);
     }
 
