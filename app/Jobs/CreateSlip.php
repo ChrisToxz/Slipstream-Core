@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Enums\VideoType;
+use App\Events\OrderStatusUpdated;
+use App\Events\SlipProcessUpdate;
 use App\Models\Slip;
 use App\Models\Video;
 use FFMpeg\Format\Video\X264;
@@ -52,6 +54,7 @@ class CreateSlip implements ShouldQueue
 
                 FFMpeg::fromDisk('local')->open($this->tmpPath)
                     ->export()->onProgress(function ($percentage) use ($output) {
+                        SlipProcessUpdate::dispatch($this->slip->token, $percentage);
                         $output->writeln($percentage);
                     })->toDisk('slips')->inFormat($originalBitrateFormat)->save($this->slip->token . '/' . $streamhash . '.mp4');
 

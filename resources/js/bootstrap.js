@@ -31,6 +31,6 @@ window.Echo = new Echo({
   enabledTransports: ['ws', 'wss'],
 })
 
-window.Echo.channel('orders').listen('OrderStatusUpdated', (e) => {
-  console.log(e)
-})
+// window.Echo.channel('orders.1').listen('OrderStatusUpdated', (e) => {
+//   console.log(e)
+// })

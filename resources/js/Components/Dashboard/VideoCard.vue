@@ -18,6 +18,11 @@ const relativeTime = computed(
   () => moment(props.slip.created_at).fromNow(),
 )
 
+console.log(props.slip.token)
+window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) => {
+  console.log(e)
+})
+
 </script>
 
 <template>
