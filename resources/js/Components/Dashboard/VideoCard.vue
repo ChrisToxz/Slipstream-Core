@@ -24,12 +24,14 @@ window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) 
   percentage.value = e.percentage
 })
 
+console.log(percentage.value) // pending, finished
+
 </script>
 
 <template>
   <!-- Main Wrapper -->
-  <div class="bg-white bg-opacity-10 flex relative rounded-lg z-0 aspect-video shadow-md overflow-hidden transition-all duration-500 ease-in-out" :class="{ 'scale-[1.05]': hoverEffect }" @mouseover="hoverEffect = true" @mouseleave="hoverEffect = false">
-    <div class="absolute z-2 w-full flex flex-col justify-between h-full">
+  <div class="bg-white bg-opacity-10 flex relative rounded-lg z-0 aspect-video shadow-md overflow-hidden transition-all duration-500 ease-in-out" @mouseover="hoverEffect = true" @mouseleave="hoverEffect = false">
+    <div v-if="props.slip.status === 'finished'" class="absolute z-2 w-full flex flex-col justify-between h-full">
       <div class="flex justify-between mt-2 px-2">
         <!-- Top Left Icons -->
         <div class="flex flex-col text-gray-200 rounded-lg text-center text-sm">
@@ -53,7 +55,7 @@ window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) 
       </div>
       <!-- Play Button -->
       <div class="w-full flex justify-center">
-        <Link :href="route('slip', slip.id)">
+        <Link :href="route('slip', slip.token)">
           <div class="bg-[rgba(5,128,197,0.6)] rounded-full w-9 h-9 flex items-center justify-center">
             <Play color="white" />
           </div>
@@ -89,7 +91,32 @@ window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) 
         </div>
       </div>
     </div>
+    <div v-if="props.slip.status === 'pending'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
+      <div class="w-full h-1 rounded-lg bg-gray-700 overflow-hidden shadow-md relative">
+        <div :style="{width: `${percentage}%`}" class="h-full bg-gradient-to-r from-brand-primary-500 via-brand-primary-600 to-brand-primary-700 animate-gradient shadow-lg relative transition-all duration-500 ease-in-out">
+          <div class="absolute w-full h-full bg-blue-700 opacity-50 animate-pulse" />
+        </div>
+      </div>
+      <p class="text-gray-200 pt-2">{{ percentage }}%</p>
+      <p class="text-gray-200 pb-2">Uploading {{ slip.title }}</p>
+    </div>
     <!-- Thumbnail -->
-    <img :class="{ 'scale-[1.025]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
+    <img :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
   </div>
 </template>
+
+<style scoped>
+@keyframes gradient {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.animate-gradient {
+    background-size: 200% 100%;
+    animation: gradient 1.5s linear infinite;
+}
+</style>
