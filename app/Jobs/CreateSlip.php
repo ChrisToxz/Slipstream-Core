@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Enums\VideoType;
 use App\Events\OrderStatusUpdated;
+use App\Events\SlipProcessFinished;
 use App\Events\SlipProcessUpdate;
 use App\Models\Slip;
 use App\Models\Video;
@@ -109,5 +110,6 @@ class CreateSlip implements ShouldQueue
         }
 
         $this->slip->setStatus(Slip::STATUS_FINISHED);
+        SlipProcessFinished::dispatch($this->slip);
     }
 }
