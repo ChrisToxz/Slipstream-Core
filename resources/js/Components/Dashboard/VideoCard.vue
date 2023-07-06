@@ -34,20 +34,10 @@ console.log(percentage.value) // pending, finished
     <div v-if="props.slip.status === 'finished'" class="absolute z-2 w-full flex flex-col justify-between h-full">
       <div class="flex justify-between mt-2 px-2">
         <!-- Top Left Icons -->
-        <div class="flex flex-col text-gray-200 rounded-lg text-center text-sm">
-          <p class="bg-[rgba(5,128,197,0.6)] rounded-lg">Public</p>
-          <p class="bg-[rgba(5,128,197,0.6)] rounded-lg px-2 mt-2">200 Views</p>
+        <div class="flex flex-row text-gray-200 rounded-lg text-center text-sm gap-3">
+          <div><p class="bg-[rgba(5,128,197,0.6)] rounded-lg p-1">Public</p></div>
+          <div><p class="bg-[rgba(5,128,197,0.6)] rounded-lg p-1">Public</p></div>
         </div>
-        <div>
-          <!--            Just for testing sake! -->
-          <div class="bg-red-500 rounded-lg px-2 text-gray-200 text-sm">
-            <p class="text-center">
-              Debug:
-            </p>
-            {{ percentage }} % - {{ slip.status }}
-          </div>
-        </div>
-
         <!-- TimeStamp -->
         <div>
           <p class="text-gray-200">00:00</p>
