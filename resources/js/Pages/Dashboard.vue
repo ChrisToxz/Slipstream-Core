@@ -1,5 +1,6 @@
 <script setup>
 import {Head, router} from '@inertiajs/vue3'
+import {useSnackbar, Vue3Snackbar} from 'vue3-snackbar'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/Dashboard/VideoCard.vue'
 
@@ -7,10 +8,16 @@ const props = defineProps({
   slips: Object,
 })
 
+const snackbar = useSnackbar()
+
 window.Echo.channel('ss').listen('SlipProcessFinished', () => {
   router.reload(route('dashboard'), {
     preserveState: true,
     only:['slips'],
+  })
+  snackbar.add({
+    type:'success',
+    text: 'Slip successfully uploaded',
   })
 })
 </script>
@@ -24,7 +31,7 @@ window.Echo.channel('ss').listen('SlipProcessFinished', () => {
       </div>
     </div>
   </MainLayout>
+  <vue3-snackbar top right />
 </template>
-
 <style>
 </style>
