@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SlipStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -38,10 +39,6 @@ class Slip extends Model
     protected $fillable = ['title', 'description', 'thumb'];
     protected $appends = ['thumb'];
 
-    const STATUS_PENDING = 'pending';
-    const STATUS_PROCESSING = 'processing';
-    const STATUS_FINISHED = 'finished';
-
 
     public function getRouteKeyName()
     {
@@ -64,13 +61,8 @@ class Slip extends Model
 
     public function setStatus($status)
     {
-        $allowedStatuses = [
-            self::STATUS_PENDING,
-            self::STATUS_PROCESSING,
-            self::STATUS_FINISHED,
-        ];
 
-        if (in_array($status, $allowedStatuses)) {
+        if (in_array($status, SlipStatus::getValues())) {
             $this->status = $status;
             $this->save();
         }

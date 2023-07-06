@@ -2,8 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Enums\SlipStatus;
 use App\Enums\VideoType;
-use App\Events\OrderStatusUpdated;
 use App\Events\SlipProcessFinished;
 use App\Events\SlipProcessUpdate;
 use App\Models\Slip;
@@ -22,6 +22,7 @@ use Throwable;
 
 class CreateSlip implements ShouldQueue
 {
+    // TODO: Massive refactor
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     /**
@@ -62,7 +63,7 @@ class CreateSlip implements ShouldQueue
 
                 FFMpeg::fromDisk('local')->open($this->tmpPath)
                     ->export()->onProgress(function ($percentage) use ($output) {
-                        SlipProcessUpdate::dispatch($this->slip->token, 'X265 processing', $percentage);
+                        SlipProcessUpdate::dispatch($this->slip->token, 'X264 processing', $percentage);
                         $output->writeln($percentage);
                     })->toDisk('slips')->inFormat($originalBitrateFormat)->save($this->slip->token . '/' . $streamhash . '.mp4');
 
@@ -120,13 +121,13 @@ class CreateSlip implements ShouldQueue
 
     public function before()
     {
-        $this->slip->setStatus(Slip::STATUS_PROCESSING);
+        $this->slip->setStatus(SlipStatus::PROCESSING());
         SlipProcessUpdate::dispatch($this->slip->token, 'Starting', 0);
     }
 
     public function after()
     {
-        $this->slip->setStatus(Slip::STATUS_FINISHED);
+        $this->slip->setStatus(SLipStatus::FINISHED());
         SlipProcessFinished::dispatch($this->slip);
     }
 
@@ -134,6 +135,7 @@ class CreateSlip implements ShouldQueue
     {
         // TODO: Make proper log of failed job including debug information
         // maybe spatie/laravel-activitylog?
+        $this->slip->setStatus(SlipStatus::FAILED());
         SlipProcessUpdate::dispatch($this->slip->token, 'Failed', 0);
     }
 
