@@ -18,6 +18,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
+use Throwable;
 
 class CreateSlip implements ShouldQueue
 {
@@ -41,11 +42,11 @@ class CreateSlip implements ShouldQueue
     {
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 
+        $output->writeln($this->job->getJobId());
+        $output->writeln($this->job->uuid());
         $streamhash = Str::random(40);
 
-        $this->slip->setStatus(Slip::STATUS_PROCESSING);
-
-        SlipProcessUpdate::dispatch($this->slip->token, 'Starting', 0);
+        $this->before();
 
         switch ($this->type) {
             case VideoType::Original:
@@ -114,7 +115,26 @@ class CreateSlip implements ShouldQueue
 
         SlipProcessUpdate::dispatch($this->slip->token, 'Getting video details', 100);
 
+        $this->after();
+    }
+
+    public function before()
+    {
+        $this->slip->setStatus(Slip::STATUS_PROCESSING);
+        SlipProcessUpdate::dispatch($this->slip->token, 'Starting', 0);
+    }
+
+    public function after()
+    {
         $this->slip->setStatus(Slip::STATUS_FINISHED);
         SlipProcessFinished::dispatch($this->slip);
     }
+
+    public function failed(Throwable $exception): void
+    {
+        // TODO: Make proper log of failed job including debug information
+        // maybe spatie/laravel-activitylog?
+        SlipProcessUpdate::dispatch($this->slip->token, 'Failed', 0);
+    }
+
 }

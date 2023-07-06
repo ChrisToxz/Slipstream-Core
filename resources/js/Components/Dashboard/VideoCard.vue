@@ -38,12 +38,12 @@ console.log(percentage.value) // pending, finished
       <div class="flex justify-between mt-2 px-2">
         <!-- Top Left Icons -->
         <div class="flex flex-row text-gray-200 rounded-lg text-center text-sm gap-3">
-          <div><p class="bg-[rgba(5,128,197,0.6)] rounded-lg p-1">Public</p></div>
-          <div><p class="bg-[rgba(5,128,197,0.6)] rounded-lg p-1">Public</p></div>
+          <div><p class="bg-[rgba(5,128,197,0.9)] rounded-lg p-1 ">Public</p></div>
+          <div><p class="bg-[rgba(5,128,197,0.9)] rounded-lg p-1">Public</p></div>
         </div>
         <!-- TimeStamp -->
         <div>
-          <p class="text-gray-200">00:00</p>
+          <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">00:00</p>
         </div>
       </div>
       <!-- Play Button -->
