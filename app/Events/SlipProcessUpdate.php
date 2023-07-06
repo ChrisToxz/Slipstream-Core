@@ -20,6 +20,7 @@ class SlipProcessUpdate implements ShouldBroadcastNow
      */
     public function __construct(
         public string $token,
+        public string $status,
         public int    $percentage
     )
     {

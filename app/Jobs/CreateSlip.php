@@ -44,6 +44,9 @@ class CreateSlip implements ShouldQueue
         $streamhash = Str::random(40);
 
         $this->slip->setStatus(Slip::STATUS_PROCESSING);
+
+        SlipProcessUpdate::dispatch($this->slip->token, 'Starting', 0);
+
         switch ($this->type) {
             case VideoType::Original:
                 $output->writeln("<info>Running original process</info>");
@@ -58,7 +61,7 @@ class CreateSlip implements ShouldQueue
 
                 FFMpeg::fromDisk('local')->open($this->tmpPath)
                     ->export()->onProgress(function ($percentage) use ($output) {
-                        SlipProcessUpdate::dispatch($this->slip->token, $percentage);
+                        SlipProcessUpdate::dispatch($this->slip->token, 'X265 processing', $percentage);
                         $output->writeln($percentage);
                     })->toDisk('slips')->inFormat($originalBitrateFormat)->save($this->slip->token . '/' . $streamhash . '.mp4');
 
@@ -82,7 +85,7 @@ class CreateSlip implements ShouldQueue
                     ->setSegmentLength(10) // optional
                     ->setKeyFrameInterval(48) // optional
                     ->onProgress(function ($percentage) use ($output) {
-                        SlipProcessUpdate::dispatch($this->slip->token, $percentage);
+                        SlipProcessUpdate::dispatch($this->slip->token, 'HLS Processing', $percentage);
                         $output->writeln($percentage);
                     });
 
@@ -108,6 +111,8 @@ class CreateSlip implements ShouldQueue
             default:
                 throw new \Exception('Invalid video type.');
         }
+
+        SlipProcessUpdate::dispatch($this->slip->token, 'Getting video details', 100);
 
         $this->slip->setStatus(Slip::STATUS_FINISHED);
         SlipProcessFinished::dispatch($this->slip);

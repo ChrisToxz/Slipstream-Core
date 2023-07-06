@@ -19,9 +19,12 @@ const relativeTime = computed(
 )
 
 const percentage = ref(0)
+const status = ref('Preparing...')
 
 window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) => {
   percentage.value = e.percentage
+  status.value = e.status
+
 })
 
 console.log(percentage.value) // pending, finished
@@ -88,7 +91,7 @@ console.log(percentage.value) // pending, finished
         </div>
       </div>
       <p class="text-gray-200 pt-2">{{ percentage }}%</p>
-      <p class="text-gray-200 pb-2">Uploading {{ slip.title }}</p>
+      <p class="text-gray-200 pb-2">{{ status }} - {{ slip.title }}</p>
     </div>
     <!-- Thumbnail -->
     <img :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
