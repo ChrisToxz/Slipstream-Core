@@ -8,7 +8,7 @@ ENV FFPROBE_BINARIES="/usr/bin/ffprobe"
 
 # PHP overrides
 
-ENV PHP_OPEN_BASEDIR="$WEBUSER_HOME:/dev/stdout:/tmp:/usr/bin"
+ENV PHP_OPEN_BASEDIR="$WEBUSER_HOME:/dev/stdout:/tmp:/usr/bin:/dev/null"
 ENV PHP_POST_MAX_SIZE=0
 ENV PHP_UPLOAD_MAX_FILE_SIZE=0
 ENV PHP_MAX_EXECUTION_TIME=0
