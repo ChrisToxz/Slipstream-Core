@@ -1,6 +1,7 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
+import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
@@ -85,11 +86,7 @@ console.log(status.value) // pending, finished
       </div>
     </div>
     <div v-if="props.slip.status === 'pending'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
-      <div class="w-full h-1 rounded-lg bg-gray-700 overflow-hidden shadow-md relative">
-        <div :style="{width: `${percentage}%`}" class="h-full bg-gradient-to-r from-brand-primary-500 via-brand-primary-600 to-brand-primary-700 animate-gradient shadow-lg relative transition-all duration-500 ease-in-out">
-          <div class="absolute w-full h-full bg-blue-700 opacity-50 animate-pulse" />
-        </div>
-      </div>
+      <ProgressBar :percentage="percentage" />
       <p class="text-gray-200 pt-2">{{ percentage }}%</p>
       <p class="text-gray-200 pb-2">{{ status }} - {{ slip.title }}</p>
     </div>
@@ -97,19 +94,3 @@ console.log(status.value) // pending, finished
     <img :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
   </div>
 </template>
-
-<style scoped>
-@keyframes gradient {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
-    }
-}
-
-.animate-gradient {
-    background-size: 200% 100%;
-    animation: gradient 1.5s linear infinite;
-}
-</style>
