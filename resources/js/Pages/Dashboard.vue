@@ -10,15 +10,24 @@ const props = defineProps({
 
 const snackbar = useSnackbar()
 
-window.Echo.channel('ss').listen('SlipProcessFinished', () => {
+window.Echo.channel('ss').listen('SlipProcessFinished', (e) => {
+  console.log(e)
   router.reload(route('dashboard'), {
     preserveState: true,
     only:['slips'],
   })
-  snackbar.add({
-    type:'success',
-    text: 'Slip successfully uploaded',
-  })
+  if(!e.failed){
+    snackbar.add({
+      type:'success',
+      text: 'Slip successfully processed',
+    })
+  }else{
+    snackbar.add({
+      type:'error',
+      text: 'Processing failed for ' + e.slip.title,
+    })
+  }
+
 })
 </script>
 
