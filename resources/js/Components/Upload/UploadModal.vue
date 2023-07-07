@@ -26,6 +26,7 @@ let fileDisplay = ref('')
 let isUploading = ref(false)
 let percentage = ref(null)
 let rate = ref(null)
+let estimated = ref(null)
 
 const validTypes = ['video/mp4','video/mpeg']
 
@@ -49,6 +50,7 @@ const getUploadedFile = (e) => {
       console.log(progress)
       percentage.value = progress.percentage
       rate.value = (progress.rate / 1000000).toFixed(2)
+      estimated.value = progress.estimated.toFixed(2)
     },
     onSuccess: (res) => {
       isUploading.value = false
@@ -81,7 +83,11 @@ percentage.value = 50
     <div class="flex flex-col overflow-x-hidden justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-neutral-900 rounded-2xl w-1/2">
       <div v-if="isUploading === true" class="w-full">
         <ProgressBar :percentage="percentage" />
-        <p class="text-white">{{ rate }} mb/s</p>
+        <div class="flex w-full justify-between text-white">
+          <p>{{ rate }} mb/s</p>
+          <p>{{ percentage }}%</p>
+          <p>{{ estimated }} seconds left</p>
+        </div>
       </div>
       <div class="w-3/4">
         <!-- Input -->
