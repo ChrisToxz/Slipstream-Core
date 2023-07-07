@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use App\Enums\SlipStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Str;
 
 /**
  * App\Models\Slip
@@ -34,4 +37,45 @@ class Slip extends Model
     use HasFactory;
 
     protected $fillable = ['title', 'description', 'thumb'];
+    protected $appends = ['thumb'];
+
+
+    public function getRouteKeyName()
+    {
+        return 'token';
+    }
+
+    public function mediable()
+    {
+        return $this->morphTo();
+    }
+
+
+    protected function thumb(): Attribute
+    {
+        return new Attribute(
+            get: fn() => \Storage::disk('slips')->url($this->token . '/thumb.jpg')
+        );
+    }
+
+
+    public function setStatus($status)
+    {
+
+        if (in_array($status, SlipStatus::getValues())) {
+            $this->status = $status;
+            $this->save();
+        }
+
+        return $this;
+    }
+
+    public static function booted()
+    {
+        // TODO: Make sure its unique!
+        static::creating(function ($slip) {
+            $slip->token = Str::random(6);
+        });
+    }
+
 }

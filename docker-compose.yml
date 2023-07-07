@@ -15,7 +15,7 @@ services:
         environment:
             PUID: 1000
             PGID: 1000
-#            DB_HOST: slipstream-db
+            DB_HOST: slipstream-db
 #            DB_PASSWORD: yoursecretdbpass
         volumes:
             - ./:/var/www/html
@@ -39,6 +39,17 @@ services:
         networks:
             - slipstream_network
 
+    soketi:
+        image: 'quay.io/soketi/soketi:latest-16-alpine'
+        environment:
+            SOKETI_METRICS_ENABLED: '1'
+            SOKETI_DEBUG: '0'
+            SOKETI_METRICS_SERVER_PORT: '9601'
+        ports:
+            - '${SOKETI_PORT:-6001}:6001'
+            - '${SOKETI_METRICS_SERVER_PORT:-9601}:9601'
+        networks:
+            - slipstream_network
     # Dev
     pma:
         image: phpmyadmin:latest

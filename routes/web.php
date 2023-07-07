@@ -1,6 +1,8 @@
 <?php
 
+use App\Events\OrderStatusUpdated;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SlipController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,17 +18,21 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\SlipController::class, 'index'])->name('dashboard');
+Route::get('/', [SlipController::class, 'index'])->name('dashboard');
+Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
 
-Route::get('/settings', function () {
-    return inertia('Settings');
-})->name('settings');
 
-Route::get('/upload', function () {
-    return inertia('Upload');
-})->name('upload');
+Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
+Route::resource('slips', SlipController::class);
 
-require __DIR__.'/auth.php';
+Route::get('/fire', function () {
+    OrderStatusUpdated::dispatch();
+
+    return 'Event has been sent!';
+});
+
+
+require __DIR__ . '/auth.php';
 
 /* not for now */
 //Route::get('/a', function () {

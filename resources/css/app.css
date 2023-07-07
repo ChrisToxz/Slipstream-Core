@@ -2,19 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.default-input{
-    @apply text-white rounded-md p-2 bg-neutral-800 border-neutral-700 focus:border-neutral-500 focus:ring-neutral-500;
+body {
+    overflow-x: hidden;
 }
-
-.btn{
-    @apply rounded-md py-1 px-2 ;
-}
-
-.btn-primary{
-    @apply bg-[#00A3FE] font-medium;
-}
-
-.btn-alert{
-    @apply bg-red-600 font-medium
-}
-

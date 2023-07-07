@@ -12,12 +12,14 @@ return new class extends Migration {
     {
         Schema::create('slips', function (Blueprint $table) {
             $table->id();
+            $table->string('token');
 
             $table->string('title');
             $table->string('description')->nullable();
-            $table->string('thumb');
-            // TODO: Make it not nullable, just for testing
+            // TODO: Make it not nullable, just for testing. Hmm it should be nullable because if first creates a token
             $table->nullableMorphs('mediable');
+
+            $table->string('status')->default('pending');
 
             $table->timestamps();
         });

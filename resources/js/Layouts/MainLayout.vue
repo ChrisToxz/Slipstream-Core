@@ -1,37 +1,68 @@
 <script setup>
-import NavItem from '@/Components/NavItem.vue'
-import ApplicationLogo from '@/Components/ApplicationLogo.vue'
-import UploadModal from '@/Components/UploadModal.vue'
 import { ref } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import NavItem from '@/Components/Reusable/NavItem.vue'
+import ApplicationLogo from '@/Components/Reusable/ApplicationLogo.vue'
+import UploadModal from '@/Components/Upload/UploadModal.vue'
+import SettingsModal from '@/Components/Settings/SettingsModal.vue'
 
 let showUploadModal = ref(false)
+let showSettingsModal = ref(false)
 </script>
 
 <template>
-  <div class="antialiased bg-background-surface font-brand font-light bg-neutral-900 min-h-screen">
-    <div class="flex flex-row">
+  <div class="antialiased bg-neutral-900 min-h-screen">
+    <div class="flex">
       <!-- Main wrapper -->
       <div class="flex flex-col basis-full mb-10">
-        <!-- content area -->
-        <header class="flex h-20 flex-row justify-between mt-5 mx-8">
-          <!-- Header -->
+        <!-- Header -->
+        <header class="flex h-20 justify-between mt-5 mx-8">
           <div class="self-center">
             <ApplicationLogo />
           </div>
-          <nav class="basis-1/6 self-center bg-background-secondary rounded-md">
+          <!-- Navigation -->
+          <nav class="basis-1/6 self-center bg-brand-secondary-700 rounded-md">
             <ul class="flex justify-around gap-8 sm:gap-2">
-              <li><Link :href="route('dashboard')"><NavItem link="dashboard">Dashboard </NavItem></Link></li>
-              <li><Link :href="route('settings')"><NavItem link="settings" class="text-gray-200">Settings</NavItem></Link></li>
-              <li><NavItem @click="$event => showUploadModal = true">Upload</NavItem></li>
+              <li><NavItem link="dashboard" class="text-brand-primary-500">Dashboard </NavItem></li>
+              <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showSettingsModal = true">Settings</NavItem></li>
+              <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showUploadModal = true">Upload</NavItem></li>
             </ul>
           </nav>
         </header>
       </div>
     </div>
+    <!-- Content -->
     <section id="content">
       <slot />
     </section>
   </div>
-  <UploadModal v-if="showUploadModal" @close="$event => showUploadModal = false" />
+  <UploadModal v-if="showUploadModal" @close="showUploadModal = false" />
+  <transition name="modal">
+    <SettingsModal v-if="showSettingsModal" @close="showSettingsModal = false" />
+  </transition>
 </template>
+
+<style scoped>
+.modal-enter-from {
+    transform: translateX(100%);
+}
+
+.modal-enter-active {
+    transition: all 0.3s ease-out;
+}
+
+.modal-enter-to {
+    transform: translateX(0);
+}
+
+.modal-leave-active {
+    transition: all 0.3s ease-out;
+}
+
+.modal-leave-from {
+    transform: translateX(0);
+}
+
+.modal-leave-to {
+    transform: translateX(100%);
+}
+</style>
