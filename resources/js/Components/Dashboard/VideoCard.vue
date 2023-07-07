@@ -6,6 +6,12 @@ import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
 import Play from '~icons/ion/play'
+
+import OriginalType from '~icons/mdi/video'
+import OptimizedType from '~icons/ph/video'
+import StreamableType from '~icons/solar/play-stream-bold'
+
+
 import moment from 'moment'
 
 const hoverEffect = ref(false)
@@ -25,7 +31,20 @@ const status = ref('Preparing...')
 window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) => {
   percentage.value = e.percentage
   status.value = e.status
+})
 
+const TypeIcon = computed(() => {
+
+  switch (props.slip.mediable.type) {
+  case 1:
+    return OriginalType
+  case 2:
+    return OptimizedType
+  case 3:
+    return StreamableType
+  default:
+    return OriginalType
+  }
 })
 
 </script>
@@ -41,8 +60,13 @@ window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) 
           <div><p class="bg-[rgba(5,128,197,0.9)] rounded-lg p-1">Public</p></div>
         </div>
         <!-- TimeStamp -->
-        <div>
-          <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">00:00</p>
+        <div class="flex flex-row gap-3">
+          <div><p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">00:00</p></div>
+          <div>
+            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
+              <TypeIcon />
+            </p>
+          </div>
         </div>
       </div>
       <!-- Play Button -->
