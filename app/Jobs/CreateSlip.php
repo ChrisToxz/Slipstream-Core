@@ -34,45 +34,62 @@ class CreateSlip implements ShouldQueue
         public int    $type
     )
     {
+//        TODO: Remove
+//        $output->writeln($this->job->getJobId());
+//        $output->writeln($this->job->uuid());
     }
 
     /**
      * Execute the job.
+     * @throws \Exception
      */
     public function handle(): void
     {
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
 
-        $output->writeln($this->job->getJobId());
-        $output->writeln($this->job->uuid());
-        $streamhash = Str::random(40);
+        $streamHash = Str::random(40);
+        $fileExtension = Str::afterLast($this->tmpPath, '.');
+        ds($fileExtension)->s('extension');
 
         $this->before();
 
         switch ($this->type) {
             case VideoType::Original:
-                $output->writeln("<info>Running original process</info>");
-                Storage::move($this->tmpPath, "public/slips/{$this->slip->token}/{$streamhash}.mp4");
-                $video = Video::create(['file' => $streamhash . '.mp4']);
+                $output->writeln("Running original process");
+
+                // TODO: Put & than remove? Or just move? with move no disks :(
+                // Remove can be done in after() method, have been done for the other processing methods anyway.
+                // Storage::move($this->tmpPath, "public/slips/{$this->slip->token}/{$streamHash}.{$fileExtension}");
+                Storage::disk('slips')->put(
+                    "{$this->slip->token}/{$streamHash}.{$fileExtension}",
+                    Storage::disk('local')->get($this->tmpPath)
+                );
+
+                $video = Video::create(['file' => "{$streamHash}.{$fileExtension}"]);
                 $video->slip()->save($this->slip);
+
                 break;
             case VideoType::X264:
-                $output->writeln("<info>Running X264 process</info>");
+                $output->writeln("Running X264 process");
 
-                $originalBitrateFormat = (new X264('libmp3lame', 'libx264'))->setKiloBitrate(500); // 360
+                $originalBitrateFormat = (new X264('libmp3lame', 'libx264'))->setKiloBitrate(500); // TODO: Check bitrates, original file?
 
                 FFMpeg::fromDisk('local')->open($this->tmpPath)
-                    ->export()->onProgress(function ($percentage) use ($output) {
+                    ->export()->onProgress(function ($percentage, $remaining, $rate) use ($output) {
+                        $output->writeln('Rate: ' . $rate);
+                        $output->writeln('Remaining: ' . $remaining);
+                        $output->writeln("Perc: " . $percentage);
                         SlipProcessUpdate::dispatch($this->slip->token, 'X264 processing', $percentage);
-                        $output->writeln($percentage);
-                    })->toDisk('slips')->inFormat($originalBitrateFormat)->save($this->slip->token . '/' . $streamhash . '.mp4');
+                    })->toDisk('slips')->inFormat($originalBitrateFormat)->save("{$this->slip->token}/{$streamHash}.mp4");
 
-                $video = Video::create(['file' => $streamhash . '.mp4']);
+                $video = Video::create(['file' => "{$streamHash}.mp4"]);
                 $video->slip()->save($this->slip);
+
                 break;
             case VideoType::HLS:
-                $output->writeln("<info>Running HLS Process</info>");
+                $output->writeln("Running HLS Process");
 
+                // TODO: Config or so
                 $qualities = [
                     360 => [640, 360, 500],
                     720 => [1280, 720, 500],
@@ -85,10 +102,12 @@ class CreateSlip implements ShouldQueue
                     ->open($this->tmpPath)
                     ->exportForHLS()
                     ->setSegmentLength(10) // optional
-                    ->setKeyFrameInterval(48) // optional
-                    ->onProgress(function ($percentage) use ($output) {
-                        SlipProcessUpdate::dispatch($this->slip->token, 'HLS Processing', $percentage);
-                        $output->writeln($percentage);
+                    ->setKeyFrameInterval(48) // TODO: To check
+                    ->onProgress(function ($percentage, $remaining, $rate) use ($output) {
+                        $output->writeln('Rate: ' . $rate);
+                        $output->writeln('Remaining: ' . $remaining);
+                        $output->writeln("Perc: " . $percentage);
+                        SlipProcessUpdate::dispatch($this->slip->token, 'HLS processing', $percentage);
                     });
 
 
@@ -104,9 +123,10 @@ class CreateSlip implements ShouldQueue
                     $segments("{$name}--{$format->getKiloBitrate()}-{$key}-%03d.ts");
                     $playlist("{$name}-{$format->getKiloBitrate()}-{$key}.m3u8");
                 })
-                    ->toDisk('slips')->save($this->slip->token . '/' . $streamhash . '.m3u8');
+                    ->toDisk('slips')
+                    ->save("{$this->slip->token}/{$streamHash}.m3u8");
 
-                $video = Video::create(['file' => $streamhash . '.mp4']);
+                $video = Video::create(['file' => $streamHash . '.m3u8']);
                 $video->slip()->save($this->slip);
 
                 break;
@@ -114,6 +134,7 @@ class CreateSlip implements ShouldQueue
                 throw new \Exception('Invalid video type.');
         }
 
+        // TODO: Getting video details
         SlipProcessUpdate::dispatch($this->slip->token, 'Getting video details', 100);
 
         $this->after();
