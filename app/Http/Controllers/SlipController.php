@@ -17,7 +17,9 @@ class SlipController extends Controller
 {
     public function index()
     {
-        $slips = Slip::latest()->get();
+        $slips = Slip::latest()->with(['mediable' => function ($q) {
+            $q->select('id', 'type');
+        }])->get();
 
         return inertia('Dashboard', [
             'slips' => $slips
@@ -35,7 +37,7 @@ class SlipController extends Controller
 
     public function store(Request $request)
     {
-
+        $type = VideoType::HLS;
 //        $file = new UploadedFile(storage_path('app/' . $request->get('path')), $request->get('originalFileName'));
 //        dd($request->files->set('file', $file));
         /**
@@ -62,7 +64,7 @@ class SlipController extends Controller
         GenerateThumb::dispatchSync($slip, $request->get('file'));
 
         // To the final processing
-        $type = VideoType::HLS;
+
         CreateSlip::dispatch($slip, $request->get('file'), $type);
     }
 

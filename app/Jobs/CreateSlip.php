@@ -65,7 +65,7 @@ class CreateSlip implements ShouldQueue
                     Storage::disk('local')->get($this->tmpPath)
                 );
 
-                $video = Video::create(['file' => "{$streamHash}.{$fileExtension}"]);
+                $video = Video::create(['file' => "{$streamHash}.{$fileExtension}", 'type' => $this->type]);
                 $video->slip()->save($this->slip);
 
                 break;
@@ -82,7 +82,7 @@ class CreateSlip implements ShouldQueue
                         SlipProcessUpdate::dispatch($this->slip->token, 'X264 processing', $percentage);
                     })->toDisk('slips')->inFormat($originalBitrateFormat)->save("{$this->slip->token}/{$streamHash}.mp4");
 
-                $video = Video::create(['file' => "{$streamHash}.mp4"]);
+                $video = Video::create(['file' => "{$streamHash}.mp4", 'type' => $this->type]);
                 $video->slip()->save($this->slip);
 
                 break;
@@ -126,7 +126,7 @@ class CreateSlip implements ShouldQueue
                     ->toDisk('slips')
                     ->save("{$this->slip->token}/{$streamHash}.m3u8");
 
-                $video = Video::create(['file' => $streamHash . '.m3u8']);
+                $video = Video::create(['file' => $streamHash . '.m3u8', 'type' => $this->type]);
                 $video->slip()->save($this->slip);
 
                 break;
