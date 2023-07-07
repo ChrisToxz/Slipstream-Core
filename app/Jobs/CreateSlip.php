@@ -49,7 +49,6 @@ class CreateSlip implements ShouldQueue
 
         $streamHash = Str::random(40);
         $fileExtension = Str::afterLast($this->tmpPath, '.');
-        ds($fileExtension)->s('extension');
 
         $this->before();
 

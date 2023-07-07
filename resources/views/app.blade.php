@@ -10,11 +10,15 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdn.plyr.io/1.8.2/plyr.css">
 
         <!-- Scripts -->
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
+        <script src="https://cdn.jsdelivr.net/hls.js/latest/hls.js"></script>
+        <script src="https://cdn.plyr.io/1.8.2/plyr.js"></script>
         @inertiaHead
+
     </head>
     <body class="font-sans antialiased">
         @inertia

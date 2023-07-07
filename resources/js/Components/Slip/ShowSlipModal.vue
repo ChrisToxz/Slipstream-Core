@@ -1,32 +1,38 @@
 <script setup>
 
-import {ref} from 'vue'
-import Plyr from 'plyr'
-import Hls from 'hls.js'
+import {ref, onMounted} from 'vue'
+// import Plyr from 'plyr'
+// import Hls from 'hls.js'
 
 const props = defineProps({
   slip: Object,
 })
-
+// worked, since no Hls is undefined errors.
+// lets try Plyr as well.
+// so its not version related.
 const source = props.slip.mediable.path
 const video = ref(null)
 const defaultOptions = {}
 const videosource = ref(null)
 
+onMounted(() => {
+  if (Hls.isSupported()) {
+    // hmm, anyway the consolelog here make sense, because nothing have been done with video yet?
+    console.log('Hls is supported')
+    var hls = new Hls()
+    hls.loadSource('http://localhost/storage/slips/72y9Ko/tclOw4bIPAdqgNljkjfujidIx9NBGTnuCM4glo18.m3u8')
+    hls.attachMedia(video.value)
+    console.log(video.value)
+    hls.on(Hls.Events.MANIFEST_PARSED,function() {
+      video.value.play()
+    })
+  }
+
+  plyr.setup(video.value)
+})
+
 console.log('Source: %s',source)
 console.log( 'Type: %d', props.slip.mediable.type)
-
-if (Hls.isSupported()) {
-  console.log('Hls is supported')
-  var hls = new Hls()
-  hls.loadSource('http://localhost/storage/slips/mtHYt4/SB9QJezo4SgNslTVdjx3f14R4fHsXgxpzCyDQNRn.m3u8')
-  hls.attachMedia(video)
-  hls.on(Hls.Events.MANIFEST_PARSED,function() {
-    video.value.play()
-  })
-}
-
-Plyr.setup(video)
 
 // if (!Hls.isSupported() || props.slip.mediable.type != 3) {
 //   console.log('HLS is not supported')
