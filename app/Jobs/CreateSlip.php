@@ -128,7 +128,7 @@ class CreateSlip implements ShouldQueue
     public function after()
     {
         $this->slip->setStatus(SLipStatus::FINISHED());
-        SlipProcessFinished::dispatch($this->slip, FALSE);
+        SlipProcessFinished::dispatch($this->slip);
     }
 
     public function failed(Throwable $exception): void
