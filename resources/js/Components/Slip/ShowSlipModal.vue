@@ -1,5 +1,6 @@
 <script setup>
 
+import {ref} from 'vue'
 import Plyr from 'plyr'
 import Hls from 'hls.js'
 
@@ -8,16 +9,17 @@ const props = defineProps({
 })
 
 const source = props.slip.mediable.path
-const video = document.querySelector('video')
+const video = ref(null)
 const defaultOptions = {}
+const videosource = ref(null)
 
 console.log('Source: %s',source)
 console.log( 'Type: %d', props.slip.mediable.type)
 
 if (!Hls.isSupported() || props.slip.mediable.type != 3) {
   console.log('HLS is not supported')
-  video.src = source
-  var player = new Plyr(video, defaultOptions)
+  videosource.value = source
+  new Plyr(video, defaultOptions)
 } else {
   console.log('HLS is supported! :)')
   // For more Hls.js options, see https://github.com/dailymotion/hls.js
@@ -58,7 +60,7 @@ if (!Hls.isSupported() || props.slip.mediable.type != 3) {
     })
 
     // Initialize new Plyr player with quality options
-    var player = new Plyr(video, defaultOptions)
+    new Plyr(video, defaultOptions)
   })
 
   hls.attachMedia(video)
@@ -88,7 +90,7 @@ function updateQuality(newQuality) {
       <!--      <video ref="video" class="w-full rounded-xl" controls :src="slip.mediable.path" />-->
       <div class="ambient-player">
         <canvas id="decoyVideo" class="decoy" />
-        <video id="mainVideo" controls crossorigin playsinline />
+        <video id="mainVideo" ref="player" controls crossorigin playsinline :src="videosource" />
       </div>
     </div>
   </div>
