@@ -1,5 +1,7 @@
 <script setup>
 import useCanvas from '@/Composables/useCanvas.js'
+import { VideoPlayer } from '@videojs-player/vue'
+import 'video.js/dist/video-js.css'
 
 // Ambilight
 let { canvas, video } = useCanvas()
@@ -15,7 +17,14 @@ const props = defineProps({
   <div class="w-full h-full absolute top-0 left-0">
     <!-- Video Wrapper -->
     <div class="w-4/6 flex flex-col justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-2xl">
-      <video ref="video" class="w-full rounded-xl" controls :src="slip.mediable.path" />
+      <!--      <video ref="video" class="w-full rounded-xl" controls :src="slip.mediable.path" />-->
+      <video-player
+        ref="video"
+        :src="slip.mediable.path"
+        controls
+        :loop="true"
+        :volume="0.6"
+      />
     </div>
   </div>
   <!-- Abilight Background -->
