@@ -17,7 +17,7 @@ class SlipController extends Controller
 {
     public function index()
     {
-        $slips = Slip::latest()->with('mediable')->get();
+        $slips = Slip::latest()->get();
 
         return inertia('Dashboard', [
             'slips' => $slips
