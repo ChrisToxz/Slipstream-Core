@@ -25,9 +25,10 @@
     "dependencies": {
         "@iconify/vue": "^4.1.1",
         "@videojs-player/vue": "^1.0.0",
+        "hls.js": "^1.4.8",
         "moment": "^2.29.4",
+        "plyr": "^3.7.8",
         "unplugin-icons": "^0.16.3",
-        "video.js": "^8.3.0",
         "vue3-snackbar": "^2.1.7"
     }
 }
