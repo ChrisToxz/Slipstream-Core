@@ -128,7 +128,7 @@ class CreateSlip implements ShouldQueue
     public function after()
     {
         $this->slip->setStatus(SLipStatus::FINISHED());
-        SlipProcessFinished::dispatch($this->slip);
+        SlipProcessFinished::dispatch($this->slip, FALSE);
     }
 
     public function failed(Throwable $exception): void
@@ -136,6 +136,7 @@ class CreateSlip implements ShouldQueue
         // TODO: Make proper log of failed job including debug information
         // maybe spatie/laravel-activitylog?
         $this->slip->setStatus(SlipStatus::FAILED());
+        SlipProcessFinished::dispatch($this->slip, TRUE);
         SlipProcessUpdate::dispatch($this->slip->token, 'Failed', 0);
     }
 

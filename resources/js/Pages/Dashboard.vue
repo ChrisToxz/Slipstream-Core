@@ -1,5 +1,6 @@
 <script setup>
 import {Head, router} from '@inertiajs/vue3'
+import {useSnackbar, Vue3Snackbar} from 'vue3-snackbar'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/Dashboard/VideoCard.vue'
 
@@ -7,11 +8,26 @@ const props = defineProps({
   slips: Object,
 })
 
-window.Echo.channel('ss').listen('SlipProcessFinished', () => {
+const snackbar = useSnackbar()
+
+window.Echo.channel('ss').listen('SlipProcessFinished', (e) => {
+  console.log(e)
   router.reload(route('dashboard'), {
     preserveState: true,
     only:['slips'],
   })
+  if(!e.failed){
+    snackbar.add({
+      type:'success',
+      text: 'Slip successfully processed',
+    })
+  }else{
+    snackbar.add({
+      type:'error',
+      text: 'Processing failed for ' + e.slip.title,
+    })
+  }
+
 })
 </script>
 
@@ -24,7 +40,7 @@ window.Echo.channel('ss').listen('SlipProcessFinished', () => {
       </div>
     </div>
   </MainLayout>
+  <vue3-snackbar top right />
 </template>
-
 <style>
 </style>
