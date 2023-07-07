@@ -11,7 +11,6 @@ const props = defineProps({
 const snackbar = useSnackbar()
 
 window.Echo.channel('ss').listen('SlipProcessFinished', (e) => {
-  console.log(e)
   router.reload(route('dashboard'), {
     preserveState: true,
     only:['slips'],

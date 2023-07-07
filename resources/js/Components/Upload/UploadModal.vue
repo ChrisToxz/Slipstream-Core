@@ -46,7 +46,6 @@ const getUploadedFile = (e) => {
       isUploading.value = true
     },
     onProgress: progress => {
-      console.log(progress)
       percentage.value = progress.percentage
       bytes.value = (progress.bytes / 1000000).toFixed(2)
     },
@@ -71,9 +70,6 @@ const closeModal = () => {
   emit('close')
 }
 
-console.log(percentage.value)
-percentage.value = 50
-
 </script>
 
 <template>
@@ -89,7 +85,7 @@ percentage.value = 50
               Choose a file or drag it here.
             </label>
             <input id="file" type="file" class="hidden" @input="$event => getUploadedFile($event)" />
-            <p v-if="error && error.file" class="text-red-500 text-center p-2 font-extrabold">{{ error.file }}</p>
+            <!--            <p v-if="error && error.file" class="text-red-500 text-center p-2 font-extrabold">{{ error.file }}</p>-->
             <p v-if="!fileDisplay && isValidFile === false" class="text-red-500 text-center p-2 font-extrabold">File not accepted</p>
           </div>
         </div>

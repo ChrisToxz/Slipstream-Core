@@ -28,8 +28,6 @@ window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) 
 
 })
 
-console.log(status.value) // pending, finished
-
 </script>
 
 <template>
