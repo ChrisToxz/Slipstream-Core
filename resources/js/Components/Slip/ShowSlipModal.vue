@@ -15,7 +15,7 @@ const props = defineProps({
   <div class="w-full h-full absolute top-0 left-0">
     <!-- Video Wrapper -->
     <div class="w-4/6 flex flex-col justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-2xl">
-      <video ref="video" class="w-full rounded-xl" controls src="/video/test.mp4" />
+      <video ref="video" class="w-full rounded-xl" controls :src="slip.mediable.path" />
     </div>
   </div>
   <!-- Abilight Background -->
