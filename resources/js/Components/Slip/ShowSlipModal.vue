@@ -22,7 +22,16 @@ onMounted(() => {
   if (!Hls.isSupported() || props.slip.mediable.type != 3) {
     console.log('%cHLS not supported, loading video!', 'color:green')
 
-    new plyr(video.value, defaultOptions)
+    const player = new plyr(video.value, defaultOptions)
+    player.source = {
+      type: 'video',
+      title: 'Example title',
+      sources: [
+        {
+          src: src.value,
+        },
+      ],
+    }
 
   } else if (Hls.isSupported()) {
     console.log('%cHLS Supported, setting it up!', 'color:green')
@@ -85,7 +94,7 @@ onMounted(() => {
     <!-- Video Wrapper -->
     <div class="w-4/6 flex flex-col justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-2xl">
       <!--      <video ref="video" class="w-full rounded-xl" controls :src="slip.mediable.path" />-->
-      <video id="player" ref="video" playsinline webkit-playsinline controls :src="slip.mediable.path" />
+      <video id="player" ref="video" />
       <div class="ambient-player">
         <canvas id="decoyVideo" class="decoy" />
       </div>
