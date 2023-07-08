@@ -30,7 +30,7 @@ Slipstream is an open source self hosted video streaming platform which offers v
 - 🔑 Password access policy
 - 🔑 IP based access policy
 - 🔐 Single session/visit policy
-- 🔲 Upload API for screenshot/screebrecorder tools
+- 🔲 Upload API for screenshot/screenrecorder tools
 - 💾 Mount folder to process media automatically without uploading them manually
 
 
