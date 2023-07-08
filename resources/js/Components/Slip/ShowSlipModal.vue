@@ -64,6 +64,23 @@ onMounted(() => {
   }
 })
 </script>
+
+
 <template>
-  <video id="player" ref="video" playsinline webkit-playsinline controls :src="slip.mediable.path" />
+  <!-- Main Wrapper -->
+  <div class="w-full h-full absolute top-0 left-0">
+    <!-- Video Wrapper -->
+    <div class="w-4/6 flex flex-col justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 rounded-2xl">
+      <!--      <video ref="video" class="w-full rounded-xl" controls :src="slip.mediable.path" />-->
+      <video id="player" ref="video" playsinline webkit-playsinline controls :src="slip.mediable.path" />
+      <div class="ambient-player">
+        <canvas id="decoyVideo" class="decoy" />
+      </div>
+    </div>
+  </div>
+  <!-- Abilight Background -->
+  <canvas ref="canvas" class="w-full h-screen rounded-md absolute blur-lg transform scale-2 z-[-1] opacity-60" />
+  <div class="w-full h-screen absolute bg-black z-[-2]" />
 </template>
+<style scoped>
+</style>
