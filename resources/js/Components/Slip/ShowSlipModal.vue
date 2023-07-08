@@ -14,6 +14,7 @@ const src = ref(props.slip.mediable.path)
 
 
 const defaultOptions = {
+  autoplay: true,
   //TODO: Remove before release
   debug: true,
   captions: { active: true, update: true, language: 'en'},
