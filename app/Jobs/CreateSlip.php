@@ -91,10 +91,10 @@ class CreateSlip implements ShouldQueue
                 // TODO: Config or so
                 $qualities = [
                     360 => [640, 360, 500],
-                    720 => [1280, 720, 500],
-                    1080 => [1920, 1080, 500],
-                    1440 => [2560, 1440, 500],
-                    2160 => [3840, 2160, 500]
+                    720 => [1280, 720, 1000],
+                    1080 => [1920, 1080, 2000],
+                    1440 => [2560, 1440, 3000],
+                    2160 => [3840, 2160, 4000]
                 ];
 
                 $ff = FFMpeg::fromDisk('local')
@@ -111,11 +111,11 @@ class CreateSlip implements ShouldQueue
 
 
                 foreach ($qualities as $quality) {
-                    if ($ff->getVideoStream()->get('height') >= $quality[1]) {
-                        $ff->addFormat((new X264('libmp3lame', 'libx264'))->setKiloBitrate($quality[2]), function ($media) use ($quality) {
-                            $media->scale($quality[0], $quality[1]);
-                        });
-                    }
+//                    if ($ff->getVideoStream()->get('height') >= $quality[1]) {
+                    $ff->addFormat((new X264('libmp3lame', 'libx264'))->setKiloBitrate($quality[2]), function ($media) use ($quality) {
+                        $media->scale($quality[0], $quality[1]);
+                    });
+//                    }
                 }
 
                 $ff->useSegmentFilenameGenerator(function ($name, $format, $key, callable $segments, callable $playlist) {
