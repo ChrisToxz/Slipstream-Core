@@ -121,7 +121,7 @@ const TypeIcon = computed(() => {
         </div>
       </div>
     </div>
-    <div v-if="props.slip.status === 'pending'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
+    <div v-if="props.slip.status != 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
       <ProgressBar :percentage="percentage" />
       <p class="text-gray-200 pt-2">{{ percentage }}%</p>
       <p class="text-gray-200 pb-2">{{ status }} - {{ slip.title }}</p>
