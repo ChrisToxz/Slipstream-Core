@@ -8,7 +8,6 @@ import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
-import Play from '~icons/ion/play'
 
 import OriginalType from '~icons/mdi/video'
 import OptimizedType from '~icons/ph/video'
@@ -18,6 +17,7 @@ import StreamableType from '~icons/solar/play-stream-bold'
 
 
 const hoverEffect = ref(false)
+const hover = ref(false)
 
 const props = defineProps({
   slip: Object,
@@ -58,7 +58,6 @@ const TypeIcon = computed(() => {
   }
 })
 
-console.log(props.slip.mediable)
 </script>
 
 <template>
@@ -91,13 +90,7 @@ console.log(props.slip.mediable)
         </div>
       </div>
       <!-- Play Button -->
-      <div class="w-full flex justify-center">
-        <Link :href="route('slip', slip.token)">
-          <div class="bg-[rgba(5,128,197,0.6)] rounded-full w-9 h-9 flex items-center justify-center">
-            <Play color="white" />
-          </div>
-        </Link>
-      </div>
+      <div class="w-full flex justify-center" />
       <!-- Card Footer -->
       <div class="bg-black opacity-80 flex justify-between text-opacity-100 text-white px-4 py-2">
         <div>
@@ -133,7 +126,13 @@ console.log(props.slip.mediable)
       <p class="text-gray-200 pt-2">{{ percentage }}%</p>
       <p class="text-gray-200 pb-2">{{ status }} - {{ slip.title }}</p>
     </div>
-    <!-- Thumbnail -->
-    <img :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
+    <span
+      @mouseover="hover = true"
+      @mouseleave="hover = false"
+    >
+      <!-- Thumbnail -->
+      <img v-if="!hoverEffect" :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
+      <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />
+    </span>
   </div>
 </template>
