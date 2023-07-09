@@ -13,6 +13,8 @@ import StreamableType from '~icons/solar/play-stream-bold'
 
 
 import moment from 'moment'
+import momentDurationFormatSetup from 'moment-duration-format'
+momentDurationFormatSetup(moment)
 
 const hoverEffect = ref(false)
 
@@ -23,6 +25,14 @@ const props = defineProps({
 // Create Timestamp
 const relativeTime = computed(
   () => moment(props.slip.created_at).fromNow(),
+)
+
+// const formattedDuration = computed(
+//   () => moment.utc(props.slip.mediable.duration * 1000).format('mm:ss'),
+// )
+
+const formattedDuration = computed(
+  () => moment.duration(props.slip.mediable.duration, 'seconds').format('mm:ss'),
 )
 
 const percentage = ref(0)
@@ -47,6 +57,7 @@ const TypeIcon = computed(() => {
   }
 })
 
+console.log(props.slip.mediable)
 </script>
 
 <template>
@@ -61,7 +72,7 @@ const TypeIcon = computed(() => {
         </div>
         <!-- TimeStamp -->
         <div class="flex flex-row gap-3">
-          <div><p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">00:00</p></div>
+          <div><p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">{{ formattedDuration }}</p></div>
           <div>
             <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
               <TypeIcon />

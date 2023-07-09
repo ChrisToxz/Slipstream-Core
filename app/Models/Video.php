@@ -12,7 +12,7 @@ class Video extends Model
 
     // TODO: CHECK
     protected $guarded = [];
-    protected $appends = ['path', 'local_path'];
+    protected $appends = ['path', 'local_path', 'formatted_duration'];
 
     public function slip()
     {
