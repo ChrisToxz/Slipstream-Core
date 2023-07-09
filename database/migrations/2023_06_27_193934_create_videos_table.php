@@ -14,9 +14,10 @@ return new class extends Migration {
             $table->id();
 
             $table->string('file');
-            $table->integer('type')->default(\App\Enums\VideoType::Original);
             $table->integer('duration')->default(0);
+            $table->integer('height')->default(0);
             $table->json('info')->nullable();
+            $table->integer('type')->default(\App\Enums\VideoType::Original);
 
             $table->timestamps();
         });

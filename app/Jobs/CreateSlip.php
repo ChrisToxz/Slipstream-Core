@@ -75,9 +75,7 @@ class CreateSlip implements ShouldQueue
 
                 FFMpeg::fromDisk('local')->open($this->tmpPath)
                     ->export()->onProgress(function ($percentage, $remaining, $rate) use ($output) {
-                        $output->writeln('Rate: ' . $rate);
-                        $output->writeln('Remaining: ' . $remaining);
-                        $output->writeln("Perc: " . $percentage);
+                        $output->writeln("Progress: {$percentage} - {$remaining} seconds left at rate: {$rate}");
                         SlipProcessUpdate::dispatch($this->slip->token, 'X264 processing', $percentage);
                     })->toDisk('slips')->inFormat($originalBitrateFormat)->save("{$this->slip->token}/{$streamHash}.mp4");
 
@@ -104,9 +102,7 @@ class CreateSlip implements ShouldQueue
                     ->setSegmentLength(10) // optional
                     ->setKeyFrameInterval(48) // TODO: To check
                     ->onProgress(function ($percentage, $remaining, $rate) use ($output) {
-                        $output->writeln('Rate: ' . $rate);
-                        $output->writeln('Remaining: ' . $remaining);
-                        $output->writeln("Perc: " . $percentage);
+                        $output->writeln("Progress: {$percentage} - {$remaining} seconds left at rate: {$rate}");
                         SlipProcessUpdate::dispatch($this->slip->token, 'HLS processing', $percentage);
                     });
 
