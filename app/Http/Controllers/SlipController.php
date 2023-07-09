@@ -18,7 +18,7 @@ class SlipController extends Controller
     public function index()
     {
         $slips = Slip::latest()->with(['mediable' => function ($q) {
-            $q->select('id', 'type', 'duration');
+            $q->select('id', 'type', 'duration', 'height');
         }])->get();
 
         return inertia('Dashboard', [

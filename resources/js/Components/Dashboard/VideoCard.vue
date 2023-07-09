@@ -73,7 +73,16 @@ console.log(props.slip.mediable)
         </div>
         <!-- TimeStamp -->
         <div class="flex flex-row gap-3">
-          <div><p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">{{ formattedDuration }}</p></div>
+          <div>
+            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+              {{ formattedDuration }}
+            </p>
+          </div>
+          <div>
+            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+              {{ slip.mediable.height }}p
+            </p>
+          </div>
           <div>
             <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
               <TypeIcon />
