@@ -135,7 +135,7 @@ class CreateSlip implements ShouldQueue
 
         // TODO: Getting video details
         SlipProcessUpdate::dispatch($this->slip->token, 'Getting video details', 100);
-        GetVideoInfo::dispatch($this->slip);
+        GetVideoInfo::dispatchSync($this->slip);
         $this->after();
     }
 
