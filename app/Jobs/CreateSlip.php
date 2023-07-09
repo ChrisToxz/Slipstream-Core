@@ -70,14 +70,13 @@ class CreateSlip implements ShouldQueue
                 break;
             case VideoType::X264:
                 $output->writeln("Running X264 process");
+                $ff = FFMpeg::fromDisk('local')->open($this->tmpPath);
+                $originalBitrateFormat = (new X264('libmp3lame', 'libx264'))->setKiloBitrate($ff->getVideoStream()->get('bit_rate'));
 
-                $originalBitrateFormat = (new X264('libmp3lame', 'libx264'))->setKiloBitrate(500); // TODO: Check bitrates, original file?
-
-                FFMpeg::fromDisk('local')->open($this->tmpPath)
-                    ->export()->onProgress(function ($percentage, $remaining, $rate) use ($output) {
-                        $output->writeln("Progress: {$percentage} - {$remaining} seconds left at rate: {$rate}");
-                        SlipProcessUpdate::dispatch($this->slip->token, 'X264 processing', $percentage);
-                    })->toDisk('slips')->inFormat($originalBitrateFormat)->save("{$this->slip->token}/{$streamHash}.mp4");
+                $ff->export()->onProgress(function ($percentage, $remaining, $rate) use ($output) {
+                    $output->writeln("Progress: {$percentage} - {$remaining} seconds left at rate: {$rate}");
+                    SlipProcessUpdate::dispatch($this->slip->token, 'X264 processing', $percentage);
+                })->toDisk('slips')->inFormat($originalBitrateFormat)->save("{$this->slip->token}/{$streamHash}.mp4");
 
                 $video = Video::create(['file' => "{$streamHash}.mp4", 'type' => $this->type]);
                 $video->slip()->save($this->slip);
