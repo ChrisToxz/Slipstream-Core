@@ -32,4 +32,11 @@ class Video extends Model
             get: fn() => $this->slip->token . '/' . $this->file
         );
     }
+
+    protected function formattedDuration(): Attribute
+    {
+        return new Attribute(
+            get: fn() => gmdate("i:s", $this->duration)
+        );
+    }
 }
