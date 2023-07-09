@@ -38,7 +38,7 @@ class SlipController extends Controller
     public function store(Request $request)
     {
         // we need to fix the model binding in form input btw
-        $type = VideoType::Original;
+        $type = $request->get('type');
 //        $file = new UploadedFile(storage_path('app/' . $request->get('path')), $request->get('originalFileName'));
 //        dd($request->files->set('file', $file));
         /**
