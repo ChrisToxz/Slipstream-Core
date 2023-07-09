@@ -32,7 +32,7 @@ class GetVideoInfo implements ShouldQueue
         $ffmpeg = FFMpeg::fromDisk('slips')->open($this->slip->mediable->localpath);
         $this->slip->mediable->update([
             'duration' => $ffmpeg->getDurationInSeconds(),
-            'info' => json_encode((array)$ffmpeg->getStreams()[0])
+            'info' => json_encode((array)$ffmpeg->getVideoStream())
         ]);
     }
 }
