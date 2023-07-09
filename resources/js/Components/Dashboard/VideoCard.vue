@@ -1,7 +1,10 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
+import moment from 'moment'
+
 import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
+
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
@@ -12,9 +15,7 @@ import OptimizedType from '~icons/ph/video'
 import StreamableType from '~icons/solar/play-stream-bold'
 
 
-import moment from 'moment'
-import momentDurationFormatSetup from 'moment-duration-format'
-momentDurationFormatSetup(moment)
+
 
 const hoverEffect = ref(false)
 
@@ -32,7 +33,7 @@ const relativeTime = computed(
 // )
 
 const formattedDuration = computed(
-  () => moment.duration(props.slip.mediable.duration, 'seconds').format('mm:ss'),
+  () =>moment.utc(props.slip.mediable.duration*1000).format('mm:ss'),
 )
 
 const percentage = ref(0)
