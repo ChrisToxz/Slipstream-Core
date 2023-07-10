@@ -12,7 +12,7 @@ class Video extends Model
 
     // TODO: CHECK
     protected $guarded = [];
-    protected $appends = ['path'];
+    protected $appends = ['path', 'local_path', 'formatted_duration'];
 
     public function slip()
     {
@@ -26,4 +26,17 @@ class Video extends Model
         );
     }
 
+    protected function localPath(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->slip->token . '/' . $this->file
+        );
+    }
+
+    protected function formattedDuration(): Attribute
+    {
+        return new Attribute(
+            get: fn() => gmdate("i:s", $this->duration)
+        );
+    }
 }

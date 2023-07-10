@@ -121,11 +121,11 @@ const closeModal = () => {
 
                 <div class="mb-2">
                   <label for="type">Type</label>
-                  <PrimarySelect id="type" v-model="form.type" name="type" autocomplete="off">
+                  <select id="type" v-model="form.type" name="type" autocomplete="off">
                     <option value="1">None (Original file)</option>
                     <option value="2">Optimized for web (264)</option>
                     <option value="3">Optimized for streaming (x264/HLS)</option>
-                  </PrimarySelect>
+                  </select>
                   <div v-if="form.errors.type" class="text-red-500 font-extrabold">{{ form.errors.type }}</div>
                 </div>
               </div>
