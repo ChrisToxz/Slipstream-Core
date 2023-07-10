@@ -1,0 +1,36 @@
+{
+    "git": {
+        "commitMessage": "chore: release v${version}",
+        "requireBranch": "master"
+    },
+    "github": {
+        "release": true,
+        "comments": {
+            "submit": false,
+            "issue": ":rocket: _This issue has been resolved in v${version}. See [${releaseName}](${releaseUrl}) for release notes._",
+            "pr": ":rocket: _This pull request is included in v${version}. See [${releaseName}](${releaseUrl}) for release notes._"
+        }
+    },
+    "plugins": {
+        "@release-it/conventional-changelog": {
+            "preset": {
+                "name": "conventionalcommits",
+                "types": [
+                    {
+                        "type": "feat",
+                        "section": "\uD83D\uDE80 Features"
+                    },
+                    {
+                        "type": "fix",
+                        "section": "\uD83D\uDC1B Bug Fixes"
+                    },
+                    {}
+                ]
+            },
+            "infile": "CHANGELOG.md",
+            "parserOpts": {
+                "mergePattern": "^Merge pull request #(\\d+) from (.*)$"
+            }
+        }
+    }
+}
