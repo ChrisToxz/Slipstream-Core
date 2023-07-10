@@ -13,9 +13,6 @@ import OriginalType from '~icons/mdi/video'
 import OptimizedType from '~icons/ph/video'
 import StreamableType from '~icons/solar/play-stream-bold'
 
-
-
-
 const hoverEffect = ref(false)
 const hover = ref(false)
 
@@ -83,9 +80,9 @@ const TypeIcon = computed(() => {
             </p>
           </div>
           <div>
-            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
+            <div class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
               <TypeIcon />
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -131,7 +128,7 @@ const TypeIcon = computed(() => {
       @mouseleave="hover = false"
     >
       <!-- Thumbnail -->
-      <img v-if="!hoverEffect" :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
+      <img v-if="!hoverEffect" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
       <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />
     </span>
   </div>
