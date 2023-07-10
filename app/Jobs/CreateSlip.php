@@ -49,7 +49,6 @@ class CreateSlip implements ShouldQueue
 
         $streamHash = Str::random(40);
         $fileExtension = Str::afterLast($this->tmpPath, '.');
-        ds($fileExtension)->s('extension');
 
         $this->before();
 
@@ -65,24 +64,21 @@ class CreateSlip implements ShouldQueue
                     Storage::disk('local')->get($this->tmpPath)
                 );
 
-                $video = Video::create(['file' => "{$streamHash}.{$fileExtension}"]);
+                $video = Video::create(['file' => "{$streamHash}.{$fileExtension}", 'type' => $this->type]);
                 $video->slip()->save($this->slip);
 
                 break;
             case VideoType::X264:
                 $output->writeln("Running X264 process");
+                $ff = FFMpeg::fromDisk('local')->open($this->tmpPath);
+                $originalBitrateFormat = (new X264('libmp3lame', 'libx264'))->setKiloBitrate($ff->getVideoStream()->get('bit_rate'));
 
-                $originalBitrateFormat = (new X264('libmp3lame', 'libx264'))->setKiloBitrate(500); // TODO: Check bitrates, original file?
+                $ff->export()->onProgress(function ($percentage, $remaining, $rate) use ($output) {
+                    $output->writeln("Progress: {$percentage} - {$remaining} seconds left at rate: {$rate}");
+                    SlipProcessUpdate::dispatch($this->slip->token, 'X264 processing', $percentage);
+                })->toDisk('slips')->inFormat($originalBitrateFormat)->save("{$this->slip->token}/{$streamHash}.mp4");
 
-                FFMpeg::fromDisk('local')->open($this->tmpPath)
-                    ->export()->onProgress(function ($percentage, $remaining, $rate) use ($output) {
-                        $output->writeln('Rate: ' . $rate);
-                        $output->writeln('Remaining: ' . $remaining);
-                        $output->writeln("Perc: " . $percentage);
-                        SlipProcessUpdate::dispatch($this->slip->token, 'X264 processing', $percentage);
-                    })->toDisk('slips')->inFormat($originalBitrateFormat)->save("{$this->slip->token}/{$streamHash}.mp4");
-
-                $video = Video::create(['file' => "{$streamHash}.mp4"]);
+                $video = Video::create(['file' => "{$streamHash}.mp4", 'type' => $this->type]);
                 $video->slip()->save($this->slip);
 
                 break;
@@ -91,11 +87,12 @@ class CreateSlip implements ShouldQueue
 
                 // TODO: Config or so
                 $qualities = [
+                    2160 => [3840, 2160, 4000],
+                    1440 => [2560, 1440, 3000],
+                    1080 => [1920, 1080, 2000],
+                    720 => [1280, 720, 1000],
+                    480 => [854, 480, 750],
                     360 => [640, 360, 500],
-                    720 => [1280, 720, 500],
-                    1080 => [1920, 1080, 500],
-                    1440 => [2560, 1440, 500],
-                    2160 => [3840, 2160, 500]
                 ];
 
                 $ff = FFMpeg::fromDisk('local')
@@ -104,19 +101,17 @@ class CreateSlip implements ShouldQueue
                     ->setSegmentLength(10) // optional
                     ->setKeyFrameInterval(48) // TODO: To check
                     ->onProgress(function ($percentage, $remaining, $rate) use ($output) {
-                        $output->writeln('Rate: ' . $rate);
-                        $output->writeln('Remaining: ' . $remaining);
-                        $output->writeln("Perc: " . $percentage);
+                        $output->writeln("Progress: {$percentage} - {$remaining} seconds left at rate: {$rate}");
                         SlipProcessUpdate::dispatch($this->slip->token, 'HLS processing', $percentage);
                     });
 
 
                 foreach ($qualities as $quality) {
-                    if ($ff->getVideoStream()->get('height') >= $quality[1]) {
-                        $ff->addFormat((new X264('libmp3lame', 'libx264'))->setKiloBitrate($quality[2]), function ($media) use ($quality) {
-                            $media->scale($quality[0], $quality[1]);
-                        });
-                    }
+//                    if ($ff->getVideoStream()->get('height') >= $quality[1]) {
+                    $ff->addFormat((new X264('libmp3lame', 'libx264'))->setKiloBitrate($quality[2]), function ($media) use ($quality) {
+                        $media->scale($quality[0], $quality[1]);
+                    });
+//                    }
                 }
 
                 $ff->useSegmentFilenameGenerator(function ($name, $format, $key, callable $segments, callable $playlist) {
@@ -126,7 +121,7 @@ class CreateSlip implements ShouldQueue
                     ->toDisk('slips')
                     ->save("{$this->slip->token}/{$streamHash}.m3u8");
 
-                $video = Video::create(['file' => $streamHash . '.m3u8']);
+                $video = Video::create(['file' => $streamHash . '.m3u8', 'type' => $this->type]);
                 $video->slip()->save($this->slip);
 
                 break;
@@ -136,7 +131,7 @@ class CreateSlip implements ShouldQueue
 
         // TODO: Getting video details
         SlipProcessUpdate::dispatch($this->slip->token, 'Getting video details', 100);
-
+        GetVideoInfo::dispatchSync($this->slip);
         $this->after();
     }
 
