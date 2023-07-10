@@ -1,14 +1,23 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
+import moment from 'moment'
+
 import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
+
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
-import Play from '~icons/ion/play'
-import moment from 'moment'
+
+import OriginalType from '~icons/mdi/video'
+import OptimizedType from '~icons/ph/video'
+import StreamableType from '~icons/solar/play-stream-bold'
+
+
+
 
 const hoverEffect = ref(false)
+const hover = ref(false)
 
 const props = defineProps({
   slip: Object,
@@ -19,16 +28,35 @@ const relativeTime = computed(
   () => moment(props.slip.created_at).fromNow(),
 )
 
+// const formattedDuration = computed(
+//   () => moment.utc(props.slip.mediable.duration * 1000).format('mm:ss'),
+// )
+
+const formattedDuration = computed(
+  () =>moment.utc(props.slip.mediable.duration*1000).format('mm:ss'),
+)
+
 const percentage = ref(0)
 const status = ref('Preparing...')
 
 window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) => {
   percentage.value = e.percentage
   status.value = e.status
-
 })
 
-console.log(status.value) // pending, finished
+const TypeIcon = computed(() => {
+
+  switch (props.slip.mediable.type) {
+  case 1:
+    return OriginalType
+  case 2:
+    return OptimizedType
+  case 3:
+    return StreamableType
+  default:
+    return OriginalType
+  }
+})
 
 </script>
 
@@ -43,18 +71,26 @@ console.log(status.value) // pending, finished
           <div><p class="bg-[rgba(5,128,197,0.9)] rounded-lg p-1">Public</p></div>
         </div>
         <!-- TimeStamp -->
-        <div>
-          <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">00:00</p>
+        <div class="flex flex-row gap-3">
+          <div>
+            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+              {{ formattedDuration }}
+            </p>
+          </div>
+          <div>
+            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+              {{ slip.mediable.height }}p
+            </p>
+          </div>
+          <div>
+            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
+              <TypeIcon />
+            </p>
+          </div>
         </div>
       </div>
       <!-- Play Button -->
-      <div class="w-full flex justify-center">
-        <Link :href="route('slip', slip.token)">
-          <div class="bg-[rgba(5,128,197,0.6)] rounded-full w-9 h-9 flex items-center justify-center">
-            <Play color="white" />
-          </div>
-        </Link>
-      </div>
+      <div class="w-full flex justify-center" />
       <!-- Card Footer -->
       <div class="bg-black opacity-80 flex justify-between text-opacity-100 text-white px-4 py-2">
         <div>
@@ -85,12 +121,18 @@ console.log(status.value) // pending, finished
         </div>
       </div>
     </div>
-    <div v-if="props.slip.status === 'pending'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
+    <div v-if="props.slip.status != 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
       <ProgressBar :percentage="percentage" />
       <p class="text-gray-200 pt-2">{{ percentage }}%</p>
       <p class="text-gray-200 pb-2">{{ status }} - {{ slip.title }}</p>
     </div>
-    <!-- Thumbnail -->
-    <img :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
+    <span
+      @mouseover="hover = true"
+      @mouseleave="hover = false"
+    >
+      <!-- Thumbnail -->
+      <img v-if="!hoverEffect" :class="{ 'scale-[1.1]': hoverEffect }" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
+      <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />
+    </span>
   </div>
 </template>

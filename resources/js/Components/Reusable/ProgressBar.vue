@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  percentage: String,
+  percentage: Number,
 })
 </script>
 

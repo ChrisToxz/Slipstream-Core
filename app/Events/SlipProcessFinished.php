@@ -21,7 +21,7 @@ class SlipProcessFinished implements ShouldBroadcastNow
      */
     public function __construct(
         public Slip $slip,
-        public bool $failed
+        public bool $failed = false
     )
     {
         //

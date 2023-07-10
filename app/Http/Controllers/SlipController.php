@@ -17,6 +17,10 @@ class SlipController extends Controller
 {
     public function index()
     {
+//        $slips = Slip::latest()->with(['mediable' => function ($q) {
+//            $q->select('id', 'type', 'duration', 'height', 'path');
+//        }])->get();
+
         $slips = Slip::latest()->with('mediable')->get();
 
         return inertia('Dashboard', [
@@ -26,6 +30,8 @@ class SlipController extends Controller
 
     public function show(Slip $slip)
     {
+        $slip = $slip->load('mediable');
+
         return inertia('Slip', [
             'slip' => $slip
         ]);
@@ -33,7 +39,8 @@ class SlipController extends Controller
 
     public function store(Request $request)
     {
-
+        // we need to fix the model binding in form input btw
+        $type = $request->get('type');
 //        $file = new UploadedFile(storage_path('app/' . $request->get('path')), $request->get('originalFileName'));
 //        dd($request->files->set('file', $file));
         /**
@@ -60,7 +67,7 @@ class SlipController extends Controller
         GenerateThumb::dispatchSync($slip, $request->get('file'));
 
         // To the final processing
-        $type = VideoType::HLS;
+
         CreateSlip::dispatch($slip, $request->get('file'), $type);
     }
 
