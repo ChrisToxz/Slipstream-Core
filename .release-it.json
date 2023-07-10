@@ -24,6 +24,38 @@
                         "type": "fix",
                         "section": "\uD83D\uDC1B Bug Fixes"
                     },
+                    {
+                        "type": "docs",
+                        "section": "\uD83D\uDCDA Documentation"
+                    },
+                    {
+                        "type": "style",
+                        "section": "\uDC8E Styles"
+                    },
+                    {
+                        "type": "refactor",
+                        "section": "\uD83D\uDCE6 Code refactoring"
+                    },
+                    {
+                        "type": "perf",
+                        "section": "⚡ Performance Improvements"
+                    },
+                    {
+                        "type": "test",
+                        "section": "✅ Tests"
+                    },
+                    {
+                        "type": "build",
+                        "section": "\uD83D\uDC9A Builds"
+                    },
+                    {
+                        "type": "ci",
+                        "section": "\uD83D\uDC77 Continuous Integration"
+                    },
+                    {
+                        "type": "chore",
+                        "section": "\uD83D\uDD27 Chores"
+                    },
                     {}
                 ]
             },
