@@ -2,6 +2,7 @@
 
 use App\Events\OrderStatusUpdated;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SlipController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,9 @@ Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
 
 Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
 Route::resource('slips', SlipController::class);
+
+Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
 
 Route::get('/fire', function () {
     OrderStatusUpdated::dispatch();
