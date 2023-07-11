@@ -130,7 +130,7 @@ class CreateSlip implements ShouldQueue
         }
 
         // TODO: Getting video details
-        SlipProcessUpdate::dispatch($this->slip->token, 'Getting video details', 100);
+        SlipProcessUpdate::dispatch($this->slip->token, 'Getting video details', 99);
         GetVideoInfo::dispatchSync($this->slip);
         $this->after();
     }
@@ -143,6 +143,8 @@ class CreateSlip implements ShouldQueue
 
     public function after()
     {
+        SlipProcessUpdate::dispatch($this->slip->token, 'Deleting temp file', 100);
+        Storage::disk('local')->delete($this->tmpPath);
         $this->slip->setStatus(SLipStatus::FINISHED());
         SlipProcessFinished::dispatch($this->slip);
     }
