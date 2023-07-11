@@ -1,9 +1,14 @@
 <script setup>
-import {ref, nextTick} from 'vue'
+import {ref, nextTick, onMounted} from 'vue'
 import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
 import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
 import WarningButton from '@/Components/Reusable/WarningButton.vue'
 import ToggleSwitch from '@/Components/Reusable/ToggleSwitch.vue'
+import {router, useForm} from '@inertiajs/vue3'
+import axios from 'axios'
+
+import {useSnackbar, Vue3Snackbar} from 'vue3-snackbar'
+const snackbar = useSnackbar()
 
 const visitors = ref(true)
 const emit = defineEmits(['close'])
@@ -14,6 +19,37 @@ const updateVisitors = (value) => {
   // Testing purposes
   nextTick(() => {
     console.log(visitors.value)
+  })
+}
+
+
+const form = useForm({
+  site_name: null,
+  streaming_bitrates: {
+    360: null,
+    480: null,
+    720: null,
+    1080: null,
+    1440: null,
+    2160: null,
+  },
+})
+
+onMounted(() => {
+  axios.get(route('settings.index')).then(response => {
+    Object.assign(form, response.data)
+  })
+})
+
+const submit = () => {
+  form.post(route('settings.store'), {
+    onSuccess: () => {
+      snackbar.add({
+        type:'success',
+        text: 'Settings are saved successfully',
+      })
+      closeModal()
+    },
   })
 }
 
@@ -37,7 +73,7 @@ const closeModal = () => {
             <label class="font-light pb-2" for="siteTitle">
               Site Title
             </label>
-            <PrimaryTextInput id="siteTitle" />
+            <PrimaryTextInput id="siteTitle" v-model="form.site_name" />
             <sub class="text-brand-primary-500 text-sm">The name your guests will see</sub>
           </div>
 
@@ -52,14 +88,21 @@ const closeModal = () => {
 
           <div class="my-8 flex justify-between">
             <div class="flex flex-col w-5/12 mr-2">
-              <PrimaryTextInput id="360" />
+              <PrimaryTextInput id="360" v-model="form.streaming_bitrates[360]" />
               <label class="font-light pb-2 text-brand-primary-500" for="360">
                 360p
               </label>
             </div>
 
+            <div class="flex flex-col w-5/12 mr-2">
+              <PrimaryTextInput id="480" v-model="form.streaming_bitrates[480]" />
+              <label class="font-light pb-2 text-brand-primary-500" for="480">
+                480p
+              </label>
+            </div>
+
             <div class="flex flex-col w-5/12 ml-2">
-              <PrimaryTextInput id="720" />
+              <PrimaryTextInput id="720" v-model="form.streaming_bitrates[720]" />
               <label class="font-light pb-2 text-brand-primary-500" for="720">
                 720p
               </label>
@@ -68,14 +111,14 @@ const closeModal = () => {
 
           <div class="mb-8 flex justify-between">
             <div class="flex flex-col w-5/12 mr-2">
-              <PrimaryTextInput id="1080" />
+              <PrimaryTextInput id="1080" v-model="form.streaming_bitrates[1080]" />
               <label class="font-light pb-2 text-brand-primary-500" for="1080">
                 1080p
               </label>
             </div>
 
             <div class="flex flex-col w-5/12 ml-2">
-              <PrimaryTextInput id="1440" />
+              <PrimaryTextInput id="1440" v-model="form.streaming_bitrates[1440]" />
               <label class="font-light pb-2 text-brand-primary-500" for="1440">
                 1440p
               </label>
@@ -84,7 +127,7 @@ const closeModal = () => {
 
           <div class="mb-8 flex justify-between">
             <div class="flex flex-col w-5/12 mr-2">
-              <PrimaryTextInput id="2160" />
+              <PrimaryTextInput id="2160" v-model="form.streaming_bitrates[2160]" />
               <label class="font-light pb-2 text-brand-primary-500" for="2160">
                 2160p
               </label>
@@ -96,7 +139,7 @@ const closeModal = () => {
       </div>
       <div class="mx-4 flex justify-between">
         <div class="w-32">
-          <PrimaryButton>
+          <PrimaryButton @click="submit()">
             Save Changes
           </PrimaryButton>
         </div>
