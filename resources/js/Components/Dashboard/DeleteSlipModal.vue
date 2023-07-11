@@ -10,7 +10,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const deleteSlip = () => {
-  router.delete(`/slips/${props.slip.id}`, {
+  router.delete(`/slips/${props.slip.token}`, {
     onFinish: () => closeModal(),
   })
 }
