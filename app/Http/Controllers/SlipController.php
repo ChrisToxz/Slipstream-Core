@@ -87,4 +87,9 @@ class SlipController extends Controller
             'tmpPath' => $request->file->store('tmp')
         ]);
     }
+
+    public function destroy(Slip $slip)
+    {
+        dd($slip);
+    }
 }
