@@ -1,5 +1,23 @@
 
 
+## [0.3.0](https://github.com/christoxz/slipstream-core/compare/0.2.0...0.3.0) (2023-07-11)
+
+
+### 🚀 Features
+
+* Delete Slip Modal ([#27](https://github.com/christoxz/slipstream-core/issues/27)) ([341538c](https://github.com/christoxz/slipstream-core/commit/341538c729ec992c3c730b0d9c1d4d1ef050a5ad))
+* settings ([#29](https://github.com/christoxz/slipstream-core/issues/29)) ([80bdd76](https://github.com/christoxz/slipstream-core/commit/80bdd7616e49a44474d77fc296e5293e5c7c38c4))
+
+
+### 🐛 Bug Fixes
+
+* Input models not binding to form ([#28](https://github.com/christoxz/slipstream-core/issues/28)) ([2745a70](https://github.com/christoxz/slipstream-core/commit/2745a704893abe8ed80b3b2454fd8a9086102b5e))
+
+
+### 🔧 Chores
+
+* **fix:** Release it package ([5f31fd4](https://github.com/christoxz/slipstream-core/commit/5f31fd4c8d479bbb9ede72c51252bfecfdbbb9be))
+
 ## [0.2.0](https://github.com/christoxz/slipstream-core/compare/0.1.0...0.2.0) (2023-07-11)
 
 
