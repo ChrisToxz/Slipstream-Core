@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
 import moment from 'moment'
+import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipModal.vue'
 
 import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
 
@@ -15,6 +16,7 @@ import StreamableType from '~icons/solar/play-stream-bold'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
+let showDeleteModal = ref(false)
 
 const props = defineProps({
   slip: Object,
@@ -112,7 +114,7 @@ const TypeIcon = computed(() => {
               <Download color="white" width="25" height="25" />
             </li>
             <li class="px-1 bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700">
-              <Trash color="white" width="25" height="25" />
+              <Trash color="white" width="25" height="25" @click="showDeleteModal = true" />
             </li>
           </ul>
         </div>
@@ -130,6 +132,7 @@ const TypeIcon = computed(() => {
       <!-- Thumbnail -->
       <img v-if="!hoverEffect" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
       <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />
+      <DeleteSlipModal v-if="showDeleteModal" :slip="slip" @close="showDeleteModal = false" />
     </span>
   </div>
 </template>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -38,6 +39,8 @@ class HandleInertiaRequests extends Middleware
                 'originalFileName' => fn() => $request->session()->get('originalFileName'),
                 'tmpPath' => fn() => $request->session()->get('tmpPath')
             ],
+            'settings' => ['sitename' => app(GeneralSettings::class)->site_name],
+
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

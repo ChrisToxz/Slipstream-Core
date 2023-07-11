@@ -62,9 +62,9 @@ const getUploadedFile = (e) => {
 }
 
 const saveMedia = () => {
-  form.post('/slips', {
-    onSuccess: () => closeModal(),
-  })
+    form.post('/slips', {
+        onSuccess: () => closeModal(),
+    })
 }
 
 const closeModal = () => {
@@ -121,17 +121,17 @@ const closeModal = () => {
 
 
                 <label class="mb-2" for="description">Description</label>
-                <PrimaryTextarea id="description" :v-model="form.description" rows="1" placeholder="Description..." />
+                <PrimaryTextarea id="description" v-model="form.description" rows="1" placeholder="Description..." />
                 <p v-if="form.errors.description" class="text-red-500 font-extrabold">{{ form.errors.description }}</p>
 
 
                 <div class="mb-2">
                   <label for="type">Type</label>
-                  <select id="type" v-model="form.type" name="type" autocomplete="off">
+                  <PrimarySelect id="type" v-model="form.type" name="type" autocomplete="off">
                     <option value="1">None (Original file)</option>
                     <option value="2">Optimized for web (264)</option>
                     <option value="3">Optimized for streaming (x264/HLS)</option>
-                  </select>
+                  </PrimarySelect>
                   <div v-if="form.errors.type" class="text-red-500 font-extrabold">{{ form.errors.type }}</div>
                 </div>
               </div>
