@@ -1,5 +1,18 @@
 
 
+## [0.2.0](https://github.com/christoxz/slipstream-core/compare/0.1.0...0.2.0) (2023-07-11)
+
+
+### 🚀 Features
+
+* Toaster ([#25](https://github.com/christoxz/slipstream-core/issues/25)) ([4564f98](https://github.com/christoxz/slipstream-core/commit/4564f98b13e094dbabb7574a8231f0eb4519abf1))
+
+
+### 🐛 Bug Fixes
+
+* MainLayout Classes Error ([#26](https://github.com/christoxz/slipstream-core/issues/26)) ([130f05e](https://github.com/christoxz/slipstream-core/commit/130f05e8b2433b45ba112f95718d6027ee65005c))
+* Temp file was not deleted after processing ([#22](https://github.com/christoxz/slipstream-core/issues/22)) ([30ffe15](https://github.com/christoxz/slipstream-core/commit/30ffe157cda299229c707331fedf22d243b44475))
+
 ## 0.1.0 (2023-07-10)
 
 
