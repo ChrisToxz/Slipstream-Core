@@ -6,8 +6,8 @@ const props = defineProps({
 
 <template>
   <div class="w-full h-1 rounded-lg bg-gray-700 overflow-hidden shadow-md relative">
-    <div :style="{width: `${percentage}%`}" class="h-full bg-gradient-to-r from-brand-primary-500 via-brand-primary-600 to-brand-primary-700 animate-gradient shadow-lg relative transition-all duration-500 ease-in-out">
-      <div class="absolute w-full h-full bg-blue-700 opacity-50 animate-pulse" />
+    <div :style="{width: `${percentage}%`}" class="h-full bg-gradient-to-r from-brand-primary-500 via-brand-primary-600 to-brand-primary-700 animate-gradient shadow-lg relative transition-all duration-500 ease-in-out rounded-lg">
+      <div class="absolute w-full h-full bg-blue-700 opacity-50 animate-pulse rounded-lg" />
     </div>
   </div>
 </template>

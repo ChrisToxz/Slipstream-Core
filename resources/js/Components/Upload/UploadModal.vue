@@ -25,7 +25,8 @@ let isValidFile = ref(null)
 let fileDisplay = ref('')
 let isUploading = ref(false)
 let percentage = ref(null)
-let bytes = ref(null)
+let rate = ref(null)
+let estimated = ref(null)
 
 const validTypes = ['video/mp4','video/mpeg']
 
@@ -47,7 +48,8 @@ const getUploadedFile = (e) => {
     },
     onProgress: progress => {
       percentage.value = progress.percentage
-      bytes.value = (progress.bytes / 1000000).toFixed(2)
+      rate.value = (progress.rate / 1000000).toFixed(2)
+      estimated.value = progress.estimated.toFixed(2)
     },
     onSuccess: (res) => {
       isUploading.value = false
@@ -74,7 +76,7 @@ const closeModal = () => {
 
 <template>
   <div class="backdrop-blur-md w-full h-full absolute top-0 left-0">
-    <div class="flex justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-neutral-900 rounded-2xl w-1/2">
+    <div class="flex flex-col overflow-x-hidden justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-neutral-900 rounded-2xl w-1/2">
       <div class="w-3/4">
         <!-- Input -->
         <div v-if="!fileDisplay && isUploading === false">
@@ -95,9 +97,13 @@ const closeModal = () => {
         <!--        </div>-->
         <!-- Finished uploading -->
         <div v-if="fileDisplay && isValidFile === true">
-          <div v-if="isUploading === true">
-            <ProgressBar :percentage="percentage" />
-            <p class="text-white">{{ bytes }} mb/s</p>
+          <div v-if="isUploading === true" class="w-full">
+            <ProgressBar :percentage="percentage" class="mt-2" />
+            <div class="flex w-full justify-between text-white">
+              <p>{{ rate }} mb/s</p>
+              <p>{{ percentage }}%</p>
+              <p>{{ estimated }}s left</p>
+            </div>
           </div>
           <div class="my-4">
             <div class="mb-4">
