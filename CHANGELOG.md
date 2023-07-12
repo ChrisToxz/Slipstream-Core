@@ -1,5 +1,18 @@
 
 
+## [0.4.0](https://github.com/christoxz/slipstream-core/compare/0.3.0...0.4.0) (2023-07-12)
+
+
+### 🚀 Features
+
+* Delete Slip functionality ([#33](https://github.com/christoxz/slipstream-core/issues/33)) ([797768c](https://github.com/christoxz/slipstream-core/commit/797768c339e4cdbffb313fadc7370cb87937d0f0))
+* Use VideoHelper in CreateSlip job ([a8d2606](https://github.com/christoxz/slipstream-core/commit/a8d260618b99b612259684adcd36e094758167e7))
+
+
+### 📦 Code refactoring
+
+* Clean VideoCard.vue ([#32](https://github.com/christoxz/slipstream-core/issues/32)) ([c78bc8e](https://github.com/christoxz/slipstream-core/commit/c78bc8e5c112cf14068e4127383cce385c6cb1fd))
+
 ## [0.3.0](https://github.com/christoxz/slipstream-core/compare/0.2.0...0.3.0) (2023-07-11)
 
 
