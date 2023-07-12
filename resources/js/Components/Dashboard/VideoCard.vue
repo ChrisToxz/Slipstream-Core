@@ -65,14 +65,13 @@ const TypeIcon = computed(() => {
     <div v-if="props.slip.status === 'finished'" class="absolute z-2 w-full flex flex-col justify-between h-full">
       <div class="flex justify-between mt-2 px-2">
         <!-- Top Left Icons -->
-        <div class="flex flex-row text-gray-200 rounded-lg text-center text-sm gap-3" />
+        <div class="flex flex-row text-gray-200 rounded-lg text-center text-sm gap-3">
+          <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+            {{ formattedDuration }}
+          </p>
+        </div>
         <!-- TimeStamp -->
         <div class="flex flex-row gap-3">
-          <div>
-            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
-              {{ formattedDuration }}
-            </p>
-          </div>
           <div>
             <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
               {{ slip.mediable.height }}p
