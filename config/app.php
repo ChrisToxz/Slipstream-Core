@@ -183,7 +183,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
+        'VideoHelper' => App\Helpers\VideoHelper::class
     ])->toArray(),
 
 ];

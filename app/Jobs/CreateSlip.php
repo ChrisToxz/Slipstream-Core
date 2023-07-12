@@ -85,15 +85,6 @@ class CreateSlip implements ShouldQueue
             case VideoType::HLS:
                 $output->writeln("Running HLS Process");
 
-                // TODO: Config or so
-                $qualities = [
-                    2160 => [3840, 2160, 4000],
-                    1440 => [2560, 1440, 3000],
-                    1080 => [1920, 1080, 2000],
-                    720 => [1280, 720, 1000],
-                    480 => [854, 480, 750],
-                    360 => [640, 360, 500],
-                ];
 
                 $ff = FFMpeg::fromDisk('local')
                     ->open($this->tmpPath)
@@ -106,12 +97,14 @@ class CreateSlip implements ShouldQueue
                     });
 
 
-                foreach ($qualities as $quality) {
-//                    if ($ff->getVideoStream()->get('height') >= $quality[1]) {
-                    $ff->addFormat((new X264('libmp3lame', 'libx264'))->setKiloBitrate($quality[2]), function ($media) use ($quality) {
-                        $media->scale($quality[0], $quality[1]);
-                    });
-//                    }
+                foreach (\VideoHelper::getSupportedFormats() as $key => $quality) {
+
+                    if ($ff->getVideoStream()->get('height') >= $quality->height) {
+                        $output->writeln("Quality: {$key} - {$quality->width}x{$quality->height}");
+                        $ff->addFormat((new X264('libmp3lame', 'libx264'))->setKiloBitrate($quality->bitrate), function ($media) use ($quality) {
+                            $media->scale($quality->width, $quality->height);
+                        });
+                    }
                 }
 
                 $ff->useSegmentFilenameGenerator(function ($name, $format, $key, callable $segments, callable $playlist) {
