@@ -66,16 +66,12 @@ const TypeIcon = computed(() => {
       <div class="flex justify-between mt-2 px-2">
         <!-- Top Left Icons -->
         <div class="flex flex-row text-gray-200 rounded-lg text-center text-sm gap-3">
-          <div><p class="bg-[rgba(5,128,197,0.9)] rounded-lg p-1 ">Public</p></div>
-          <div><p class="bg-[rgba(5,128,197,0.9)] rounded-lg p-1">Public</p></div>
+          <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+            {{ formattedDuration }}
+          </p>
         </div>
         <!-- TimeStamp -->
         <div class="flex flex-row gap-3">
-          <div>
-            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
-              {{ formattedDuration }}
-            </p>
-          </div>
           <div>
             <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
               {{ slip.mediable.height }}p
@@ -130,8 +126,8 @@ const TypeIcon = computed(() => {
       @mouseleave="hover = false"
     >
       <!-- Thumbnail -->
-      <img v-if="!hoverEffect" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
-      <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />
+      <img class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
+      <!--      <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />-->
       <DeleteSlipModal v-if="showDeleteModal" :slip="slip" @close="showDeleteModal = false" />
     </span>
   </div>
