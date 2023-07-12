@@ -127,8 +127,8 @@ const TypeIcon = computed(() => {
       @mouseleave="hover = false"
     >
       <!-- Thumbnail -->
-      <img v-if="!hoverEffect" class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
-      <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />
+      <img class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
+      <!--      <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />-->
       <DeleteSlipModal v-if="showDeleteModal" :slip="slip" @close="showDeleteModal = false" />
     </span>
   </div>
