@@ -8,6 +8,7 @@ use App\Jobs\GenerateThumb;
 use App\Jobs\UploadSlip;
 use App\Models\Slip;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -90,6 +91,11 @@ class SlipController extends Controller
 
     public function destroy(Slip $slip)
     {
-        dd($slip);
+        if (!File::deleteDirectory(storage_path('app/public/slips/' . $slip->token))) {
+            return redirect()->back()->withErrors(['message' => 'Something went wrong, Slip have not been deleted!']);
+        }
+
+        $slip->delete();
+        return Redirect::back();
     }
 }
