@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
 
 //        Video::factory(20)->for(Slip::factory(), 'slip')->create();
-        Slip::factory(50)->for(
+        Slip::factory(20)->for(
             Video::factory(), 'mediable'
         )->create();
 //         \App\Models\User::factory()->create([https://laravel.com/docs/10.x/eloquent-factories#polymorphic-relationships

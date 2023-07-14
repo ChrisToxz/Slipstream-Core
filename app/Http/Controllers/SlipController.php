@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\VideoType;
+use App\Events\SlipUploaded;
 use App\Jobs\CreateSlip;
 use App\Jobs\GenerateThumb;
 use App\Jobs\UploadSlip;
 use App\Models\Slip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
-use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
+use Validator;
 
 class SlipController extends Controller
 {
     public function index()
     {
-//        $slips = Slip::latest()->with(['mediable' => function ($q) {
-//            $q->select('id', 'type', 'duration', 'height', 'path');
-//        }])->get();
 
-        $slips = Slip::latest()->with('mediable')->get();
+        $slips = Slip::latest()->with('mediable')->paginate(6);
 
         return inertia('Dashboard', [
             'slips' => $slips
@@ -40,17 +35,15 @@ class SlipController extends Controller
 
     public function store(Request $request)
     {
-        // we need to fix the model binding in form input btw
-        $type = $request->get('type');
-//        $file = new UploadedFile(storage_path('app/' . $request->get('path')), $request->get('originalFileName'));
-//        dd($request->files->set('file', $file));
         /**
          * TODO
          * Validation selected type (Cross check with enum)
          * Validation check correct mimemtypes that we could accept
          * Trigger jobs to save file and run converting if selected
          */
-        $mimeType = Storage::disk('local')->mimeType($request->get('file'));
+
+        $type = $request->get('type');
+        
         $request->validate([
             'title' => 'nullable|string|max:200',
             'description' => 'nullable|string|max:200',
@@ -66,17 +59,18 @@ class SlipController extends Controller
 
         // Generate Thumbnail
         GenerateThumb::dispatchSync($slip, $request->get('file'));
-
         // To the final processing
-
         CreateSlip::dispatch($slip, $request->get('file'), $type);
+        // Dispatch event to reload Dashboard
+        SlipUploaded::dispatch();
+
     }
 
 
     public function tempUpload(Request $request)
     {
         if ($request->file) {
-            $validator = \Validator::make($request->all(), [
+            $validator = Validator::make($request->all(), [
                 'file' => 'file|mimetypes:video/mp4,video/mpeg|max:999999'
             ]);
             if ($validator->fails()) {
@@ -91,7 +85,7 @@ class SlipController extends Controller
 
     public function destroy(Slip $slip)
     {
-        if (!File::deleteDirectory(storage_path('app/public/slips/' . $slip->token))) {
+        if (!File::deleteDirectory(storage_path('app/public/slips/'.$slip->token))) {
             return redirect()->back()->withErrors(['message' => 'Something went wrong, Slip have not been deleted!']);
         }
 

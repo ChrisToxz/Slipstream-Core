@@ -62,9 +62,10 @@ const getUploadedFile = (e) => {
 }
 
 const saveMedia = () => {
-    form.post('/slips', {
-        onSuccess: () => closeModal(),
-    })
+  form.post('/slips', {
+    onSuccess: () => closeModal(),
+  })
+  closeModal()
 }
 
 const closeModal = () => {
