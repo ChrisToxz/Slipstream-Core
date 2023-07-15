@@ -1,13 +1,14 @@
 <script setup>
-import {ref, nextTick, onMounted} from 'vue'
+import {nextTick, onMounted, ref} from 'vue'
 import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
 import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
 import WarningButton from '@/Components/Reusable/WarningButton.vue'
 import ToggleSwitch from '@/Components/Reusable/ToggleSwitch.vue'
-import {router, useForm} from '@inertiajs/vue3'
+import {useForm} from '@inertiajs/vue3'
 import axios from 'axios'
 
-import {useSnackbar, Vue3Snackbar} from 'vue3-snackbar'
+import {useSnackbar} from 'vue3-snackbar'
+
 const snackbar = useSnackbar()
 
 const visitors = ref(true)
@@ -86,22 +87,22 @@ const closeModal = () => {
 
           <p>HLS streaming bitrates (in kb/s)</p>
 
-          <div class="my-8 flex justify-between">
-            <div class="flex flex-col w-5/12 mr-2">
+          <div class="my-8 flex justify-between gap-2">
+            <div class="flex flex-col w-2/6">
               <PrimaryTextInput id="360" v-model="form.streaming_bitrates[360]" />
               <label class="font-light pb-2 text-brand-primary-500" for="360">
                 360p
               </label>
             </div>
 
-            <div class="flex flex-col w-5/12 mr-2">
+            <div class="flex flex-col w-2/6">
               <PrimaryTextInput id="480" v-model="form.streaming_bitrates[480]" />
               <label class="font-light pb-2 text-brand-primary-500" for="480">
                 480p
               </label>
             </div>
 
-            <div class="flex flex-col w-5/12 ml-2">
+            <div class="flex flex-col w-2/6">
               <PrimaryTextInput id="720" v-model="form.streaming_bitrates[720]" />
               <label class="font-light pb-2 text-brand-primary-500" for="720">
                 720p
@@ -109,31 +110,27 @@ const closeModal = () => {
             </div>
           </div>
 
-          <div class="mb-8 flex justify-between">
-            <div class="flex flex-col w-5/12 mr-2">
+          <div class="mb-8 flex justify-between gap-2">
+            <div class="flex flex-col w-2/6">
               <PrimaryTextInput id="1080" v-model="form.streaming_bitrates[1080]" />
               <label class="font-light pb-2 text-brand-primary-500" for="1080">
                 1080p
               </label>
             </div>
 
-            <div class="flex flex-col w-5/12 ml-2">
+            <div class="flex flex-col w-2/6">
               <PrimaryTextInput id="1440" v-model="form.streaming_bitrates[1440]" />
               <label class="font-light pb-2 text-brand-primary-500" for="1440">
                 1440p
               </label>
             </div>
-          </div>
 
-          <div class="mb-8 flex justify-between">
-            <div class="flex flex-col w-5/12 mr-2">
+            <div class="flex flex-col w-2/6">
               <PrimaryTextInput id="2160" v-model="form.streaming_bitrates[2160]" />
               <label class="font-light pb-2 text-brand-primary-500" for="2160">
                 2160p
               </label>
             </div>
-
-            <div class="flex flex-col w-5/12 ml-2" />
           </div>
         </div>
       </div>
