@@ -1,5 +1,5 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import {Link} from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
 import moment from 'moment'
 import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipModal.vue'
@@ -66,20 +66,20 @@ const TypeIcon = computed(() => {
       <div class="flex justify-between mt-2 px-2">
         <!-- Top Left Icons -->
         <div class="flex flex-row text-gray-200 rounded-lg text-center text-sm gap-3">
-          <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+          <p v-tooltip="{content: 'Duration', placement:'bottom'}" class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
             {{ formattedDuration }}
           </p>
         </div>
         <!-- TimeStamp -->
         <div class="flex flex-row gap-3">
           <div>
-            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+            <p v-tooltip="{content: 'Resolution', placement:'bottom'}" class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
               {{ slip.mediable.height }}p
             </p>
           </div>
           <div>
             <div class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
-              <TypeIcon />
+              <TypeIcon v-tooltip="{content: 'Type', placement:'bottom'}" />
             </div>
           </div>
         </div>
@@ -103,13 +103,13 @@ const TypeIcon = computed(() => {
         </div>
         <div class="flex self-center h-5/6">
           <ul class="flex text-3xl">
-            <li class="bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700 mr-2">
+            <li v-tooltip="'Edit'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
               <Settings color="white" width="25" height="25" />
             </li>
-            <li class="px-1 bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700 mr-2">
+            <li v-tooltip="'Download'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
               <Download color="white" width="25" height="25" />
             </li>
-            <li class="px-1 bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700">
+            <li v-tooltip="'Delete'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500">
               <Trash color="white" width="25" height="25" @click="showDeleteModal = true" />
             </li>
           </ul>
