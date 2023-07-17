@@ -65,7 +65,6 @@ const saveMedia = () => {
   form.post('/slips', {
     onSuccess: () => closeModal(),
   })
-  closeModal()
 }
 
 const closeModal = () => {
