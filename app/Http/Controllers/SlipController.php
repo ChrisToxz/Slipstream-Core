@@ -43,7 +43,7 @@ class SlipController extends Controller
          */
 
         $type = $request->get('type');
-        
+
         $request->validate([
             'title' => 'nullable|string|max:200',
             'description' => 'nullable|string|max:200',
@@ -81,6 +81,25 @@ class SlipController extends Controller
             'originalFileName' => $request->file->getClientOriginalName(),
             'tmpPath' => $request->file->store('tmp')
         ]);
+    }
+
+    public function update(Request $request, Slip $slip)
+    {
+        $type = $request->get('type');
+
+        $request->validate([
+            'title' => 'nullable|string|max:200',
+            'description' => 'nullable|string|max:200',
+        ]);
+
+        $title = $request->title ?: $request->get('originalFileName');
+
+        $slip->update([
+            'title' => $title,
+            'description' => $request->description
+        ]);
+
+        return Redirect::back();
     }
 
     public function destroy(Slip $slip)

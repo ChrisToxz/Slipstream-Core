@@ -18,6 +18,13 @@ const hoverEffect = ref(false)
 const hover = ref(false)
 let showDeleteModal = ref(false)
 
+const emit = defineEmits(['editSlip', 'openModal'])
+
+const editSlip = (slip) => {
+  emit('editSlip', slip)
+  emit('openModal')
+}
+
 const props = defineProps({
   slip: Object,
 })
@@ -104,7 +111,7 @@ const TypeIcon = computed(() => {
         <div class="flex self-center h-5/6">
           <ul class="flex text-3xl">
             <li v-tooltip="'Edit'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
-              <Settings color="white" width="25" height="25" />
+              <Settings color="white" width="25" height="25" @click="editSlip(slip)" />
             </li>
             <li v-tooltip="'Download'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
               <Download color="white" width="25" height="25" />

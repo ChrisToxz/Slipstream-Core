@@ -4,8 +4,19 @@ import {useSnackbar, Vue3Snackbar} from 'vue3-snackbar'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/Dashboard/VideoCard.vue'
 import {onMounted, reactive, ref} from 'vue'
+import EditSlipModal from '@/Components/Edit/EditSlipModal.vue'
 
 const snackbar = useSnackbar()
+const showEditSlip = ref(false)
+let slip = ref({})
+
+const openModal = () => {
+  showEditSlip.value = !showEditSlip.value
+}
+
+const handleEditSlip = (updatedSlip) => {
+  slip.value = updatedSlip
+}
 
 const props = defineProps({
   slips: Object,
@@ -81,12 +92,13 @@ window.Echo.channel('ss').listen('SlipUploaded', (e) => {
   <MainLayout>
     <div class="w-full flex justify-center">
       <div class="w-[calc(100%-3rem)] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-7">
-        <VideoCard v-for="slip in allSlips.data" :key="slip.token" :slip="slip" />
+        <VideoCard v-for="slip in allSlips.data" :key="slip.token" :slip="slip" @editSlip="handleEditSlip" @openModal="openModal" />
       </div>
     </div>
     <span ref="loadMoreIntersect" />
   </MainLayout>
   <vue3-snackbar top right />
+  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" />
 </template>
 <style>
 </style>
