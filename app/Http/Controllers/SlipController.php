@@ -14,10 +14,16 @@ use Validator;
 
 class SlipController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
 
-        $slips = Slip::latest()->with('mediable')->paginate(6);
+        $slips = Slip::latest()->with('mediable')
+            ->paginate(3)
+            ->withQueryString();
+
+        if ($request->wantsJson()) {
+            return $slips;
+        }
 
         return inertia('Dashboard', [
             'slips' => $slips
@@ -43,7 +49,7 @@ class SlipController extends Controller
          */
 
         $type = $request->get('type');
-        
+
         $request->validate([
             'title' => 'nullable|string|max:200',
             'description' => 'nullable|string|max:200',
