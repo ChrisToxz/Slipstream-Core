@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SlipUpdated;
 use App\Events\SlipUploaded;
 use App\Jobs\CreateSlip;
 use App\Jobs\GenerateThumb;
@@ -100,7 +99,7 @@ class SlipController extends Controller
             'description' => $request->description
         ]);
 
-        broadcast(new SlipUpdated($slip));
+        return Redirect::back();
     }
 
     public function destroy(Slip $slip)

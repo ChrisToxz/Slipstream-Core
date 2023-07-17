@@ -22,24 +22,6 @@ const props = defineProps({
   slips: Object,
 })
 
-window.Echo.channel('ss').listen('SlipUpdated', (e) => {
-  console.log('SlipUdated event received:', e.slip)
-  // Find the updated slip in your slips data and update it.
-  allSlips.data.unshift(e.slip)
-  window.history.replaceState({}, '' , initUrl)
-
-  // Show the update success snackbar
-  showUpdateSuccess()
-})
-
-
-const showUpdateSuccess = () => {
-  snackbar.add({
-    type: 'success',
-    text: 'Slip updated successfully',
-  })
-}
-
 let allSlips = reactive({data: props.slips.data})
 const initUrl = usePage().url
 const loadMoreIntersect = ref(null)
@@ -116,7 +98,7 @@ window.Echo.channel('ss').listen('SlipUploaded', (e) => {
     <span ref="loadMoreIntersect" />
   </MainLayout>
   <vue3-snackbar top right />
-  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" @slipUpdated="showUpdateSuccess" />
+  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" />
 </template>
 <style>
 </style>
