@@ -25,7 +25,7 @@ const props = defineProps({
   slip: Object,
 })
 
-let slip = ref(props.slip)
+let slip = ref(computed(() => props.slip))
 
 console.log(slip)
 
@@ -50,7 +50,7 @@ const formattedDuration = computed(
 const percentage = ref(0)
 const status = ref('Preparing...')
 
-window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) => {
+window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) => {
   percentage.value = e.percentage
   status.value = e.status
 })
@@ -74,7 +74,7 @@ const TypeIcon = computed(() => {
 <template>
   <!-- Main Wrapper -->
   <div class="bg-white bg-opacity-10 flex relative rounded-lg z-0 aspect-video shadow-md overflow-hidden transition-all duration-500 ease-in-out" @mouseover="hoverEffect = true" @mouseleave="hoverEffect = false">
-    <div v-if="props.slip.status === 'finished'" class="absolute z-2 w-full flex flex-col justify-between h-full">
+    <div v-if="slip.status === 'finished'" class="absolute z-2 w-full flex flex-col justify-between h-full">
       <div class="flex justify-between mt-2 px-2">
         <!-- Top Left Icons -->
         <div class="flex flex-row text-gray-200 rounded-lg text-center text-sm gap-3">
@@ -128,7 +128,7 @@ const TypeIcon = computed(() => {
         </div>
       </div>
     </div>
-    <div v-if="props.slip.status != 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
+    <div v-if="slip.status != 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
       <ProgressBar :percentage="percentage" />
       <p class="text-gray-200 pt-2">{{ percentage }}%</p>
       <p class="text-gray-200 pb-2">{{ status }} - {{ slip.title }}</p>

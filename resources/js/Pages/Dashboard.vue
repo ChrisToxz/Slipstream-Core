@@ -5,7 +5,6 @@ import {useSnackbar} from 'vue3-snackbar'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/Dashboard/VideoCard.vue'
 import {computed, onMounted, ref} from 'vue'
-import EditSlipModal from '@/Components/Edit/EditSlipModal.vue'
 
 const snackbar = useSnackbar()
 let slip = ref({})
@@ -95,7 +94,7 @@ window.Echo.channel('ss').listen('SlipProcessFinished', (e) => {
   <MainLayout>
     <div class="w-full flex justify-center">
       <div class="w-[calc(100%-3rem)] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-7">
-        <VideoCard v-for="slip in slips.data" :key="slip.token" :slip="slip" @editSlip="handleEditSlip" @openModal="openModal" />
+        <VideoCard v-for="slip in slips.data" :key="slip.token" :slip="slip" />
       </div>
     </div>
     <span ref="loadMoreIntersect" />
