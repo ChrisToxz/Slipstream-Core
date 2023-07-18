@@ -25,12 +25,11 @@ const props = defineProps({
   slip: Object,
 })
 
-let slip = ref(computed(() => props.slip))
+const slipData = ref(null)
 
-console.log(slip)
-
+let slip = ref(computed(() => slipData.value ? slipData.value : props.slip))
 const newData = (n) => {
-  slip.value = n
+  slipData.value = n
   console.log(slip.value)
 }
 
