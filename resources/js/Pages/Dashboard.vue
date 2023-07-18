@@ -11,6 +11,21 @@ const snackbar = useSnackbar()
 const showEditSlip = ref(false)
 let slip = ref({})
 
+
+function test(v){
+  const existingIndex = slips.value.data.findIndex(slip => slip.id === v.id)
+
+  if (existingIndex !== -1) {
+    // Update existing slip
+    slips.value.data.splice(existingIndex, 1, v)
+  } else {
+    // Add new slip
+    slips.value.data.push(v)
+  }
+}
+
+
+
 const openModal = () => {
   showEditSlip.value = !showEditSlip.value
 }
@@ -96,7 +111,7 @@ window.Echo.channel('ss').listen('SlipProcessFinished', (e) => {
     </div>
   </MainLayout>
   <vue3-snackbar top right />
-  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" />
+  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" @data="test($event)" />
 </template>
 <style>
 </style>

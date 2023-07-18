@@ -51,7 +51,7 @@ class SlipController extends Controller
         $type = $request->get('type');
 
         $request->validate([
-            'title' => 'nullable|string|max:200',
+            'title' => 'nullable|string|max:1',
             'description' => 'nullable|string|max:200',
 //            'file' => 'file|mimetypes:video/mp4,video/mpeg|max:99999'
         ]);
@@ -93,10 +93,17 @@ class SlipController extends Controller
     {
         $type = $request->get('type');
 
-        $request->validate([
-            'title' => 'nullable|string|max:200',
+        $validator = Validator::make($request->all(), [
+            'title' => 'nullable|string|max:1',
             'description' => 'nullable|string|max:200',
         ]);
+
+        if ($validator->fails()) {
+            if ($request->wantsJson()) {
+                return request()->json($validator->errors());
+            }
+
+        }
 
         $title = $request->title ?: $request->get('originalFileName');
 
@@ -105,7 +112,9 @@ class SlipController extends Controller
             'description' => $request->description
         ]);
 
-        return redirect()->route('slips.index');
+        if ($request->wantsJson()) {
+            return $slip->load('mediable');
+        }
     }
 
     public function destroy(Slip $slip)

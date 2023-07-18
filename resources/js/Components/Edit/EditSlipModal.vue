@@ -6,7 +6,7 @@ import PrimaryTextarea from '@/Components/Reusable/PrimaryTextarea.vue'
 import PrimarySelect from '@/Components/Reusable/PrimarySelect.vue'
 import {useForm} from '@inertiajs/vue3'
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'data'])
 
 const props = defineProps({
   slip: Object,
@@ -19,10 +19,14 @@ const form = useForm({
 })
 
 const updateSlip = () => {
-  form.put('/slips/' + props.slip.token, {
-    onSuccess: () => closeModal(),
-  })
-  closeModal()
+  // eslint-disable-next-line no-undef
+  axios.put('/slips/' + props.slip.token, {title: form.title, description: form.description, type: form.type})
+    .then(response => {
+      console.log(response)
+      emit('data', response.data)
+      emit('close')
+    },
+    )
 }
 
 const closeModal = () => {
