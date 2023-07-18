@@ -1,13 +1,16 @@
 <script setup>
 import axios from 'axios'
 import {Head, router, usePage} from '@inertiajs/vue3'
-import {useSnackbar} from 'vue3-snackbar'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/Dashboard/VideoCard.vue'
 import {computed, onMounted, ref} from 'vue'
+import useSlipSockets from '@/Composables/useSlipSockets.js'
+import {useSnackbar} from 'vue3-snackbar'
+import useInfiniteScrolling from '@/Composables/useInfiniteScrolling.js'
+
+let slip = ref({})
 
 const snackbar = useSnackbar()
-let slip = ref({})
 
 
 function test(v){
@@ -37,56 +40,9 @@ const slips = ref(computed(() => usePage().props.slips))
 const isFetching = ref(false)
 const loadMoreIntersect = ref(null)
 
-const fetchSlips = async () => {
-  const next_url = slips.value.next_page_url
+useInfiniteScrolling()
 
-  if(!next_url) return
-
-  isFetching.value = true
-  await axios.get(next_url)
-    .then((response) => {
-      slips.value.data.push(...response.data.data)
-      slips.value.next_page_url = response.data.next_page_url
-      console.log(slips.value.meta)
-      isFetching.value = false
-    })
-}
-onMounted(() => {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        fetchSlips()
-      }
-    })
-  }, {
-    rootMargin: '-100px 0px 0px 0px',
-  })
-  observer.observe(loadMoreIntersect.value)
-})
-
-/* Websockets
-    TODO: Move to composable
- */
-window.Echo.channel('ss').listen('SlipProcessFinished', (e) => {
-  router.reload({
-    preserveState: true,
-    only:['slips'],
-    onSuccess: (page) => {
-      // I had to move this to success, so toastr doesn't appear double
-      if(!e.failed){
-        snackbar.add({
-          type:'success',
-          text: 'Slip successfully processed',
-        })
-      }else{
-        snackbar.add({
-          type:'error',
-          text: 'Processing failed for ' + e.slip.title,
-        })
-      }
-    },
-  })
-})
+useSlipSockets(snackbar)
 </script>
 
 <template>
