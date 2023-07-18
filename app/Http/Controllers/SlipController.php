@@ -18,7 +18,7 @@ class SlipController extends Controller
     {
 
         $slips = Slip::latest()->with('mediable')
-            ->paginate(3)
+            ->paginate(6)
             ->withQueryString();
 
         if ($request->wantsJson()) {
@@ -105,7 +105,7 @@ class SlipController extends Controller
             'description' => $request->description
         ]);
 
-        return Redirect::back();
+        return redirect()->route('slips.index');
     }
 
     public function destroy(Slip $slip)
