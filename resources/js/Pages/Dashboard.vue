@@ -8,7 +8,6 @@ import {computed, onMounted, ref} from 'vue'
 import EditSlipModal from '@/Components/Edit/EditSlipModal.vue'
 
 const snackbar = useSnackbar()
-const showEditSlip = ref(false)
 let slip = ref({})
 
 
@@ -111,7 +110,6 @@ window.Echo.channel('ss').listen('SlipProcessFinished', (e) => {
     </div>
   </MainLayout>
   <vue3-snackbar top right />
-  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" @data="test($event)" />
 </template>
 <style>
 </style>

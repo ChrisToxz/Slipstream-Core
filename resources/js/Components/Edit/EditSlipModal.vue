@@ -36,7 +36,7 @@ const closeModal = () => {
 </script>
 
 <template>
-  <div class="backdrop-blur-sm w-full h-full fixed top-0 left-0">
+  <div class="backdrop-blur-sm w-full h-full fixed top-0 left-0 z-10">
     <div class="flex flex-col absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-[rgba(0,0,0,0.8)] rounded-2xl w-3/4">
       <div class="my-4 mx-20">
         <p class="text-gray-200 text-center text-xl">Editing {{ slip.title }}</p>

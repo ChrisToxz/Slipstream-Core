@@ -93,19 +93,7 @@ class SlipController extends Controller
     {
         $type = $request->get('type');
 
-        $validator = Validator::make($request->all(), [
-            'title' => 'nullable|string|max:1',
-            'description' => 'nullable|string|max:200',
-        ]);
-
-        if ($validator->fails()) {
-            if ($request->wantsJson()) {
-                return request()->json($validator->errors());
-            }
-
-        }
-
-        $title = $request->title ?: $request->get('originalFileName');
+        $title = $request->title;
 
         $slip->update([
             'title' => $title,

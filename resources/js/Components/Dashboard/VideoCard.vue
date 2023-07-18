@@ -13,25 +13,30 @@ import Trash from '~icons/mdi/trash'
 import OriginalType from '~icons/mdi/video'
 import OptimizedType from '~icons/ph/video'
 import StreamableType from '~icons/solar/play-stream-bold'
+import EditSlipModal from '@/Components/Edit/EditSlipModal.vue'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
 let showDeleteModal = ref(false)
 
-const emit = defineEmits(['editSlip', 'openModal'])
-
-const editSlip = (slip) => {
-  emit('editSlip', slip)
-  emit('openModal')
-}
+const showEditSlip = ref(false)
 
 const props = defineProps({
   slip: Object,
 })
 
+let slip = ref(props.slip)
+
+console.log(slip)
+
+const newData = (n) => {
+  slip.value = n
+  console.log(slip.value)
+}
+
 // Create Timestamp
 const relativeTime = computed(
-  () => moment(props.slip.created_at).fromNow(),
+  () => moment(slip.value.created_at).fromNow(),
 )
 
 // const formattedDuration = computed(
@@ -39,7 +44,7 @@ const relativeTime = computed(
 // )
 
 const formattedDuration = computed(
-  () =>moment.utc(props.slip.mediable.duration*1000).format('mm:ss'),
+  () =>moment.utc(slip.value.mediable.duration*1000).format('mm:ss'),
 )
 
 const percentage = ref(0)
@@ -52,7 +57,7 @@ window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) 
 
 const TypeIcon = computed(() => {
 
-  switch (props.slip.mediable.type) {
+  switch (slip.value.mediable.type) {
   case 1:
     return OriginalType
   case 2:
@@ -111,7 +116,7 @@ const TypeIcon = computed(() => {
         <div class="flex self-center h-5/6">
           <ul class="flex text-3xl">
             <li v-tooltip="'Edit'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
-              <Settings color="white" width="25" height="25" @click="editSlip(slip)" />
+              <Settings color="white" width="25" height="25" @click="showEditSlip = true" />
             </li>
             <li v-tooltip="'Download'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
               <Download color="white" width="25" height="25" />
@@ -137,6 +142,6 @@ const TypeIcon = computed(() => {
       <!--      <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />-->
       <DeleteSlipModal v-if="showDeleteModal" :slip="slip" @close="showDeleteModal = false" />
     </span>
-    <slot />
   </div>
+  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" @data="newData($event)" />
 </template>
