@@ -19,19 +19,15 @@ const form = useForm({
 })
 
 const updateSlip = () => {
-  // eslint-disable-next-line no-undef
   axios.put('/slips/' + props.slip.token, {title: form.title, description: form.description, type: form.type})
     .then(response => {
-      console.log(response)
       emit('data', response.data)
       emit('close')
     },
     )
 }
 
-
 const closeModal = () => {
-  // form.reset()
   emit('close')
 }
 </script>
