@@ -34,8 +34,12 @@ const updateSlipsProps = (slip) => {
 }
 
 const created_at = relativeTime(props.slip.created_at)
-const duration = formattedDuration(props.slip.mediable.duration)
-const icon = iconType(props.slip.mediable.type)
+const duration = computed(() => {
+  return formattedDuration(props.slip.mediable.duration)
+})
+const icon = computed(() => {
+  return iconType(props.slip.mediable.type)
+})
 
 const percentage = ref(0)
 const status = ref('Preparing...')
