@@ -1,24 +1,24 @@
 <script setup>
 import {Link} from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
-import moment from 'moment'
 import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipDialog.vue'
 import EditSlipModal from '@/Components/Dashboard/EditSlipModal.vue'
-
+import {relativeTime} from '@/Composables/useRelativeTime.js'
 import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
 
-import Settings from '~icons/ic/baseline-video-settings'
-import Download from '~icons/ion/download'
-import Trash from '~icons/mdi/trash'
 import OriginalType from '~icons/mdi/video'
 import OptimizedType from '~icons/ph/video'
 import StreamableType from '~icons/solar/play-stream-bold'
+import Settings from '~icons/ic/baseline-video-settings'
+import Download from '~icons/ion/download'
+import Trash from '~icons/mdi/trash'
+import {formattedDuration} from '@/Composables/useFormattedDuration.js'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
 
 const showEditSlip = ref(false)
-let showDeleteDialog = ref(false)
+const showDeleteDialog = ref(false)
 
 const props = defineProps({
   slip: Object,
@@ -35,25 +35,9 @@ const updateSlipsProps = (slip) => {
   slipProps.value = slip
 }
 
-// Create Timestamp
-const relativeTime = computed(
-  () => moment(slip.value.created_at).fromNow(),
-)
-
-const formattedDuration = computed(
-  () =>moment.utc(slip.value.mediable.duration*1000).format('mm:ss'),
-)
-
-const percentage = ref(0)
-const status = ref('Preparing...')
-
-window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) => {
-  percentage.value = e.percentage
-  status.value = e.status
-})
-
-const TypeIcon = computed(() => {
-
+const created_at = relativeTime(props.slip.created_at)
+const duration = formattedDuration(props.slip.mediable.duration)
+const iconType = computed(() => {
   switch (slip.value.mediable.type) {
   case 1:
     return OriginalType
@@ -66,6 +50,17 @@ const TypeIcon = computed(() => {
   }
 })
 
+
+const percentage = ref(0)
+const status = ref('Preparing...')
+
+window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) => {
+  percentage.value = e.percentage
+  status.value = e.status
+})
+
+
+
 </script>
 
 <template>
@@ -76,7 +71,7 @@ const TypeIcon = computed(() => {
         <!-- Top Left Icons -->
         <div class="flex flex-row text-gray-200 rounded-lg text-center text-sm gap-3">
           <p v-tooltip="{content: 'Duration', placement:'bottom'}" class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
-            {{ formattedDuration }}
+            {{ duration }}
           </p>
         </div>
         <!-- TimeStamp -->
@@ -88,7 +83,7 @@ const TypeIcon = computed(() => {
           </div>
           <div>
             <div class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
-              <TypeIcon v-tooltip="{content: 'Type', placement:'bottom'}" />
+              <iconType v-tooltip="{content: 'Type', placement:'bottom'}" />
             </div>
           </div>
         </div>
@@ -107,7 +102,7 @@ const TypeIcon = computed(() => {
             {{ slip.description }}
           </p>
           <p class="text-sm text-gray-500">
-            Created {{ relativeTime }}
+            Created {{ created_at }}
           </p>
         </div>
         <div class="flex self-center h-5/6">
