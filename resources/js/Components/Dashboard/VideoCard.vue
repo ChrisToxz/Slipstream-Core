@@ -10,7 +10,7 @@ import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
 import {formattedDuration} from '@/Composables/useFormattedDuration.js'
-import useIconType from '@/Composables/useIconType.js'
+import iconType from '@/Composables/useIconType.js'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
@@ -35,9 +35,7 @@ const updateSlipsProps = (slip) => {
 
 const created_at = relativeTime(props.slip.created_at)
 const duration = formattedDuration(props.slip.mediable.duration)
-const iconType = computed(() => {
-  return useIconType(props.slip.mediable.type)
-})
+const icon = iconType(props.slip.mediable.type)
 
 const percentage = ref(0)
 const status = ref('Preparing...')
@@ -69,7 +67,7 @@ window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) 
           </div>
           <div>
             <div class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
-              <iconType v-tooltip="{content: 'Type', placement:'bottom'}" />
+              <icon v-tooltip="{content: 'Type', placement:'bottom'}" />
             </div>
           </div>
         </div>

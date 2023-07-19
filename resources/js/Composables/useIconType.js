@@ -2,7 +2,7 @@ import OriginalType from '~icons/mdi/video'
 import OptimizedType from '~icons/ph/video'
 import StreamableType from '~icons/solar/play-stream-bold'
 
-const useIconType = (type) => {
+const iconType = (type) => {
   switch (type) {
   case 1:
     return OriginalType
@@ -15,4 +15,4 @@ const useIconType = (type) => {
   }
 }
 
-export default useIconType
+export default iconType
