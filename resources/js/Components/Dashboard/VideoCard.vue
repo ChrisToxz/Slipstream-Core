@@ -3,14 +3,14 @@ import {Link} from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
 import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipDialog.vue'
 import EditSlipModal from '@/Components/Dashboard/EditSlipModal.vue'
-import {relativeTime} from '@/Composables/useRelativeTime.js'
 import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
+
+import {formattedDuration, relativeTime} from '@/Composables/useTimeManipulation.js'
+import iconType from '@/Composables/useIconType.js'
 
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
-import {formattedDuration} from '@/Composables/useFormattedDuration.js'
-import iconType from '@/Composables/useIconType.js'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
