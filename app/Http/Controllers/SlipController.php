@@ -91,14 +91,18 @@ class SlipController extends Controller
 
     public function update(Request $request, Slip $slip)
     {
-        $type = $request->get('type');
-
-        $title = $request->title;
-
-        $slip->update([
-            'title' => $title,
-            'description' => $request->description
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string|max:200',
+            ]);
+        } catch (ValidationException $ex) {
+            if ($request->wantsJson()) {
+                return response()->json(['errors' => $ex->errors()], 422);
+            }
+        }
+        
+        $slip->update($validated);
 
         if ($request->wantsJson()) {
             return $slip->load('mediable');
@@ -110,7 +114,6 @@ class SlipController extends Controller
         if (!File::deleteDirectory(storage_path('app/public/slips/'.$slip->token))) {
             return redirect()->back()->withErrors(['message' => 'Something went wrong, Slip have not been deleted!']);
         }
-
         $slip->delete();
         return Redirect::back();
     }

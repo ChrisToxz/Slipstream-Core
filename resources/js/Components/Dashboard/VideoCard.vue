@@ -26,10 +26,6 @@ const slipProps = ref(null)
 
 let slip = ref(computed(() => slipProps.value ? slipProps.value : props.slip))
 const updateSlipsProps = (slip) => {
-  $snackbar.add({
-    type: 'success',
-    text: 'Slip successfully updated!',
-  })
   slipProps.value = slip
 }
 

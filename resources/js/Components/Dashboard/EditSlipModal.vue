@@ -3,8 +3,9 @@ import WarningButton from '@/Components/Reusable/WarningButton.vue'
 import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
 import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
 import PrimaryTextarea from '@/Components/Reusable/PrimaryTextarea.vue'
-import PrimarySelect from '@/Components/Reusable/PrimarySelect.vue'
 import {useForm} from '@inertiajs/vue3'
+import {ref} from 'vue'
+import AxiosFormError from '@/Components/Reusable/AxiosFormError.vue'
 
 const emit = defineEmits(['close', 'data'])
 
@@ -18,13 +19,21 @@ const form = useForm({
   type: props.slip.type,
 })
 
+const errors = ref({})
+
 const updateSlip = () => {
   axios.put('/slips/' + props.slip.token, {title: form.title, description: form.description, type: form.type})
     .then(response => {
+      $snackbar.add({
+        type: 'success',
+        text: 'Slip have been updated successfully!',
+      })
       emit('data', response.data)
       emit('close')
     },
-    )
+    ).catch((error) => {
+      errors.value = error.response.data.errors
+    })
 }
 
 const closeModal = () => {
@@ -40,19 +49,13 @@ const closeModal = () => {
 
         <label class="text-gray-200">Title</label>
         <PrimaryTextInput v-model="form.title" />
-        <p v-if="form.errors.title" class="text-red-500 font-extrabold">{{ form.errors.title }}</p>
+        <AxiosFormError :errors="errors.title" />
+
 
         <label class="text-gray-200">Description</label>
         <PrimaryTextarea v-model="form.description" />
         <p v-if="form.errors.description" class="text-red-500 font-extrabold">{{ form.errors.description }}</p>
-
-        <label class="text-gray-200">Type</label>
-        <PrimarySelect v-model="form.type">
-          <option value="1">None (Original file)</option>
-          <option value="2">Optimized for web (264)</option>
-          <option value="3">Optimized for streaming (x264/HLS)</option>
-        </PrimarySelect>
-        <div v-if="form.errors.type" class="text-red-500 font-extrabold">{{ form.errors.type }}</div>
+        <AxiosFormError :errors="errors.description" />
 
         <div class="flex text-gray-200 mt-6 justify-around">
           <div class="w-1/4">
