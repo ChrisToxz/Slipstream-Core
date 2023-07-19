@@ -3,8 +3,8 @@ import {Head, usePage} from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/Dashboard/VideoCard.vue'
 import {computed, ref} from 'vue'
-import useSlipSockets from '@/Composables/useSlipSockets.js'
 import {useSnackbar} from 'vue3-snackbar'
+import useSlipSockets from '@/Composables/useSlipSockets.js'
 import {useInfiniteScrolling} from '@/Composables/useInfiniteScrolling.js'
 
 const slips = ref(computed(() => usePage().props.slips))
