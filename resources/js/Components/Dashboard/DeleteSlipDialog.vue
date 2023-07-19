@@ -1,25 +1,24 @@
 <script setup>
-import { router } from '@inertiajs/vue3'
+import {router} from '@inertiajs/vue3'
 import WarningButton from '@/Components/Reusable/WarningButton.vue'
 import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
-import {useSnackbar} from 'vue3-snackbar'
+
 const props = defineProps({
   slip: Object,
 })
-const snackbar = useSnackbar()
 const emit = defineEmits(['close'])
 
 const deleteSlip = () => {
   router.delete(`/slips/${props.slip.token}`, {
     onSuccess: () => {
-      snackbar.add({
+      $snackbar.add({
         type:'success',
         text: 'Slip successfully removed!',
       })
     },
 
     onError: (error) => {
-      snackbar.add({
+      $snackbar.add({
         type: 'error',
         text: error.message,
       })
