@@ -2,45 +2,43 @@
 import {Link} from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
 import moment from 'moment'
-import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipModal.vue'
+import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipDialog.vue'
+import EditSlipModal from '@/Components/Dashboard/EditSlipModal.vue'
 
 import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
 
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
-
 import OriginalType from '~icons/mdi/video'
 import OptimizedType from '~icons/ph/video'
 import StreamableType from '~icons/solar/play-stream-bold'
-import EditSlipModal from '@/Components/Edit/EditSlipModal.vue'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
-let showDeleteModal = ref(false)
 
 const showEditSlip = ref(false)
+let showDeleteDialog = ref(false)
 
 const props = defineProps({
   slip: Object,
 })
 
-const slipData = ref(null)
+const slipProps = ref(null)
 
-let slip = ref(computed(() => slipData.value ? slipData.value : props.slip))
-const newData = (n) => {
-  slipData.value = n
-  console.log(slip.value)
+let slip = ref(computed(() => slipProps.value ? slipProps.value : props.slip))
+const updateSlipsProps = (slip) => {
+  $snackbar.add({
+    type: 'success',
+    text: 'Slip successfully updated!',
+  })
+  slipProps.value = slip
 }
 
 // Create Timestamp
 const relativeTime = computed(
   () => moment(slip.value.created_at).fromNow(),
 )
-
-// const formattedDuration = computed(
-//   () => moment.utc(props.slip.mediable.duration * 1000).format('mm:ss'),
-// )
 
 const formattedDuration = computed(
   () =>moment.utc(slip.value.mediable.duration*1000).format('mm:ss'),
@@ -114,14 +112,14 @@ const TypeIcon = computed(() => {
         </div>
         <div class="flex self-center h-5/6">
           <ul class="flex text-3xl">
-            <li v-tooltip="'Edit'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
-              <Settings color="white" width="25" height="25" @click="showEditSlip = true" />
+            <li v-tooltip="'Edit'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2" @click="showEditSlip = true">
+              <Settings color="white" width="25" height="25" />
             </li>
             <li v-tooltip="'Download'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
               <Download color="white" width="25" height="25" />
             </li>
-            <li v-tooltip="'Delete'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500">
-              <Trash color="white" width="25" height="25" @click="showDeleteModal = true" />
+            <li v-tooltip="'Delete'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500" @click="showDeleteDialog = true">
+              <Trash color="white" width="25" height="25" />
             </li>
           </ul>
         </div>
@@ -139,8 +137,8 @@ const TypeIcon = computed(() => {
       <!-- Thumbnail -->
       <img class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
       <!--      <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />-->
-      <DeleteSlipModal v-if="showDeleteModal" :slip="slip" @close="showDeleteModal = false" />
+      <DeleteSlipModal v-if="showDeleteDialog" :slip="slip" @close="showDeleteDialog = false" />
     </span>
   </div>
-  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" @data="newData($event)" />
+  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" @data="updateSlipsProps($event)" />
 </template>
