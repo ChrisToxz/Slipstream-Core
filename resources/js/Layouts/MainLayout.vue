@@ -3,7 +3,6 @@ import {ref} from 'vue'
 import NavItem from '@/Components/Reusable/NavItem.vue'
 import ApplicationLogo from '@/Components/Reusable/ApplicationLogo.vue'
 import UploadModal from '@/Components/Upload/UploadModal.vue'
-import SettingsModal from '@/Components/Settings/SettingsModal.vue'
 import {Vue3Snackbar} from 'vue3-snackbar'
 
 let showUploadModal = ref(false)
@@ -38,7 +37,7 @@ let showSettingsModal = ref(false)
   </div>
   <UploadModal v-if="showUploadModal" @close="showUploadModal = false" />
   <transition name="modal">
-    <SettingsModal v-if="showSettingsModal" @close="showSettingsModal = false" />
+    <SettingsMosdal v-if="showSettingsModal" @close="showSettingsModal = false" />
   </transition>
   <vue3-snackbar top right />
 </template>

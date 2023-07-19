@@ -1,7 +1,10 @@
 import axios from 'axios'
-import {onMounted} from 'vue'
+import {onMounted, onUnmounted, ref} from 'vue'
 
-const useInfiniteScrolling = () => {
+
+const isFetching = ref(false)
+const loadMoreIntersect = ref(null)
+export const useInfiniteScrolling = (slips) => {
   const fetchSlips = async () => {
     const next_url = slips.value.next_page_url
 
@@ -16,18 +19,21 @@ const useInfiniteScrolling = () => {
         isFetching.value = false
       })
   }
-  onMounted(() => {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          fetchSlips()
-        }
-      })
-    }, {
-      rootMargin: '-100px 0px 0px 0px',
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        fetchSlips()
+      }
     })
-    observer.observe(loadMoreIntersect.value)
+  }, {
+    rootMargin: '-100px 0px 0px 0px',
   })
+  onMounted(() => observer.observe(loadMoreIntersect.value))
+
+  onUnmounted(() => observer.disconnect())
+
+  return {loadMoreIntersect, isFetching}
 }
 
-export default useInfiniteScrolling
+

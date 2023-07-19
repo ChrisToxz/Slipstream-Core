@@ -1,18 +1,15 @@
 <script setup>
-import axios from 'axios'
-import {Head, router, usePage} from '@inertiajs/vue3'
+import {Head, usePage} from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/Dashboard/VideoCard.vue'
-import {computed, onMounted, ref} from 'vue'
+import {computed, ref} from 'vue'
 import useSlipSockets from '@/Composables/useSlipSockets.js'
 import {useSnackbar} from 'vue3-snackbar'
-import useInfiniteScrolling from '@/Composables/useInfiniteScrolling.js'
+import {useInfiniteScrolling} from '@/Composables/useInfiniteScrolling.js'
 
-let slip = ref({})
+const slips = ref(computed(() => usePage().props.slips))
 
-const snackbar = useSnackbar()
-
-
+// TODO: Refactor
 function test(v){
   const existingIndex = slips.value.data.findIndex(slip => slip.id === v.id)
 
@@ -25,23 +22,9 @@ function test(v){
   }
 }
 
+const { loadMoreIntersect, isFetching } = useInfiniteScrolling(slips)
 
-
-const openModal = () => {
-  showEditSlip.value = !showEditSlip.value
-}
-
-const handleEditSlip = (updatedSlip) => {
-  slip.value = updatedSlip
-}
-
-const slips = ref(computed(() => usePage().props.slips))
-
-const isFetching = ref(false)
-const loadMoreIntersect = ref(null)
-
-useInfiniteScrolling()
-
+const snackbar = useSnackbar()
 useSlipSockets(snackbar)
 </script>
 
@@ -53,6 +36,7 @@ useSlipSockets(snackbar)
         <VideoCard v-for="slip in slips.data" :key="slip.token" :slip="slip" />
       </div>
     </div>
+
     <span ref="loadMoreIntersect" />
     <div class="flex items-center justify-center p-8">
       <div v-if="isFetching">

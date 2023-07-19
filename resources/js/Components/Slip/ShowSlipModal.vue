@@ -1,7 +1,6 @@
 <script setup>
 import Hls from 'hls.js'
 import plyr from 'plyr'
-import useCanvas from '@/Composables/useCanvas.js'
 import 'plyr/dist/plyr.css'
 import {isRef, onMounted, ref} from 'vue'
 
@@ -11,7 +10,6 @@ const props = defineProps({
 })
 const video = ref(null)
 const src = ref(props.slip.mediable.path)
-
 
 const defaultOptions = {
   autoplay: true,

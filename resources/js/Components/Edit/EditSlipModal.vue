@@ -29,6 +29,7 @@ const updateSlip = () => {
     )
 }
 
+
 const closeModal = () => {
   // form.reset()
   emit('close')
