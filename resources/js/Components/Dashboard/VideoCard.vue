@@ -6,13 +6,11 @@ import EditSlipModal from '@/Components/Dashboard/EditSlipModal.vue'
 import {relativeTime} from '@/Composables/useRelativeTime.js'
 import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
 
-import OriginalType from '~icons/mdi/video'
-import OptimizedType from '~icons/ph/video'
-import StreamableType from '~icons/solar/play-stream-bold'
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
 import {formattedDuration} from '@/Composables/useFormattedDuration.js'
+import useIconType from '@/Composables/useIconType.js'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
@@ -38,16 +36,7 @@ const updateSlipsProps = (slip) => {
 const created_at = relativeTime(props.slip.created_at)
 const duration = formattedDuration(props.slip.mediable.duration)
 const iconType = computed(() => {
-  switch (slip.value.mediable.type) {
-  case 1:
-    return OriginalType
-  case 2:
-    return OptimizedType
-  case 3:
-    return StreamableType
-  default:
-    return OriginalType
-  }
+  return useIconType(props.slip.mediable.type)
 })
 
 const percentage = ref(0)
