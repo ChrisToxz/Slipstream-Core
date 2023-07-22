@@ -3,26 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Enums\VideoType;
+use App\Events\SlipUploaded;
 use App\Jobs\CreateSlip;
 use App\Jobs\GenerateThumb;
 use App\Jobs\UploadSlip;
 use App\Models\Slip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Storage;
-use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
 
 class SlipController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-//        $slips = Slip::latest()->with(['mediable' => function ($q) {
-//            $q->select('id', 'type', 'duration', 'height', 'path');
-//        }])->get();
+        $slips = Slip::latest()->with('mediable')
+            ->paginate(6)
+            ->withQueryString();
 
-        $slips = Slip::latest()->with('mediable')->get();
+        if ($request->wantsJson()) {
+            return $slips;
+        }
 
         return inertia('Dashboard', [
             'slips' => $slips
@@ -40,21 +40,18 @@ class SlipController extends Controller
 
     public function store(Request $request)
     {
-        // we need to fix the model binding in form input btw
-        $type = $request->get('type');
-//        $file = new UploadedFile(storage_path('app/' . $request->get('path')), $request->get('originalFileName'));
-//        dd($request->files->set('file', $file));
         /**
          * TODO
          * Validation selected type (Cross check with enum)
          * Validation check correct mimemtypes that we could accept
-         * Trigger jobs to save file and run converting if selected
          */
-        $mimeType = Storage::disk('local')->mimeType($request->get('file'));
+
+        $type = $request->get('type');
+
         $request->validate([
-            'title' => 'nullable|string|max:200',
+            'title' => 'nullable|string|max:255',
             'description' => 'nullable|string|max:200',
-//            'file' => 'file|mimetypes:video/mp4,video/mpeg|max:99999'
+            'type' => 'required|enum_key:'.VideoType::class
         ]);
 
         $title = $request->title ?: $request->get('originalFileName');
@@ -66,35 +63,52 @@ class SlipController extends Controller
 
         // Generate Thumbnail
         GenerateThumb::dispatchSync($slip, $request->get('file'));
-
         // To the final processing
-
-        CreateSlip::dispatch($slip, $request->get('file'), $type);
+        CreateSlip::dispatch($slip, $request->get('file'), VideoType::fromKey($type));
+        // Dispatch event to reload Dashboard
+        SlipUploaded::dispatch();
     }
 
-
+    // TODO: Check proper validation for files.
+    // File size limit? Mimetypes?
     public function tempUpload(Request $request)
     {
         if ($request->file) {
-            $validator = \Validator::make($request->all(), [
+            $request->validate([
                 'file' => 'file|mimetypes:video/mp4,video/mpeg|max:999999'
             ]);
-            if ($validator->fails()) {
-                dd('To be done, error handling');
-            }
         }
+
         return Redirect::back()->with([
-            'originalFileName' => $request->file->getClientOriginalName(),
             'tmpPath' => $request->file->store('tmp')
         ]);
     }
 
-    public function destroy(Slip $slip)
+    public function update(Request $request, Slip $slip)
     {
-        if (!File::deleteDirectory(storage_path('app/public/slips/' . $slip->token))) {
-            return redirect()->back()->withErrors(['message' => 'Something went wrong, Slip have not been deleted!']);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string|max:200',
+            ]);
+        } catch (ValidationException $ex) {
+            if ($request->wantsJson()) {
+                return response()->json(['errors' => $ex->errors()], 422);
+            }
         }
 
+        $slip->update($validated);
+
+        if ($request->wantsJson()) {
+            return $slip->load('mediable');
+        }
+    }
+
+    public function destroy(Slip $slip)
+    {
+        if (!File::deleteDirectory(storage_path('app/public/slips/'.$slip->token))) {
+            return redirect()->back()->withErrors(['message' => 'Something went wrong, Slip have not been deleted!']);
+        }
         $slip->delete();
         return Redirect::back();
     }

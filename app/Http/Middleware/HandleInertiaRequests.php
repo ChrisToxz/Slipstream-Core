@@ -35,12 +35,11 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            //Slip upload
             'data' => [
-                'originalFileName' => fn() => $request->session()->get('originalFileName'),
                 'tmpPath' => fn() => $request->session()->get('tmpPath')
             ],
             'settings' => ['sitename' => app(GeneralSettings::class)->site_name],
-
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),

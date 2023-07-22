@@ -1,60 +1,48 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import {Link} from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
-import moment from 'moment'
-import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipModal.vue'
-
+import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipDialog.vue'
+import EditSlipModal from '@/Components/Dashboard/EditSlipModal.vue'
 import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
+
+import {formattedDuration, relativeTime} from '@/Composables/useTimeManipulation.js'
+import iconType from '@/Composables/useIconType.js'
 
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
 
-import OriginalType from '~icons/mdi/video'
-import OptimizedType from '~icons/ph/video'
-import StreamableType from '~icons/solar/play-stream-bold'
-
 const hoverEffect = ref(false)
 const hover = ref(false)
-let showDeleteModal = ref(false)
+
+const showEditSlip = ref(false)
+const showDeleteDialog = ref(false)
 
 const props = defineProps({
   slip: Object,
 })
 
-// Create Timestamp
-const relativeTime = computed(
-  () => moment(props.slip.created_at).fromNow(),
-)
+const slipProps = ref(null)
 
-// const formattedDuration = computed(
-//   () => moment.utc(props.slip.mediable.duration * 1000).format('mm:ss'),
-// )
+let slip = ref(computed(() => slipProps.value ? slipProps.value : props.slip))
+const updateSlipsProps = (slip) => {
+  slipProps.value = slip
+}
 
-const formattedDuration = computed(
-  () =>moment.utc(props.slip.mediable.duration*1000).format('mm:ss'),
-)
-
-const percentage = ref(0)
-const status = ref('Preparing...')
-
-window.Echo.channel(`slip.${props.slip.token}`).listen('SlipProcessUpdate', (e) => {
-  percentage.value = e.percentage
-  status.value = e.status
+const created_at = relativeTime(props.slip.created_at)
+const duration = computed(() => {
+  return formattedDuration(props.slip.mediable.duration)
+})
+const icon = computed(() => {
+  return iconType(props.slip.mediable.type)
 })
 
-const TypeIcon = computed(() => {
+const percentage = ref(0)
+const status = ref(null)
 
-  switch (props.slip.mediable.type) {
-  case 1:
-    return OriginalType
-  case 2:
-    return OptimizedType
-  case 3:
-    return StreamableType
-  default:
-    return OriginalType
-  }
+window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) => {
+  percentage.value = e.percentage
+  status.value = e.status
 })
 
 </script>
@@ -62,24 +50,24 @@ const TypeIcon = computed(() => {
 <template>
   <!-- Main Wrapper -->
   <div class="bg-white bg-opacity-10 flex relative rounded-lg z-0 aspect-video shadow-md overflow-hidden transition-all duration-500 ease-in-out" @mouseover="hoverEffect = true" @mouseleave="hoverEffect = false">
-    <div v-if="props.slip.status === 'finished'" class="absolute z-2 w-full flex flex-col justify-between h-full">
+    <div v-if="slip.status === 'finished'" class="absolute z-2 w-full flex flex-col justify-between h-full">
       <div class="flex justify-between mt-2 px-2">
         <!-- Top Left Icons -->
         <div class="flex flex-row text-gray-200 rounded-lg text-center text-sm gap-3">
-          <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
-            {{ formattedDuration }}
+          <p v-tooltip="{content: 'Duration', placement:'bottom'}" class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+            {{ duration }}
           </p>
         </div>
         <!-- TimeStamp -->
         <div class="flex flex-row gap-3">
           <div>
-            <p class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
+            <p v-tooltip="{content: 'Resolution', placement:'bottom'}" class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200 text-sm">
               {{ slip.mediable.height }}p
             </p>
           </div>
           <div>
             <div class="bg-neutral-950 bg-opacity-75 rounded-lg p-1 text-gray-200">
-              <TypeIcon />
+              <icon v-tooltip="{content: 'Type', placement:'bottom'}" />
             </div>
           </div>
         </div>
@@ -98,28 +86,28 @@ const TypeIcon = computed(() => {
             {{ slip.description }}
           </p>
           <p class="text-sm text-gray-500">
-            Created {{ relativeTime }}
+            Created {{ created_at }}
           </p>
         </div>
         <div class="flex self-center h-5/6">
           <ul class="flex text-3xl">
-            <li class="bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700 mr-2">
+            <li v-tooltip="'Edit'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2" @click="showEditSlip = true">
               <Settings color="white" width="25" height="25" />
             </li>
-            <li class="px-1 bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700 mr-2">
+            <li v-tooltip="'Download'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
               <Download color="white" width="25" height="25" />
             </li>
-            <li class="px-1 bg-brand-primary-600 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-700">
-              <Trash color="white" width="25" height="25" @click="showDeleteModal = true" />
+            <li v-tooltip="'Delete'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500" @click="showDeleteDialog = true">
+              <Trash color="white" width="25" height="25" />
             </li>
           </ul>
         </div>
       </div>
     </div>
-    <div v-if="props.slip.status != 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
+    <div v-if="slip.status != 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
       <ProgressBar :percentage="percentage" />
       <p class="text-gray-200 pt-2">{{ percentage }}%</p>
-      <p class="text-gray-200 pb-2">{{ status }} - {{ slip.title }}</p>
+      <p class="text-gray-200 pb-2">{{ status ?? slip.status }} - {{ slip.title }}</p>
     </div>
     <span
       @mouseover="hover = true"
@@ -128,7 +116,8 @@ const TypeIcon = computed(() => {
       <!-- Thumbnail -->
       <img class="rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.thumb" alt="racing thumbnail" />
       <!--      <video v-if="hoverEffect" ref="video" class="`transition-all duration-200 rounded-lg object-cover h-full w-full transition-all duration-500 ease-in-out -z-[1]" :src="slip.mediable.path" controls autoplay />-->
-      <DeleteSlipModal v-if="showDeleteModal" :slip="slip" @close="showDeleteModal = false" />
+      <DeleteSlipModal v-if="showDeleteDialog" :slip="slip" @close="showDeleteDialog = false" />
     </span>
   </div>
+  <EditSlipModal v-if="showEditSlip" :slip="slip" @close="showEditSlip = false" @data="updateSlipsProps($event)" />
 </template>

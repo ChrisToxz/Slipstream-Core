@@ -1,13 +1,14 @@
 import './bootstrap'
 import '../css/app.css'
 
-import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/vue3'
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m'
-import { SnackbarService } from 'vue3-snackbar'
+import {createApp, h} from 'vue'
+import {createInertiaApp} from '@inertiajs/vue3'
+import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers'
+import {ZiggyVue} from '../../vendor/tightenco/ziggy/dist/vue.m'
+import {SnackbarService} from 'vue3-snackbar'
 import 'vue3-snackbar/styles'
-
+import FloatingVue from 'floating-vue'
+import 'floating-vue/dist/style.css'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
 
@@ -19,6 +20,16 @@ createInertiaApp({
       .use(plugin)
       .use(ZiggyVue, Ziggy)
       .use(SnackbarService)
+      .use(FloatingVue,{
+        themes: {
+          tooltip: {
+            delay: {
+              show:100,
+              delay:100,
+            },
+          },
+        },
+      })
       .mount(el)
   },
   progress: {

@@ -1,33 +1,15 @@
 <script setup>
-import {Head, router} from '@inertiajs/vue3'
-import {useSnackbar, Vue3Snackbar} from 'vue3-snackbar'
+import {Head, usePage} from '@inertiajs/vue3'
 import MainLayout from '@/Layouts/MainLayout.vue'
 import VideoCard from '@/Components/Dashboard/VideoCard.vue'
+import {computed, ref} from 'vue'
+import useSlipSockets from '@/Composables/useSlipSockets.js'
+import {useInfiniteScrolling} from '@/Composables/useInfiniteScrolling.js'
+import Loading from '@/Components/Loading.vue'
 
-const props = defineProps({
-  slips: Object,
-})
-
-const snackbar = useSnackbar()
-
-window.Echo.channel('ss').listen('SlipProcessFinished', (e) => {
-  router.reload(route('dashboard'), {
-    preserveState: true,
-    only:['slips'],
-  })
-  if(!e.failed){
-    snackbar.add({
-      type:'success',
-      text: 'Slip successfully processed',
-    })
-  }else{
-    snackbar.add({
-      type:'error',
-      text: 'Processing failed for ' + e.slip.title,
-    })
-  }
-
-})
+const slips = ref(computed(() => usePage().props.slips))
+const { loadMoreIntersect, isFetching } = useInfiniteScrolling(slips)
+useSlipSockets()
 </script>
 
 <template>
@@ -35,11 +17,17 @@ window.Echo.channel('ss').listen('SlipProcessFinished', (e) => {
   <MainLayout>
     <div class="w-full flex justify-center">
       <div class="w-[calc(100%-3rem)] grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-7">
-        <VideoCard v-for="slip in slips" :key="slip.token" :slip="slip" />
+        <VideoCard v-for="slip in slips.data" :key="slip.token" :slip="slip" />
+      </div>
+    </div>
+    <span ref="loadMoreIntersect" />
+    <div class="flex items-center justify-center p-8">
+      <div v-if="isFetching">
+        <Loading />
+        <span class="sr-only">Loading more...</span>
       </div>
     </div>
   </MainLayout>
-  <vue3-snackbar top right />
 </template>
 <style>
 </style>

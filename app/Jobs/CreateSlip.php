@@ -8,9 +8,9 @@ use App\Events\SlipProcessFinished;
 use App\Events\SlipProcessUpdate;
 use App\Models\Slip;
 use App\Models\Video;
+use Exception;
 use FFMpeg\Format\Video\X264;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -18,7 +18,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Throwable;
+use VideoHelper;
 
 class CreateSlip implements ShouldQueue
 {
@@ -29,23 +31,20 @@ class CreateSlip implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public Slip   $slip,
+        public Slip $slip,
         public string $tmpPath,
-        public int    $type
-    )
-    {
-//        TODO: Remove
-//        $output->writeln($this->job->getJobId());
-//        $output->writeln($this->job->uuid());
+        public string $type
+    ) {
+   
     }
 
     /**
      * Execute the job.
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle(): void
     {
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $output = new ConsoleOutput();
 
         $streamHash = Str::random(40);
         $fileExtension = Str::afterLast($this->tmpPath, '.');
@@ -71,7 +70,8 @@ class CreateSlip implements ShouldQueue
             case VideoType::X264:
                 $output->writeln("Running X264 process");
                 $ff = FFMpeg::fromDisk('local')->open($this->tmpPath);
-                $originalBitrateFormat = (new X264('libmp3lame', 'libx264'))->setKiloBitrate($ff->getVideoStream()->get('bit_rate'));
+                $originalBitrateFormat = (new X264('libmp3lame',
+                    'libx264'))->setKiloBitrate($ff->getVideoStream()->get('bit_rate'));
 
                 $ff->export()->onProgress(function ($percentage, $remaining, $rate) use ($output) {
                     $output->writeln("Progress: {$percentage} - {$remaining} seconds left at rate: {$rate}");
@@ -97,29 +97,36 @@ class CreateSlip implements ShouldQueue
                     });
 
 
-                foreach (\VideoHelper::getSupportedFormats() as $key => $quality) {
+                foreach (VideoHelper::getSupportedFormats() as $key => $quality) {
 
                     if ($ff->getVideoStream()->get('height') >= $quality->height) {
                         $output->writeln("Quality: {$key} - {$quality->width}x{$quality->height}");
-                        $ff->addFormat((new X264('libmp3lame', 'libx264'))->setKiloBitrate($quality->bitrate), function ($media) use ($quality) {
-                            $media->scale($quality->width, $quality->height);
-                        });
+                        $ff->addFormat((new X264('libmp3lame', 'libx264'))->setKiloBitrate($quality->bitrate),
+                            function ($media) use ($quality) {
+                                $media->scale($quality->width, $quality->height);
+                            });
                     }
                 }
 
-                $ff->useSegmentFilenameGenerator(function ($name, $format, $key, callable $segments, callable $playlist) {
+                $ff->useSegmentFilenameGenerator(function (
+                    $name,
+                    $format,
+                    $key,
+                    callable $segments,
+                    callable $playlist
+                ) {
                     $segments("{$name}--{$format->getKiloBitrate()}-{$key}-%03d.ts");
                     $playlist("{$name}-{$format->getKiloBitrate()}-{$key}.m3u8");
                 })
                     ->toDisk('slips')
                     ->save("{$this->slip->token}/{$streamHash}.m3u8");
 
-                $video = Video::create(['file' => $streamHash . '.m3u8', 'type' => $this->type]);
+                $video = Video::create(['file' => $streamHash.'.m3u8', 'type' => $this->type]);
                 $video->slip()->save($this->slip);
 
                 break;
             default:
-                throw new \Exception('Invalid video type.');
+                throw new Exception('Invalid video type.');
         }
 
         // TODO: Getting video details
@@ -147,7 +154,7 @@ class CreateSlip implements ShouldQueue
         // TODO: Make proper log of failed job including debug information
         // maybe spatie/laravel-activitylog?
         $this->slip->setStatus(SlipStatus::FAILED());
-        SlipProcessFinished::dispatch($this->slip, TRUE);
+        SlipProcessFinished::dispatch($this->slip, true);
         SlipProcessUpdate::dispatch($this->slip->token, 'Failed', 0);
     }
 
