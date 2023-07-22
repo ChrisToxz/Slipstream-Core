@@ -6,7 +6,7 @@ const props = defineProps({
 
 <template>
   <input
-    class="w-full bg-brand-secondary-700 border border-black text-gray-200 focus:border-brand-primary-500 focus:ring-0" type="text"
+    class="w-full rounded-md bg-brand-secondary-700 border border-black text-gray-200 focus:border-brand-primary-500 focus:ring-0" type="text"
     :value="modelValue"
     @input="$emit('update:modelValue', $event.target.value)"
   />

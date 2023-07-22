@@ -1,12 +1,8 @@
 <?php
 
-use App\Events\OrderStatusUpdated;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SlipController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,15 +24,11 @@ Route::resource('slips', SlipController::class);
 
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
 Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
-
-Route::get('/fire', function () {
-    OrderStatusUpdated::dispatch();
-
-    return 'Event has been sent!';
-});
+route::get('/settings/storage', [SettingsController::class, 'storageUsage'])->name('settings.storage');
+route::post('/settings/clear-tmp', [SettingsController::class, 'clearTmp'])->name('settings.clear-tmp');
 
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 /* not for now */
 //Route::get('/a', function () {

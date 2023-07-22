@@ -66,6 +66,7 @@ class SlipController extends Controller
         // To the final processing
         CreateSlip::dispatch($slip, $request->get('file'), VideoType::fromKey($type));
         // Dispatch event to reload Dashboard
+        // TODO: Leftover? is this really needed?
         SlipUploaded::dispatch();
     }
 

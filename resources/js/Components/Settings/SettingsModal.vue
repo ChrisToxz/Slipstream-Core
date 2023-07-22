@@ -6,10 +6,7 @@ import WarningButton from '@/Components/Reusable/WarningButton.vue'
 import ToggleSwitch from '@/Components/Reusable/ToggleSwitch.vue'
 import {useForm} from '@inertiajs/vue3'
 import axios from 'axios'
-
-import {useSnackbar} from 'vue3-snackbar'
-
-const snackbar = useSnackbar()
+import StorageInformation from '@/Components/Settings/Components/StorageInformation.vue'
 
 const visitors = ref(true)
 const emit = defineEmits(['close'])
@@ -45,7 +42,7 @@ onMounted(() => {
 const submit = () => {
   form.post(route('settings.store'), {
     onSuccess: () => {
-      snackbar.add({
+      $snackbar.add({
         type:'success',
         text: 'Settings are saved successfully',
       })
@@ -53,6 +50,7 @@ const submit = () => {
     },
   })
 }
+
 
 const closeModal = () => {
   emit('close')
@@ -110,7 +108,7 @@ const closeModal = () => {
             </div>
           </div>
 
-          <div class="mb-8 flex justify-between gap-2">
+          <div class="mb-3 flex justify-between gap-2">
             <div class="flex flex-col w-2/6">
               <PrimaryTextInput id="1080" v-model="form.streaming_bitrates[1080]" />
               <label class="font-light pb-2 text-brand-primary-500" for="1080">
@@ -132,18 +130,21 @@ const closeModal = () => {
               </label>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="mx-4 flex justify-between">
-        <div class="w-32">
-          <PrimaryButton @click="submit()">
-            Save Changes
-          </PrimaryButton>
-        </div>
-        <div class="w-32">
-          <WarningButton @click="closeModal">
-            Cancel
-          </WarningButton>
+
+          <StorageInformation />
+
+          <div class="m-4 flex justify-between">
+            <div class="w-32">
+              <PrimaryButton @click="submit()">
+                Save Changes
+              </PrimaryButton>
+            </div>
+            <div class="w-32">
+              <WarningButton @click="closeModal">
+                Cancel
+              </WarningButton>
+            </div>
+          </div>
         </div>
       </div>
     </div>
