@@ -5,13 +5,15 @@ import ApplicationLogo from '@/Components/Reusable/ApplicationLogo.vue'
 import UploadModal from '@/Components/Upload/UploadModal.vue'
 import {Vue3Snackbar} from 'vue3-snackbar'
 import SettingsModal from '@/Components/Settings/SettingsModal.vue'
+import {Link, usePage} from '@inertiajs/vue3'
 
 let showUploadModal = ref(false)
 let showSettingsModal = ref(false)
+
 </script>
 
 <template>
-  <div class="antialiased bg-neutral-900 min-h-screen">
+  <div class="bg-neutral-900 min-h-screen">
     <div class="flex">
       <!-- Main wrapper -->
       <div class="flex flex-col basis-full mb-10">
@@ -21,12 +23,19 @@ let showSettingsModal = ref(false)
             <ApplicationLogo />
           </div>
           <!-- Navigation -->
-          <nav class="basis-1/6 self-center bg-brand-secondary-700 rounded-md">
-            <ul class="flex justify-around gap-8 sm:gap-2">
-              <li><NavItem link="dashboard" class="text-brand-primary-500">Dashboard </NavItem></li>
-              <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showSettingsModal = true">Settings</NavItem></li>
-              <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showUploadModal = true">Upload</NavItem></li>
-            </ul>
+          <nav class="self-center bg-brand-secondary-700 rounded-md">
+            <div v-if="usePage().props.auth.user">
+              <ul class="flex justify-around gap-8 sm:gap-2">
+                <li><NavItem class="text-gray-300">Welcome, {{ $page.props.auth.user.name }}</NavItem></li>
+                <li><NavItem link="dashboard" class="text-brand-primary-500" as="button">Dashboard </NavItem></li>
+                <li><NavItem class="text-gray-200 hover:text-gray-400" as="button" @click="showSettingsModal = true">Settings</NavItem></li>
+                <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showUploadModal = true">Upload</NavItem></li>
+                <li><NavItem class="text-gray-200 hover:text-gray-400"><Link :href="route('logout')" method="POST" as="button">Logout</Link></NavItem></li>
+              </ul>
+            </div>
+            <div v-else>
+              <NavItem><Link :href="route('login')" class="text-gray-200 hover:text-gray-400">Login</Link></NavItem>
+            </div>
           </nav>
         </header>
       </div>

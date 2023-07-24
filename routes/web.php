@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [SlipController::class, 'index'])->name('dashboard');
+Route::redirect('/', '/dashboard');
+
+
+//Route::middleware('auth')->group(function () {
+Route::get('/dashboard', [SlipController::class, 'index'])->name('dashboard');
 Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
 
 
@@ -26,6 +30,7 @@ Route::get('/settings', [SettingsController::class, 'index'])->name('settings.in
 Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
 route::get('/settings/storage', [SettingsController::class, 'storageUsage'])->name('settings.storage');
 route::post('/settings/clear-tmp', [SettingsController::class, 'clearTmp'])->name('settings.clear-tmp');
+//});
 
 
 require __DIR__.'/auth.php';
