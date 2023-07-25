@@ -39,6 +39,7 @@ class HandleInertiaRequests extends Middleware
             'data' => [
                 'tmpPath' => fn() => $request->session()->get('tmpPath')
             ],
+            'message' => fn() => $request->session()->get('message'),
             'settings' => ['sitename' => app(GeneralSettings::class)->site_name],
             'ziggy' => function () use ($request) {
                 return array_merge((new Ziggy)->toArray(), [
