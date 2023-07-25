@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
+use App\Helpers\AppHelper;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,12 +16,13 @@ class Installed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $usersCount = User::count();
-
-        // If there are no users, redirect to the installation
-        if ($usersCount === 0) {
-            return redirect()->route('install');
+        if ($request->routeIs('install.*')) {
+            return $next($request);
         }
+        if (!AppHelper::is_installed()) {
+            return redirect()->route('install.form');
+        }
+
 
         return $next($request);
     }
