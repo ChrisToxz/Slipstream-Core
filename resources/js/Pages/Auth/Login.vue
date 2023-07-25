@@ -19,13 +19,13 @@ const login = () => {
     <form @submit.prevent="login">
       <div class="flex min-h-screen items-center justify-center">
         <div class="max-w-sm rounded-3xl bg-gradient-to-b p-px from-brand-primary-700 to-transparent">
-          <div class="rounded-[calc(1.5rem-1px)] px-10 p-12 bg-neutral-800">
+          <div class="rounded-[calc(1.5rem-1px)] p-12 bg-neutral-800">
             <div>
               <h1 class="text-xl font-semibold text-white text-center">Login</h1>
             </div>
 
-            <div class="mt-8 space-y-8">
-              <div v-if="$page.props.message" class="flex items-center space-x-4">
+            <div class="mt-5 space-y-8">
+              <div v-if="$page.props.message" class="flex items-center space-x-4 text-green-500 justify-center">
                 {{ $page.props.message }}
               </div>
               <div class="space-y-6">
