@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\AppHelper;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,15 +11,20 @@ use Inertia\Inertia;
 
 class InstallController extends Controller
 {
-
-
     public function index()
     {
+        if (AppHelper::is_installed()) {
+            return redirect(route('login'));
+        }
         return Inertia::render('Install/Index');
     }
 
     public function store(Request $request): RedirectResponse
     {
+        if (AppHelper::is_installed()) {
+            return redirect(route('login'));
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
@@ -32,5 +38,6 @@ class InstallController extends Controller
         ]);
 
         return redirect(route('login'))->with('message', 'You can login now!');
+
     }
 }
