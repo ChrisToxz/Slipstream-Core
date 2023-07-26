@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class Installed
+class CheckIfInstalled
 {
     /**
      * Handle an incoming request.
@@ -16,14 +16,9 @@ class Installed
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->routeIs('install.*')) {
-            return $next($request);
-        }
         if (!AppHelper::is_installed()) {
-            return redirect()->route('install.form');
+            return redirect()->route('install');
         }
-
-
         return $next($request);
     }
 }

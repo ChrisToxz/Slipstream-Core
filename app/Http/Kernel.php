@@ -3,9 +3,9 @@
 namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CheckIfInstalled;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HandleInertiaRequests;
-use App\Http\Middleware\Installed;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
@@ -56,7 +56,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            Installed::class,
+            CheckIfInstalled::class,
             EncryptCookies::class,
             AddQueuedCookiesToResponse::class,
             StartSession::class,
