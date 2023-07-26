@@ -1,5 +1,5 @@
 <script setup>
-import Layout from '@/Pages/Install/Layout.vue'
+import Layout from '@/Layouts/InstallLayout.vue'
 import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
 import {ref} from 'vue'
 import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
@@ -41,25 +41,27 @@ const form = useForm({
               <div class="mt-8 space-y-8">
                 <p class="text-md text-gray-300">Lets setup a user account!</p>
                 <div class="mt-5 space-y-8">
-                  <div class="space-y-6">
-                    <div>
-                      <PrimaryTextInput v-model="form.name" class="w-full" placeholder="Name to be showed" />
-                      <p v-if="form.errors.name" class="text-red-500 font-extrabold">{{ form.errors.name }}</p>
+                  <form @submit.prevent="form.post(route('install.store'))">
+                    <div class="space-y-6">
+                      <div>
+                        <PrimaryTextInput v-model="form.name" class="w-full" placeholder="Display name" />
+                        <p v-if="form.errors.name" class="text-red-500 font-extrabold">{{ form.errors.name }}</p>
+                      </div>
+                      <div>
+                        <PrimaryTextInput v-model="form.username" class="w-full" placeholder="Username" />
+                        <p v-if="form.errors.username" class="text-red-500 font-extrabold">{{ form.errors.username }}</p>
+                      </div>
+                      <div>
+                        <PrimaryTextInput v-model="form.password" class="w-full" placeholder="Password" type="password" />
+                        <p v-if="form.errors.password" class="text-red-500 font-extrabold">{{ form.errors.password }}</p>
+                      </div>
+                      <div>
+                        <PrimaryTextInput v-model="form.password_confirmation" class="w-full" placeholder="Password repeat" type="password" />
+                        <p v-if="form.errors.password_confirmation" class="text-red-500 font-extrabold">{{ form.errors.password }}</p>
+                      </div>
+                      <PrimaryButton type="submit">Create account</PrimaryButton>
                     </div>
-                    <div>
-                      <PrimaryTextInput v-model="form.username" class="w-full" placeholder="Username to login" />
-                      <p v-if="form.errors.username" class="text-red-500 font-extrabold">{{ form.errors.username }}</p>
-                    </div>
-                    <div>
-                      <PrimaryTextInput v-model="form.password" class="w-full" placeholder="Password" type="password" />
-                      <p v-if="form.errors.password" class="text-red-500 font-extrabold">{{ form.errors.password }}</p>
-                    </div>
-                    <div>
-                      <PrimaryTextInput v-model="form.password_confirmation" class="w-full" placeholder="Password repeat" type="password" />
-                      <p v-if="form.errors.password_confirmation" class="text-red-500 font-extrabold">{{ form.errors.password }}</p>
-                    </div>
-                    <PrimaryButton type="button" @click="form.post(route('install.store'))">Create account</PrimaryButton>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>
