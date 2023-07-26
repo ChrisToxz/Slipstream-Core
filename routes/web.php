@@ -1,12 +1,8 @@
 <?php
 
-use App\Events\OrderStatusUpdated;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SlipController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,24 +15,25 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', [SlipController::class, 'index'])->name('dashboard');
-Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
+Route::redirect('/', '/dashboard');
 
 
-Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
-Route::resource('slips', SlipController::class);
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [SlipController::class, 'index'])->name('dashboard');
+    Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
 
-Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
-Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
 
-Route::get('/fire', function () {
-    OrderStatusUpdated::dispatch();
+    Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
+    Route::resource('slips', SlipController::class);
 
-    return 'Event has been sent!';
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
+    route::get('/settings/storage', [SettingsController::class, 'storageUsage'])->name('settings.storage');
+    route::post('/settings/clear-tmp', [SettingsController::class, 'clearTmp'])->name('settings.clear-tmp');
 });
 
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 /* not for now */
 //Route::get('/a', function () {
