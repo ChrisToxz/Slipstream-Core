@@ -1,40 +1,29 @@
 <?php
 
-namespace Tests\Unit;
-
 use App\Models\Video;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-use PHPUnit\Framework\TestCase;
 
-class VideoDurationTest extends TestCase
-{
+uses(\Illuminate\Foundation\Testing\DatabaseTransactions::class);
 
-    use DatabaseTransactions;
+test('video duration formatted', function () {
+    $video = new Video([
+        'duration' => 67
+    ]);
 
-    public function test_video_duration_formatted(): void
-    {
-        $video = new Video([
-            'duration' => 67
-        ]);
+    expect($video->formattedDuration)->toEqual('01:07');
+});
 
-        $this->assertEquals('01:07', $video->formattedDuration);
-    }
+test('video duration formatted with only seconds', function () {
+    $video = new Video([
+        'duration' => 5
+    ]);
 
-    public function test_video_duration_formatted_with_only_seconds(): void
-    {
-        $video = new Video([
-            'duration' => 5
-        ]);
+    expect($video->formattedDuration)->toEqual('00:05');
+});
 
-        $this->assertEquals('00:05', $video->formattedDuration);
-    }
+test('video duration formatted with one minute zero seconds', function () {
+    $video = new Video([
+        'duration' => 60
+    ]);
 
-    public function test_video_duration_formatted_with_one_minute_zero_seconds(): void
-    {
-        $video = new Video([
-            'duration' => 60
-        ]);
-
-        $this->assertEquals('01:00', $video->formattedDuration);
-    }
-}
+    expect($video->formattedDuration)->toEqual('01:00');
+});
