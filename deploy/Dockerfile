@@ -26,9 +26,7 @@ COPY --chmod=755 ./deploy/s6-overlay/ /etc/s6-overlay/
 COPY --chown=1000:1000 . /var/www/html
 
 #RUN composer install --no-interaction --optimize-autoloader --no-dev
-
-# For development
-RUN composer install --no-interaction --optimize-autoloader
+#RUN composer install --no-interaction --optimize-autoloader
 
 EXPOSE 80
 
