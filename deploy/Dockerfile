@@ -1,7 +1,7 @@
 FROM serversideup/php:8.1-fpm-nginx
 
 # Set environment variables
-ENV SSL_MODE="mixed"
+ENV SSL_MODE="off"
 
 ENV FFMPEG_BINARIES="/usr/bin/ffmpeg"
 ENV FFPROBE_BINARIES="/usr/bin/ffprobe"
