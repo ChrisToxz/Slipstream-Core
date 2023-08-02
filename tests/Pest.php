@@ -74,5 +74,6 @@ function actingAs(Authenticatable $user)
  */
 function redirectsGuestFor($url, $method = 'get')
 {
-    return test('redirects unauthenticated users')->expectGuest()->toBeRedirectedFor($url, $method);
+    return test("redirects unauthenticated users for: '{$url}'")->expectGuest()->toBeRedirectedFor($url,
+        $method);
 }
