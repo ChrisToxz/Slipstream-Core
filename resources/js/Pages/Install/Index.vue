@@ -1,8 +1,8 @@
 <script setup>
 import Layout from '@/Layouts/InstallLayout.vue'
-import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
 import {ref} from 'vue'
-import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
+import PrimaryTextInput from '@/Components/UI/PrimaryTextInput.vue'
 import {useForm} from '@inertiajs/vue3'
 
 

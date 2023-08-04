@@ -1,7 +1,7 @@
 <script setup>
 
-import SecondaryButton from '@/Components/Reusable/SecondaryButton.vue'
-import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
+import SecondaryButton from '@/Components/UI/SecondaryButton.vue'
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
 import {ref} from 'vue'
 import axios from 'axios'
 import {humanReadableSize} from '@/Composables/useHumanReadableSize.js'

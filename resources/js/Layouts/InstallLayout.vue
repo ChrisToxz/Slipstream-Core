@@ -1,5 +1,5 @@
 <script setup>
-import ApplicationLogo from '@/Components/Reusable/ApplicationLogo.vue'
+import ApplicationLogo from '@/Components/UI/ApplicationLogo.vue'
 import {Vue3Snackbar} from 'vue3-snackbar'
 </script>
 

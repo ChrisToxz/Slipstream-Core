@@ -3,7 +3,7 @@ import {Link} from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
 import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipDialog.vue'
 import EditSlipModal from '@/Components/Dashboard/EditSlipModal.vue'
-import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
+import ProgressBar from '@/Components/UI/ProgressBar.vue'
 
 import {formattedDuration, relativeTime} from '@/Composables/useTimeManipulation.js'
 import iconType from '@/Composables/useIconType.js'

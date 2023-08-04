@@ -1,11 +1,11 @@
 <script setup>
-import WarningButton from '@/Components/Reusable/WarningButton.vue'
-import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
-import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
-import PrimaryTextarea from '@/Components/Reusable/PrimaryTextarea.vue'
+import WarningButton from '@/Components/UI/WarningButton.vue'
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
+import PrimaryTextInput from '@/Components/UI/PrimaryTextInput.vue'
+import PrimaryTextarea from '@/Components/UI/PrimaryTextarea.vue'
 import {useForm} from '@inertiajs/vue3'
 import {ref} from 'vue'
-import AxiosFormError from '@/Components/Reusable/AxiosFormError.vue'
+import AxiosFormError from '@/Components/UI/AxiosFormError.vue'
 
 const emit = defineEmits(['close', 'data'])
 
