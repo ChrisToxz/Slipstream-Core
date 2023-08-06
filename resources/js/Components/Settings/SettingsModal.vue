@@ -1,9 +1,9 @@
 <script setup>
 import {nextTick, onMounted, ref} from 'vue'
-import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
-import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
-import WarningButton from '@/Components/Reusable/WarningButton.vue'
-import ToggleSwitch from '@/Components/Reusable/ToggleSwitch.vue'
+import PrimaryTextInput from '@/Components/UI/PrimaryTextInput.vue'
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
+import WarningButton from '@/Components/UI/WarningButton.vue'
+import ToggleSwitch from '@/Components/UI/ToggleSwitch.vue'
 import {useForm} from '@inertiajs/vue3'
 import axios from 'axios'
 import StorageInformation from '@/Components/Settings/Components/StorageInformation.vue'

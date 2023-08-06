@@ -1,14 +1,14 @@
 <script setup>
 import {ref} from 'vue'
 import {router, useForm} from '@inertiajs/vue3'
-import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
-import WarningButton from '@/Components/Reusable/WarningButton.vue'
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
+import WarningButton from '@/Components/UI/WarningButton.vue'
 import Download from '~icons/teenyicons/download-outline'
 import Back from '~icons/material-symbols/arrow-back'
-import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
-import PrimaryTextarea from '@/Components/Reusable/PrimaryTextarea.vue'
-import PrimarySelect from '@/Components/Reusable/PrimarySelect.vue'
-import ProgressBar from '@/Components/Reusable/ProgressBar.vue'
+import PrimaryTextInput from '@/Components/UI/PrimaryTextInput.vue'
+import PrimaryTextarea from '@/Components/UI/PrimaryTextarea.vue'
+import PrimarySelect from '@/Components/UI/PrimarySelect.vue'
+import ProgressBar from '@/Components/UI/ProgressBar.vue'
 
 const emit = defineEmits(['close'])
 

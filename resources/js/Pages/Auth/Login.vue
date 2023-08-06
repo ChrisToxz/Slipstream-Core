@@ -1,8 +1,8 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue'
 import {Head, useForm} from '@inertiajs/vue3'
-import PrimaryTextInput from '@/Components/Reusable/PrimaryTextInput.vue'
-import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
+import PrimaryTextInput from '@/Components/UI/PrimaryTextInput.vue'
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
 
 const form = useForm({
   username: null,

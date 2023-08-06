@@ -1,7 +1,7 @@
 <script setup>
 import {router} from '@inertiajs/vue3'
-import WarningButton from '@/Components/Reusable/WarningButton.vue'
-import PrimaryButton from '@/Components/Reusable/PrimaryButton.vue'
+import WarningButton from '@/Components/UI/WarningButton.vue'
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
 
 const props = defineProps({
   slip: Object,

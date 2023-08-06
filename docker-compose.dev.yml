@@ -1,0 +1,16 @@
+version: '3.8'
+name: slipstream
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: ./deploy/Dockerfile
+    volumes:
+      - ./:/var/www/html
+    environment:
+      PUID: 1000
+      PGID: 1000
+    #            - ./.env:/var/www/html/.env # .env File
+    #            - ./teststorage/app:/var/www/html/storage/app # App folder
+    #            - ./teststorage/logs:/var/www/html/storage/logs # Logs

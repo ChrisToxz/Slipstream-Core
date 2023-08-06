@@ -5,7 +5,7 @@ import VideoCard from '@/Components/Dashboard/VideoCard.vue'
 import {computed, ref} from 'vue'
 import useSlipSockets from '@/Composables/useSlipSockets.js'
 import {useInfiniteScrolling} from '@/Composables/useInfiniteScrolling.js'
-import Loading from '@/Components/Loading.vue'
+import Loading from '@/Components/UI/Loading.vue'
 
 const slips = ref(computed(() => usePage().props.slips))
 const { loadMoreIntersect, isFetching } = useInfiniteScrolling(slips)

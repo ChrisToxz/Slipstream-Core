@@ -1,8 +1,8 @@
 <script setup>
 import {ref} from 'vue'
-import NavItem from '@/Components/Reusable/NavItem.vue'
-import ApplicationLogo from '@/Components/Reusable/ApplicationLogo.vue'
-import UploadModal from '@/Components/Upload/UploadModal.vue'
+import NavItem from '@/Components/UI/NavItem.vue'
+import ApplicationLogo from '@/Components/UI/ApplicationLogo.vue'
+import UploadModal from '@/Components/Dashboard/UploadModal.vue'
 import {Vue3Snackbar} from 'vue3-snackbar'
 import SettingsModal from '@/Components/Settings/SettingsModal.vue'
 import {Link, usePage} from '@inertiajs/vue3'
