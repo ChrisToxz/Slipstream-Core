@@ -3,6 +3,7 @@
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SlipController;
+use App\Http\Controllers\SlipDownloadController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +23,8 @@ Route::redirect('/', '/dashboard');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [SlipController::class, 'index'])->name('dashboard');
     Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
-
-
+    Route::get('/download/{slip}', SlipDownloadController::class);
+    
     Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
     Route::resource('slips', SlipController::class);
 
