@@ -16,6 +16,9 @@ if [[ $PUID != 9999 || $PGID != 9999 ]]; then
     chown webuser:webgroup $WEBUSER_HOME
 fi
 
+# Soketi
+chown webuser:webgroup /root # TODO: Dirty fix..
+
 if [[ $S6_LOGGING != 1 ]]; then
 
 echo '

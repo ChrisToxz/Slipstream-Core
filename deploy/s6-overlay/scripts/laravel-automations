@@ -26,15 +26,26 @@ if [ -f $WEBUSER_HOME/artisan ] && [ ${AUTORUN_ENABLED:="true"} == "true" ]; the
                 s6-setuidgid webuser php $WEBUSER_HOME/artisan storage:link
             fi
         fi
+
+        ############################################################################
+        # App key
+        ############################################################################
+        if grep -E "APP_KEY=[0-9A-Za-z:+\/=]{1,}" $WEBUSER_HOME/.env > /dev/null; then
+            echo "✅  App key exists"
+        else
+            echo "⏳  Generating app key..."
+            s6-setuidgid webuser php $WEBUSER_HOME/artisan key:generate --no-ansi -q
+            echo "✅  App key generated."
+        fi
 else
     echo "👉 Skipping Laravel automations because we could not detect a Laravel install or it was specifically disabled..."
 fi
 
-echo "🕛 Starting queue"
-# TODO: Change to worker
-#s6-setuidgid webuser php $WEBUSER_HOME/artisan queue:listen --tries=3 &
+echo "🕛 Starting Soketi (Websockets)"
+s6-setuidgid webuser soketi start &
 
-echo "✅ Slipstream started."
+echo ""
+echo "🏁 Slipstream started."
 echo ""
 
 exit 0
