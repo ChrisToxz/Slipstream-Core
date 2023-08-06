@@ -13,6 +13,7 @@ import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
 import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
 import WarningButton from '@/Components/UI/WarningButton.vue'
+import Loading from '@/Components/UI/Loading.vue'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
@@ -53,6 +54,35 @@ const requeue = () => {
 }
 const deleteJob = () => {
   router.delete(route('job.destroy', props.slip))
+}
+
+const downloading = ref(false)
+const download = () => {
+  downloading.value = true
+  status.value = 'Downloading'
+  axios({
+    url: 'http://localhost/download/' + props.slip.token,
+    method: 'GET',
+    responseType: 'blob',
+    onDownloadProgress: (progress) => {
+      percentage.value = (progress.progress * 100).toFixed(0)
+      console.log(percentage.value)
+    },
+  }).then((response) => {
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    console.log(response)
+    const link = document.createElement('a')
+    link.href = url
+    alert(props.slip.title)
+    link.setAttribute('download', '.mp5')
+    alert(link)
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    downloading.value = false
+    status.value = null
+    percentage.value = 0
+  })
 }
 
 </script>
@@ -104,8 +134,11 @@ const deleteJob = () => {
             <li v-tooltip="'Edit'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2" @click="showEditSlip = true">
               <Settings color="white" width="25" height="25" />
             </li>
-            <li v-tooltip="'Download'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
-              <Download color="white" width="25" height="25" />
+            <li v-if="!downloading" v-tooltip="'Download'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2" @click="download()">
+              <Download width="25" height="25" />
+            </li>
+            <li v-else class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer mr-2 animate-pulse">
+              <Loading />
             </li>
             <li v-tooltip="'Delete'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500" @click="showDeleteDialog = true">
               <Trash color="white" width="25" height="25" />
@@ -114,7 +147,7 @@ const deleteJob = () => {
         </div>
       </div>
     </div>
-    <div v-if="slip.status !== 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)]">
+    <div v-if="slip.status !== 'finished' || downloading" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)]">
       <div v-if="slip.status !== 'failed'" class="flex flex-col justify-between items-center h-full">
         <ProgressBar :percentage="percentage" />
         <div>
