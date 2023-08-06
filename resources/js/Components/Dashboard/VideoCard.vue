@@ -1,5 +1,5 @@
 <script setup>
-import {Link} from '@inertiajs/vue3'
+import {Link, router} from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
 import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipDialog.vue'
 import EditSlipModal from '@/Components/Dashboard/EditSlipModal.vue'
@@ -11,6 +11,8 @@ import iconType from '@/Composables/useIconType.js'
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
+import WarningButton from '@/Components/UI/WarningButton.vue'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
@@ -44,6 +46,14 @@ window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) 
   percentage.value = e.percentage
   status.value = e.status
 })
+
+const requeue = () => {
+  status.value = 'Queued'
+  router.post(route('job.requeue', props.slip))
+}
+const deleteJob = () => {
+  router.delete(route('job.destroy', props.slip))
+}
 
 </script>
 
@@ -104,10 +114,26 @@ window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) 
         </div>
       </div>
     </div>
-    <div v-if="slip.status != 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
-      <ProgressBar :percentage="percentage" />
-      <p class="text-gray-200 pt-2">{{ percentage }}%</p>
-      <p class="text-gray-200 pb-2">{{ status ?? slip.status }} - {{ slip.title }}</p>
+    <div v-if="slip.status !== 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)]">
+      <div v-if="slip.status !== 'failed'" class="flex flex-col justify-between items-center h-full">
+        <ProgressBar :percentage="percentage" />
+        <div>
+          <p class="text-gray-200 pt-2">{{ percentage }}%</p>
+        </div>
+        <div>
+          <p class="text-gray-200 pb-2">{{ status ?? slip.status }} - {{ slip.title }}</p>
+        </div>
+      </div>
+      <div v-if="slip.status === 'failed'" class="flex flex-col justify-between space-y-4">
+        <div class="text-gray-200 text-center mt-2">
+          <p class="text-2xl font-bold">Oops, processing this slip have been failed!</p>
+          <p>Please check logs for more detailed information</p>
+        </div>
+        <div class="flex flex-row gap-3 jusitfy-between items-center mx-10">
+          <PrimaryButton @click="requeue()">Retry</PrimaryButton>
+          <WarningButton @click="deleteJob()">Delete</WarningButton>
+        </div>
+      </div>
     </div>
     <span
       @mouseover="hover = true"
