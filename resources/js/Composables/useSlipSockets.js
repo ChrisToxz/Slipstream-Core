@@ -9,7 +9,7 @@ const useSlipSockets = (snackbar) => {
       only: ['slips'],
       onSuccess: (page) => {
         //I had to move this to success, so toastr doesn't appear double
-        if (!e.failed) {
+        if (e.success) {
           $snackbar.add({
             type: 'success',
             text: 'Slip successfully processed',

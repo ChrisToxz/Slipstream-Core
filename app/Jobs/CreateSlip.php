@@ -35,7 +35,7 @@ class CreateSlip implements ShouldQueue
         public string $tmpPath,
         public string $type
     ) {
-   
+
     }
 
     /**
@@ -44,6 +44,8 @@ class CreateSlip implements ShouldQueue
      */
     public function handle(): void
     {
+        $this->slip->setStatus(SlipStatus::PROCESSING);
+
         $output = new ConsoleOutput();
 
         $streamHash = Str::random(40);
@@ -137,7 +139,9 @@ class CreateSlip implements ShouldQueue
 
     public function before()
     {
-        $this->slip->setStatus(SlipStatus::PROCESSING());
+        $this->slip->setJobUuid($this->job->uuid());
+
+        $this->slip->setStatus(SlipStatus::STARTING);
         SlipProcessUpdate::dispatch($this->slip->token, 'Starting', 0);
     }
 
@@ -145,7 +149,7 @@ class CreateSlip implements ShouldQueue
     {
         SlipProcessUpdate::dispatch($this->slip->token, 'Deleting temp file', 100);
         Storage::disk('local')->delete($this->tmpPath);
-        $this->slip->setStatus(SLipStatus::FINISHED());
+        $this->slip->setStatus(SLipStatus::FINISHED);
         SlipProcessFinished::dispatch($this->slip);
     }
 
@@ -153,8 +157,8 @@ class CreateSlip implements ShouldQueue
     {
         // TODO: Make proper log of failed job including debug information
         // maybe spatie/laravel-activitylog?
-        $this->slip->setStatus(SlipStatus::FAILED());
-        SlipProcessFinished::dispatch($this->slip, true);
+        $this->slip->setStatus(SlipStatus::FAILED);
+        SlipProcessFinished::dispatch($this->slip, false);
         SlipProcessUpdate::dispatch($this->slip->token, 'Failed', 0);
     }
 
