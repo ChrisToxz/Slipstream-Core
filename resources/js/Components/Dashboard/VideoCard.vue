@@ -66,16 +66,13 @@ const download = () => {
     responseType: 'blob',
     onDownloadProgress: (progress) => {
       percentage.value = (progress.progress * 100).toFixed(0)
-      console.log(percentage.value)
     },
   }).then((response) => {
     const url = window.URL.createObjectURL(new Blob([response.data]))
     console.log(response)
     const link = document.createElement('a')
     link.href = url
-    alert(props.slip.title)
-    link.setAttribute('download', '.mp5')
-    alert(link)
+    link.setAttribute('download', props.slip.title)
     document.body.appendChild(link)
     link.click()
     link.remove()
@@ -134,12 +131,14 @@ const download = () => {
             <li v-tooltip="'Edit'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2" @click="showEditSlip = true">
               <Settings color="white" width="25" height="25" />
             </li>
-            <li v-if="!downloading" v-tooltip="'Download'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2" @click="download()">
-              <Download width="25" height="25" />
-            </li>
-            <li v-else class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer mr-2 animate-pulse">
-              <Loading />
-            </li>
+            <template v-if="slip.mediable.type !== 3">
+              <li v-if="!downloading" v-tooltip="'Download'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2" @click="download()">
+                <Download width="25" height="25" />
+              </li>
+              <li v-else class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer mr-2 animate-pulse">
+                <Loading />
+              </li>
+            </template>
             <li v-tooltip="'Delete'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500" @click="showDeleteDialog = true">
               <Trash color="white" width="25" height="25" />
             </li>
