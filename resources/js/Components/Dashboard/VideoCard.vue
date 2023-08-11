@@ -1,5 +1,5 @@
 <script setup>
-import {Link} from '@inertiajs/vue3'
+import {Link, router} from '@inertiajs/vue3'
 import {computed, ref} from 'vue'
 import DeleteSlipModal from '@/Components/Dashboard/DeleteSlipDialog.vue'
 import EditSlipModal from '@/Components/Dashboard/EditSlipModal.vue'
@@ -11,6 +11,9 @@ import iconType from '@/Composables/useIconType.js'
 import Settings from '~icons/ic/baseline-video-settings'
 import Download from '~icons/ion/download'
 import Trash from '~icons/mdi/trash'
+import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
+import WarningButton from '@/Components/UI/WarningButton.vue'
+import Loading from '@/Components/UI/Loading.vue'
 
 const hoverEffect = ref(false)
 const hover = ref(false)
@@ -44,6 +47,40 @@ window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) 
   percentage.value = e.percentage
   status.value = e.status
 })
+
+const requeue = () => {
+  status.value = 'Queued'
+  router.post(route('job.requeue', props.slip))
+}
+const deleteJob = () => {
+  router.delete(route('job.destroy', props.slip))
+}
+
+const downloading = ref(false)
+const download = () => {
+  downloading.value = true
+  status.value = 'Downloading'
+  axios({
+    url: 'http://localhost/download/' + props.slip.token,
+    method: 'GET',
+    responseType: 'blob',
+    onDownloadProgress: (progress) => {
+      percentage.value = (progress.progress * 100).toFixed(0)
+    },
+  }).then((response) => {
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    console.log(response)
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', props.slip.title)
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+    downloading.value = false
+    status.value = null
+    percentage.value = 0
+  })
+}
 
 </script>
 
@@ -94,9 +131,14 @@ window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) 
             <li v-tooltip="'Edit'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2" @click="showEditSlip = true">
               <Settings color="white" width="25" height="25" />
             </li>
-            <li v-tooltip="'Download'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2">
-              <Download color="white" width="25" height="25" />
-            </li>
+            <template v-if="slip.mediable.type !== 3">
+              <li v-if="!downloading" v-tooltip="'Download'" class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500 mr-2" @click="download()">
+                <Download width="25" height="25" />
+              </li>
+              <li v-else class="rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer mr-2 animate-pulse">
+                <Loading />
+              </li>
+            </template>
             <li v-tooltip="'Delete'" class="px-1 rounded-full w-10 h-10 flex items-center justify-center self-center cursor-pointer transition-all hover:bg-brand-primary-500" @click="showDeleteDialog = true">
               <Trash color="white" width="25" height="25" />
             </li>
@@ -104,10 +146,26 @@ window.Echo.channel(`slip.${slip.value.token}`).listen('SlipProcessUpdate', (e) 
         </div>
       </div>
     </div>
-    <div v-if="slip.status != 'finished'" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)] flex flex-col justify-between items-center">
-      <ProgressBar :percentage="percentage" />
-      <p class="text-gray-200 pt-2">{{ percentage }}%</p>
-      <p class="text-gray-200 pb-2">{{ status ?? slip.status }} - {{ slip.title }}</p>
+    <div v-if="slip.status !== 'finished' || downloading" class="z-2 absolute w-full h-full bg-[rgba(0,0,0,0.6)]">
+      <div v-if="slip.status !== 'failed'" class="flex flex-col justify-between items-center h-full">
+        <ProgressBar :percentage="percentage" />
+        <div>
+          <p class="text-gray-200 pt-2">{{ percentage }}%</p>
+        </div>
+        <div>
+          <p class="text-gray-200 pb-2">{{ status ?? slip.status }} - {{ slip.title }}</p>
+        </div>
+      </div>
+      <div v-if="slip.status === 'failed'" class="flex flex-col justify-between space-y-4">
+        <div class="text-gray-200 text-center mt-2">
+          <p class="text-2xl font-bold">Oops, processing this slip have been failed!</p>
+          <p>Please check logs for more detailed information</p>
+        </div>
+        <div class="flex flex-row gap-3 jusitfy-between items-center mx-10">
+          <PrimaryButton @click="requeue()">Retry</PrimaryButton>
+          <WarningButton @click="deleteJob()">Delete</WarningButton>
+        </div>
+      </div>
     </div>
     <span
       @mouseover="hover = true"

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SlipStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,8 +19,9 @@ return new class extends Migration {
             $table->string('description')->nullable();
             // TODO: Make it not nullable, just for testing. Hmm it should be nullable because if first creates a token
             $table->nullableMorphs('mediable');
+            $table->uuid('job_uuid')->nullable();
 
-            $table->string('status')->default('pending');
+            $table->string('status')->default(SlipStatus::QUEUED);
 
             $table->timestamps();
         });

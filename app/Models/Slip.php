@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use App\Enums\SlipStatus;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Carbon;
+use Storage;
 use Str;
 
 /**
@@ -17,20 +21,20 @@ use Str;
  * @property string $thumb
  * @property string $mediable_type
  * @property int $mediable_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Slip newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Slip newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Slip query()
- * @method static \Illuminate\Database\Eloquent\Builder|Slip whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Slip whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Slip whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Slip whereMediableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Slip whereMediableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Slip whereThumb($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Slip whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Slip whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Slip newModelQuery()
+ * @method static Builder|Slip newQuery()
+ * @method static Builder|Slip query()
+ * @method static Builder|Slip whereCreatedAt($value)
+ * @method static Builder|Slip whereDescription($value)
+ * @method static Builder|Slip whereId($value)
+ * @method static Builder|Slip whereMediableId($value)
+ * @method static Builder|Slip whereMediableType($value)
+ * @method static Builder|Slip whereThumb($value)
+ * @method static Builder|Slip whereTitle($value)
+ * @method static Builder|Slip whereUpdatedAt($value)
+ * @mixin Eloquent
  */
 class Slip extends Model
 {
@@ -54,8 +58,14 @@ class Slip extends Model
     protected function thumb(): Attribute
     {
         return new Attribute(
-            get: fn() => \Storage::disk('slips')->url($this->token . '/thumb.jpg')
+            get: fn() => Storage::disk('slips')->url($this->token.'/thumb.jpg')
         );
+    }
+
+    public function setJobUuid($uuid)
+    {
+        $this->job_uuid = $uuid;
+        $this->save();
     }
 
 

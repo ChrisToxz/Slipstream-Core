@@ -41,6 +41,10 @@ else
     echo "👉 Skipping Laravel automations because we could not detect a Laravel install or it was specifically disabled..."
 fi
 
+s6-setuidgid webuser echo "⚫ Running PHP $(php -v | grep ^PHP | cut -d' ' -f2)"
+s6-setuidgid webuser echo "🟢 Running Node $(node -v)"
+s6-setuidgid webuser echo "⚫ Running NPM $(npm -v)"
+
 echo "🕛 Starting Soketi (Websockets)"
 s6-setuidgid webuser soketi start &
 
