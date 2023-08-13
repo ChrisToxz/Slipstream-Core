@@ -25,13 +25,9 @@ window.Echo = new Echo({
   broadcaster: 'pusher',
   key: import.meta.env.VITE_PUSHER_APP_KEY ?? 'app-key',
   cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-  wsHost: import.meta.env.VITE_PUSHER_HOST ?? '127.0.0.1',
-  wsPort: import.meta.env.VITE_PUSHER_PORT ?? 6001,
+  wsHost: `socket.${window.location.host}`,
+  wsPort: 80,
   wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
   forceTLS: false,
-  enabledTransports: ['ws', 'wss'],
+  enabledTransports: ['ws'],
 })
-
-// window.Echo.channel('orders.1').listen('OrderStatusUpdated', (e) => {
-//   console.log(e)
-// })

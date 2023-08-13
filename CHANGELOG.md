@@ -1,5 +1,31 @@
 
 
+## [0.5.0](https://github.com/christoxz/slipstream-core/compare/0.4.0...0.5.0) (2023-08-11)
+
+
+### 🚀 Features
+
+* **commands:** ss:check command to cross-check if all Slips and/or Folders are matching with each other. If not matching, you get an option to clean it up! ([a408ed4](https://github.com/christoxz/slipstream-core/commit/a408ed4a94322327c7276152100ab6a3cef2293e))
+* Download Slip ([8cf7be6](https://github.com/christoxz/slipstream-core/commit/8cf7be66142f63a119fb3949be98d6763b86e7b2))
+* Infinite scroll on Dashboard ([5d51d3c](https://github.com/christoxz/slipstream-core/commit/5d51d3c6b0e1bab4bf6c80ee3d03633e1d527e60))
+* Storage information in Settings ([aca7909](https://github.com/christoxz/slipstream-core/commit/aca7909b0c4912226d9e4a8b6f9661f117ccca97))
+
+
+### 🐛 Bug Fixes
+
+* Infinite scrolling ([78c86d6](https://github.com/christoxz/slipstream-core/commit/78c86d642e0a1b385f36ef5c6a47b82fe631b224))
+* Upload modal validation ([0a29e94](https://github.com/christoxz/slipstream-core/commit/0a29e94a66b098983a1d5a6c74314428ba59f426))
+
+
+### � Styles
+
+* Tooltips ([0855955](https://github.com/christoxz/slipstream-core/commit/085595569d5d384a65dbb1c007dff3db10c11683))
+
+
+### 📦 Code refactoring
+
+* Move InfiniteScrolling to composable ([5863075](https://github.com/christoxz/slipstream-core/commit/5863075f679b9c775da427ea234879c263906bbb))
+
 ## [0.4.0](https://github.com/christoxz/slipstream-core/compare/0.3.0...0.4.0) (2023-07-12)
 
 

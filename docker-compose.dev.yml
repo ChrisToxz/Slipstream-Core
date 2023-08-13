@@ -7,6 +7,9 @@ services:
       context: ./
       dockerfile: ./deploy/Dockerfile
     volumes:
+#      - ./deploy/s6-overlay/scripts/runas-user:/etc/s6-overlay/scripts/runas-user
+#      - ./deploy/s6-overlay/scripts/laravel-automations:/etc/s6-overlay/scripts/laravel-automations
+#      - ./deploy/nginx/sites-enabled/websockets.conf:/etc/nginx/sites-enabled/websockets.conf
       - ./:/var/www/html
     environment:
       PUID: 1000

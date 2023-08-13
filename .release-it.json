@@ -12,6 +12,12 @@
         }
     },
     "plugins": {
+        "@release-it/bumper": {
+            "out":{
+                "file": "version",
+                "type": "text/plain"
+            }
+        },
         "@release-it/conventional-changelog": {
             "preset": {
                 "name": "conventionalcommits",

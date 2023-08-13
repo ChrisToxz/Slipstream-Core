@@ -4,6 +4,7 @@
 /.vscode
 /deploy/*
 !/deploy/s6-overlay
+!/deploy/nginx
 /node_modules
 /public/build
 /public/hot
