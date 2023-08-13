@@ -1,5 +1,12 @@
 
 
+## [0.6.0](https://github.com/christoxz/slipstream-core/compare/0.5.0...0.6.0) (2023-08-13)
+
+
+### 🚀 Features
+
+* Download Slip ([54ec1c2](https://github.com/christoxz/slipstream-core/commit/54ec1c2510df1352c4a5176934ccf8f775dcca32))
+
 ## [0.5.0](https://github.com/christoxz/slipstream-core/compare/0.4.0...0.5.0) (2023-08-11)
 
 
