@@ -1,55 +1,71 @@
 #!/command/with-contenv bash
 
+# Define color codes
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+YELLOW="\033[0;33m"
+RESET="\033[0m"
+
 # Exit on error
 set -e
 
-# Check to see if an Artisan file exists and assume it means Laravel is configured.
-if [ -f $WEBUSER_HOME/artisan ] && [ ${AUTORUN_ENABLED:="true"} == "true" ]; then
-        echo "🏃‍♂️ Checking for Laravel automations..."
+echo ""
+echo "⚙️  Setting up Slipstream..."
+echo ""
 
-        ############################################################################
-        # Automated database migrations
-        ############################################################################
-        if [ ${AUTORUN_LARAVEL_MIGRATION:="false"} == "true" ]; then
-            echo "🚀 Running migrations..."
-            s6-setuidgid webuser php $WEBUSER_HOME/artisan migrate --force --isolated
-        fi
+# Fix permissions
+echo "🔒 Fixing app path file permissions..."
+chmod -R 755 $WEBUSER_HOME/data
+chown -R webuser:webgroup $WEBUSER_HOME/data
+echo "✅  Permissions fixed."
 
-        ############################################################################
-        # Automated storage linking
-        ############################################################################
-        if [ ${AUTORUN_LARAVEL_STORAGE_LINK:="true"} == "true" ]; then
-            if [ -d $WEBUSER_HOME/public/storage ]; then
-                echo "✅ Storage already linked..."
-            else
-                echo "🔐 Linking the storage..."
-                s6-setuidgid webuser php $WEBUSER_HOME/artisan storage:link
-            fi
-        fi
-
-        ############################################################################
-        # App key
-        ############################################################################
-        if grep -E "APP_KEY=[0-9A-Za-z:+\/=]{1,}" $WEBUSER_HOME/.env > /dev/null; then
-            echo "✅  App key exists"
-        else
-            echo "⏳  Generating app key..."
-            s6-setuidgid webuser php $WEBUSER_HOME/artisan key:generate --no-ansi -q
-            echo "✅  App key generated."
-        fi
+# Check for env file
+if [ ! -f $WEBUSER_HOME/data/.env ]; then
+    echo "🙄  Environment file not found, creating..."
+    s6-setuidgid webuser cp $WEBUSER_HOME/.env.example $WEBUSER_HOME/data/.env
+    echo "✅  Environment file created."
 else
-    echo "👉 Skipping Laravel automations because we could not detect a Laravel install or it was specifically disabled..."
+    echo "✅  Environment file exists."
 fi
 
-s6-setuidgid webuser echo "⚫ Running PHP $(php -v | grep ^PHP | cut -d' ' -f2)"
-s6-setuidgid webuser echo "🟢 Running Node $(node -v)"
-s6-setuidgid webuser echo "⚫ Running NPM $(npm -v)"
+# Symlinks
+echo "🔗️ Making symlinks..."
+if [ ! -f $WEBUSER_HOME/.env ]; then
+    ln -s $WEBUSER_HOME/data/.env $WEBUSER_HOME/.env
+fi
 
+ if [ -d $WEBUSER_HOME/public/storage ]; then
+    echo "✅ Storage already linked..."
+else
+    echo "🔐 Linking the storage..."
+    s6-setuidgid webuser php $WEBUSER_HOME/artisan storage:link
+fi
+
+# Migrations
+echo "🚀 Running migrations..."
+s6-setuidgid webuser php $WEBUSER_HOME/artisan migrate --force --isolated
+
+# App key
+if grep -E "APP_KEY=[0-9A-Za-z:+\/=]{1,}" $WEBUSER_HOME/.env > /dev/null; then
+    echo "✅  App key exists"
+else
+    echo "⏳  Generating app key..."
+    s6-setuidgid webuser php $WEBUSER_HOME/artisan key:generate --no-ansi -q
+    echo "✅  App key generated."
+fi
+
+s6-setuidgid webuser echo "🟢 Running PHP $(php -v | grep ^PHP | cut -d' ' -f2)"
+s6-setuidgid webuser echo "🟢 Running Node $(node -v)"
+s6-setuidgid webuser echo "🟢 Running NPM $(npm -v)"
+
+echo ""
+
+# Starting Soketi
 echo "🕛 Starting Soketi (Websockets)"
 s6-setuidgid webuser soketi start &
 
-echo ""
-echo "🏁 Slipstream started."
-echo ""
+echo "-------------------------------------"
+echo -e "${GREEN}🏁 Slipstream configured.${RESET}"
+echo "-------------------------------------"
 
 exit 0

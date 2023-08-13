@@ -35,11 +35,10 @@ Docker base image by https://serversideup.net
 Slipstream by Chris Toxz (https://github.com/ChrisToxz)
 --------------------------------------------------------------------'
 
-echo '
+echo "
 -------------------------------------
 GID/UID
--------------------------------------'
-echo "
+-------------------------------------
 User uid:    $(id -u webuser)
 User gid:    $(id -g webuser)
 -------------------------------------

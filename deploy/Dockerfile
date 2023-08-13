@@ -1,4 +1,4 @@
-FROM serversideup/php:8.1-fpm-nginx
+FROM serversideup/php:8.2-fpm-nginx
 
 ARG NODE_VERSION=18
 
@@ -12,7 +12,6 @@ ENV FFPROBE_BINARIES="/usr/bin/ffprobe"
 ENV AWS_SDK_JS_SUPPRESS_MAINTENANCE_MODE_MESSAGE=1
 
 # PHP overrides
-
 ENV PHP_OPEN_BASEDIR="$WEBUSER_HOME:/dev/stdout:/tmp:/usr/bin:/dev/null"
 ENV PHP_POST_MAX_SIZE=0
 ENV PHP_UPLOAD_MAX_FILE_SIZE=0
@@ -29,15 +28,16 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
+# Copy NGINX config
+COPY --chmod=755 ./deploy/nginx/ /etc/nginx/
+
 # Copy S6 configs
 COPY --chmod=755 ./deploy/s6-overlay/ /etc/s6-overlay/
 # Copy app
 COPY --chown=1000:1000 . /var/www/html
 
 RUN composer install --no-interaction --optimize-autoloader --no-dev
-RUN npm install ci && npm run build
-
-#RUN composer install --no-interaction --optimize-autoloader
+RUN npm install ci && npm run build && npm cache clean --force
 
 EXPOSE 80
 
