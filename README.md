@@ -46,4 +46,4 @@ Slipstream is an open source self hosted video streaming platform which offers v
 Instructions for Docker and manual(/development) deployment will be available soon.
 
 ## License
-T.B.A
+WIP
