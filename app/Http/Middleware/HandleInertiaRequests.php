@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\AppHelper;
 use App\Settings\GeneralSettings;
+use Cache;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -46,6 +48,10 @@ class HandleInertiaRequests extends Middleware
                     'location' => $request->url(),
                 ]);
             },
+            'version' => [
+                'current' => fn() => AppHelper::getVersion(),
+                'latest' => fn() => Cache::get('app.latest_version', false)
+            ]
         ]);
     }
 }

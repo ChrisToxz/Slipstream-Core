@@ -20,6 +20,7 @@ ENV PHP_MAX_EXECUTION_TIME=0
 RUN apt-get update && apt-get install -y \
     git \
     ffmpeg \
+    cron \
     && curl -sLS https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm \
@@ -27,6 +28,8 @@ RUN apt-get update && apt-get install -y \
     # Clean up
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
+RUN echo "MAILTO=\"\"\n* * * * * webuser /usr/bin/php /var/www/html/artisan schedule:run" > /etc/cron.d/laravel
 
 # Copy NGINX config
 COPY --chmod=755 ./deploy/nginx/ /etc/nginx/
@@ -41,4 +44,4 @@ RUN npm install ci && npm run build && npm cache clean --force
 
 EXPOSE 80
 
-CMD ["su", "webuser", "-c", "php artisan queue:listen --tries=3 --timeout=3600"]
+#CMD ["su", "webuser", "-c", "php artisan queue:listen --tries=3 --timeout=3600"]

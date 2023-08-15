@@ -54,6 +54,10 @@ else
     echo "✅  App key generated."
 fi
 
+echo ""
+s6-setuidgid webuser php $WEBUSER_HOME/artisan ss:version
+echo ""
+
 s6-setuidgid webuser echo "🟢 Running PHP $(php -v | grep ^PHP | cut -d' ' -f2)"
 s6-setuidgid webuser echo "🟢 Running Node $(node -v)"
 s6-setuidgid webuser echo "🟢 Running NPM $(npm -v)"

@@ -50,6 +50,14 @@ let showSettingsModal = ref(false)
     <SettingsModal v-if="showSettingsModal" @close="showSettingsModal = false" />
   </transition>
   <vue3-snackbar top right />
+  <div class="fixed bottom-0 left-0 bg-stone-800 bg-opacity-90 w-screen h-6 flex flex-row justify-end items-center">
+    <div class="mx-5 text-gray-300 text-sm">
+      <span v-if="usePage().props.version.latest" class="mr-4 text-green-500 font-bold">
+        Update available!
+      </span>
+      Powered by Slipstream - v{{ usePage().props.version.current }}
+    </div>
+  </div>
 </template>
 
 <style scoped>

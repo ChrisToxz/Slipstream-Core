@@ -21,7 +21,18 @@ chown webuser:webgroup /root # TODO: Dirty fix..
 
 if [[ $S6_LOGGING != 1 ]]; then
 
-echo '
+# Version
+version_path="$WEBUSER_HOME/version"
+
+# Check if the file exists
+if [ -e "$version_path" ]; then
+  # Read the content of the file into a variable
+  version=$(<"$version_path")
+else
+  echo "Version file not found: $version_path"
+fi
+
+echo "
 --------------------------------------------------------------------
 
  _______ __ __               __
@@ -33,7 +44,8 @@ echo '
 
 Docker base image by https://serversideup.net
 Slipstream by Chris Toxz (https://github.com/ChrisToxz)
---------------------------------------------------------------------'
+Version $version
+--------------------------------------------------------------------"
 
 echo "
 -------------------------------------
