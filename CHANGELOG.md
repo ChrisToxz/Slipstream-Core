@@ -1,5 +1,14 @@
 
 
+## [0.6.2](https://github.com/christoxz/slipstream-core/compare/0.6.1...0.6.2) (2023-08-15)
+
+
+### 🔧 Chores
+
+* Bump laravel to 10.19 ([d790695](https://github.com/christoxz/slipstream-core/commit/d79069596fa243e503566daf367214f47d403cf9))
+* Bump release-it to 16.1.5 ([c394e70](https://github.com/christoxz/slipstream-core/commit/c394e708bc3ef29106ec381a8592c7303e4a0861))
+* Bump release-it to 16.1.5 ([b8ff70f](https://github.com/christoxz/slipstream-core/commit/b8ff70fc6cc9dc04daec12c98a20fb9cbaf578a1))
+
 ## [0.6.1](https://github.com/christoxz/slipstream-core/compare/0.6.0...0.6.1) (2023-08-15)
 
 ## [0.6.0](https://github.com/christoxz/slipstream-core/compare/0.5.0...0.6.0) (2023-08-13)
