@@ -1,5 +1,7 @@
 
 
+## [0.6.1](https://github.com/christoxz/slipstream-core/compare/0.6.0...0.6.1) (2023-08-15)
+
 ## [0.6.0](https://github.com/christoxz/slipstream-core/compare/0.5.0...0.6.0) (2023-08-13)
 
 

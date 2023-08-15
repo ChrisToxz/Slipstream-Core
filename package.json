@@ -39,5 +39,5 @@
         "unplugin-icons": "^0.16.3",
         "vue3-snackbar": "^2.1.7"
     },
-    "version": "0.6.0"
+    "version": "0.6.1"
 }
