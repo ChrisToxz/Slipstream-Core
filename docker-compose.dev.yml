@@ -6,6 +6,8 @@ services:
     build:
       context: ./
       dockerfile: ./deploy/Dockerfile
+    ports:
+      - "5173:5173"
     volumes:
 #      - ./deploy/s6-overlay/scripts/runas-user:/etc/s6-overlay/scripts/runas-user
 #      - ./deploy/s6-overlay/scripts/laravel-automations:/etc/s6-overlay/scripts/laravel-automations
