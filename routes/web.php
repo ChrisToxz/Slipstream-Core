@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [SlipController::class, 'index'])->name('dashboard');
     Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
     Route::get('/download/{slip}', SlipDownloadController::class);
-    
+
     Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
     Route::resource('slips', SlipController::class);
 
@@ -36,6 +36,12 @@ Route::middleware('auth')->group(function () {
     /* Jobs */
     Route::post('/job/{slip}', [JobController::class, 'requeue'])->name('job.requeue');
     Route::delete('/job/{slip}', [JobController::class, 'destroy'])->name('job.destroy');
+
+
+    /* "API" */
+    Route::prefix('api')->group(function () {
+       Route::get('supportedmimetypes', \App\Http\Controllers\Api\SupportedMimeTypesController::class)->name('api.supportedmimetypes');
+    });
 });
 
 

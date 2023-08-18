@@ -30,8 +30,18 @@ let fileName = ref()
 let percentage = ref(null)
 let rate = ref(null)
 let estimated = ref(0)
+let validTypes = null
 
-const validTypes = ['video/mp4','video/mpeg']
+const getSupportedMimetypes = () => {
+  axios.get(route('api.supportedmimetypes'))
+    .then(res => {
+      validTypes = res.data
+    })
+    .catch(err => {
+      console.error('Error fetching supported MIME types:', err)
+    })
+}
+getSupportedMimetypes()
 
 const getUploadedFile = (e) => {
   // init
@@ -100,7 +110,9 @@ const closeModal = () => {
 }
 
 </script>
+<suspense>
 
+</suspense>
 <template>
   <div class="backdrop-blur-md w-full h-full absolute top-0 left-0">
     <div class="flex flex-col overflow-x-hidden justify-center items-center absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 bg-neutral-800 rounded-2xl w-1/2">

@@ -8,6 +8,7 @@ use App\Jobs\CreateSlip;
 use App\Jobs\GenerateThumb;
 use App\Jobs\UploadSlip;
 use App\Models\Slip;
+use App\Rules\SupportedMimeTypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
@@ -76,7 +77,7 @@ class SlipController extends Controller
     {
         if ($request->file) {
             $request->validate([
-                'file' => 'file|mimetypes:video/mp4,video/mpeg|max:999999'
+                'file' => ['file', 'max:999999', new SupportedMimeTypes()]
             ]);
         }
 
