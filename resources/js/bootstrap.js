@@ -6,6 +6,8 @@
 
 import axios from 'axios'
 import Echo from 'laravel-echo'
+import {SnackbarService} from 'vue3-snackbar'
+import 'vue3-snackbar/styles'
 
 import Pusher from 'pusher-js'
 
@@ -30,4 +32,19 @@ window.Echo = new Echo({
   wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
   forceTLS: false,
   enabledTransports: ['ws'],
+})
+
+const ws = window.Echo.connector.pusher.connection
+
+
+
+ws.bind('connected', () => {
+  console.log('Websocket connected!')
+})
+ws.bind('unavailable', () => {
+  console.error('Websocket connection lost')
+  $snackbar.add({
+    type: 'warning',
+    text: 'Connection lost...',
+  })
 })
