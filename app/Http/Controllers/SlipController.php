@@ -30,15 +30,6 @@ class SlipController extends Controller
         ]);
     }
 
-    public function show(Slip $slip)
-    {
-        $slip = $slip->load('mediable');
-
-        return inertia('Slip', [
-            'slip' => $slip
-        ]);
-    }
-
     public function store(Request $request)
     {
         /**

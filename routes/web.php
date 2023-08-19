@@ -22,11 +22,12 @@ Route::redirect('/', '/dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [SlipController::class, 'index'])->name('dashboard');
-    Route::get('/v/{slip}', [SlipController::class, 'show'])->name('slip');
     Route::get('/download/{slip}', SlipDownloadController::class);
 
     Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');
+
     Route::resource('slips', SlipController::class);
+    Route::get('/v/{slip}', \App\Http\Controllers\SlipShowController::class)->name('slip');
 
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
@@ -66,5 +67,6 @@ require __DIR__.'/auth.php';
 //    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 //    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 //});
+
 
 
