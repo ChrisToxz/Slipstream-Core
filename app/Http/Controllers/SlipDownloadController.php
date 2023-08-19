@@ -10,7 +10,6 @@ class SlipDownloadController extends Controller
 {
     public function __invoke(Slip $slip)
     {
-
         return Storage::disk('slips')->download($slip->mediable->localPath);
     }
 }

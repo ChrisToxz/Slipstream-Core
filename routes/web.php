@@ -21,7 +21,7 @@ Route::redirect('/', '/dashboard');
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [SlipController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
     Route::get('/download/{slip}', SlipDownloadController::class);
 
     Route::post('/slips/tempupload', [SlipController::class, 'tempUpload'])->name('slips.tempupload');

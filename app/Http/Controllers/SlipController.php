@@ -15,21 +15,6 @@ use Illuminate\Support\Facades\Redirect;
 
 class SlipController extends Controller
 {
-    public function index(Request $request)
-    {
-        $slips = Slip::latest()->with('mediable')
-            ->paginate(6)
-            ->withQueryString();
-
-        if ($request->wantsJson()) {
-            return $slips;
-        }
-
-        return inertia('Dashboard', [
-            'slips' => $slips
-        ]);
-    }
-
     public function store(Request $request)
     {
         /**
