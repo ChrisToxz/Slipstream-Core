@@ -4,90 +4,57 @@ namespace App\Http\Controllers;
 
 use App\Enums\VideoType;
 use App\Events\SlipUploaded;
+use App\Http\Requests\SlipStoreRequest;
+use App\Http\Requests\SlipTempUploadRequest;
+use App\Http\Requests\SlipUpdateRequest;
 use App\Jobs\CreateSlip;
 use App\Jobs\GenerateThumb;
 use App\Jobs\UploadSlip;
 use App\Models\Slip;
 use App\Rules\SupportedMimeTypes;
+use App\Services\SlipService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 
 class SlipController extends Controller
 {
-    public function store(Request $request)
+    public function store(SlipStoreRequest $request, SlipService $slipService)
     {
-        /**
-         * TODO
-         * Validation selected type (Cross check with enum)
-         * Validation check correct mimemtypes that we could accept
-         */
-
-        $type = $request->get('type');
-
-        $request->validate([
-            'title' => 'nullable|string|max:255',
-            'description' => 'nullable|string|max:200',
-            'type' => 'required|enum_key:'.VideoType::class
-        ]);
-
-        $title = $request->title ?: $request->get('originalFileName');
-
-        $slip = Slip::create([
-            'title' => $title,
-            'description' => $request->description
-        ]);
-
-        // Generate Thumbnail
-        GenerateThumb::dispatchSync($slip, $request->get('file'));
-        // To the final processing
-        CreateSlip::dispatch($slip, $request->get('file'), VideoType::fromKey($type));
-        // Dispatch event to reload Dashboard
-        // TODO: Leftover? is this really needed?
-        SlipUploaded::dispatch();
+        $slipService->create(
+            $request->title,
+            $request->description,
+            $request->type,
+            $request->file
+        );
     }
 
-    // TODO: Check proper validation for files.
-    // File size limit? Mimetypes?
-    public function tempUpload(Request $request)
+    public function tempUpload(SlipTempUploadRequest $request, SlipService $slipService)
     {
-        if ($request->file) {
-            $request->validate([
-                'file' => ['file', 'max:999999', new SupportedMimeTypes()]
-            ]);
-        }
-
-        return Redirect::back()->with([
-            'tmpPath' => $request->file->store('tmp')
-        ]);
+        $slipService->tempUpload($request);
     }
 
-    public function update(Request $request, Slip $slip)
+    public function update(SlipUpdateRequest $request, Slip $slip, SlipService $slipService)
     {
-        try {
-            $validated = $request->validate([
-                'title' => 'required|string|max:255',
-                'description' => 'nullable|string|max:200',
-            ]);
-        } catch (ValidationException $ex) {
-            if ($request->wantsJson()) {
-                return response()->json(['errors' => $ex->errors()], 422);
-            }
-        }
-
-        $slip->update($validated);
+        $slipService->update(
+            $slip,
+            $request->title,
+            $request->description
+        );
 
         if ($request->wantsJson()) {
             return $slip->load('mediable');
         }
+
+        return Redirect::back();
     }
 
-    public function destroy(Slip $slip)
+    public function destroy(Slip $slip, SlipService $slipService)
     {
-        if (!File::deleteDirectory(storage_path('app/public/slips/'.$slip->token))) {
-            return redirect()->back()->withErrors(['message' => 'Something went wrong, Slip have not been deleted!']);
+        if (!$slipService->delete($slip)) {
+            redirect()->back()->withErrors(['message' => 'Something went wrong, Slip have not been deleted!']);
         }
-        $slip->delete();
+
         return Redirect::back();
     }
 }
