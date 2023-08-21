@@ -100,7 +100,13 @@ const saveMedia = () => {
       title: data.title ?? fileName.value,
     }))
     .post('/slips', {
-      onSuccess: () => closeModal(),
+      onSuccess: () => {
+        $snackbar.add({
+          type: 'info',
+          text: 'Slip is being queued to be processed',
+        })
+        closeModal()
+      },
     })
 }
 
