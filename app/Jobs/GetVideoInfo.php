@@ -20,8 +20,7 @@ class GetVideoInfo implements ShouldQueue
      */
     public function __construct(
         public Slip $slip
-    )
-    {
+    ) {
     }
 
     /**
@@ -31,11 +30,12 @@ class GetVideoInfo implements ShouldQueue
     {
         $ffmpeg = FFMpeg::fromDisk('slips')->open($this->slip->mediable->localpath);
         $stream = $ffmpeg->getVideoStream();
-        
+        dd($stream);
+
         $this->slip->mediable->update([
             'duration' => $ffmpeg->getDurationInSeconds(),
             'height' => $stream->getDimensions()->getHeight(),
-            'info' => json_encode((array)$stream)
+            'info' => json_encode((array) $stream)
         ]);
     }
 }
