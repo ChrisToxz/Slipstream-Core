@@ -3,12 +3,11 @@
 namespace App\Services;
 
 use App\Enums\VideoType;
-use App\Events\SlipUploaded;
 use App\Jobs\CreateSlip;
 use App\Jobs\GenerateThumb;
 use App\Models\Slip;
+use Exception;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Redirect;
 
 /**
  * Class SlipService
@@ -17,7 +16,7 @@ use Illuminate\Support\Facades\Redirect;
 class SlipService
 {
 
-    public function create(string $title, ?string $description, string $type, string $file)
+    public function create(string $title, ?string $description, string $type, string $file): void
     {
         $slip = Slip::create([
             'title' => $title,
@@ -26,24 +25,21 @@ class SlipService
 
         // Generate Thumbnail
         GenerateThumb::dispatchSync($slip, $file);
+
         // To the final processing
         CreateSlip::dispatch($slip, $file, VideoType::fromKey($type));
-        // Dispatch event to reload Dashboard
-        // TODO: Leftover? is this really needed?
-        SlipUploaded::dispatch();
     }
 
     public function tempUpload(\App\Http\Requests\SlipTempUploadRequest $request)
     {
-        if ($request->file) {
-            return Redirect::back()->with([
-                'tmpPath' => $request->file->store('tmp')
-            ]);
+        if (!$request->file) {
+            throw new Exception("Not a valid file");
         }
-        return back()->withErrors('Not a valid file')->withInput();
+
+        return $request->file->store('tmp');
     }
 
-    public function update(Slip $slip, string $title, ?string $description)
+    public function update(Slip $slip, string $title, ?string $description): void
     {
         $slip->update([
             'title' => $title,
@@ -51,12 +47,12 @@ class SlipService
         ]);
     }
 
-    public function delete(Slip $slip)
+    public function delete(Slip $slip): void
     {
         if (!File::deleteDirectory(storage_path('app/public/slips/'.$slip->token))) {
-            return false;
+            throw new Exception("Something went wrong, Slip have not been deleted!");
         }
-        return $slip->delete();
+        $slip->delete();
     }
 
 }

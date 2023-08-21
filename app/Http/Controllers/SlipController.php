@@ -2,19 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\VideoType;
-use App\Events\SlipUploaded;
 use App\Http\Requests\SlipStoreRequest;
 use App\Http\Requests\SlipTempUploadRequest;
 use App\Http\Requests\SlipUpdateRequest;
-use App\Jobs\CreateSlip;
-use App\Jobs\GenerateThumb;
-use App\Jobs\UploadSlip;
 use App\Models\Slip;
-use App\Rules\SupportedMimeTypes;
 use App\Services\SlipService;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Redirect;
 
 class SlipController extends Controller
@@ -31,7 +23,13 @@ class SlipController extends Controller
 
     public function tempUpload(SlipTempUploadRequest $request, SlipService $slipService)
     {
-        $slipService->tempUpload($request);
+        try {
+            return Redirect::back()->with([
+                'tmpPath' => $slipService->tempUpload($request)
+            ]);
+        } catch (\Exception $e) {
+            return back()->withErrors($e)->withInput();
+        }
     }
 
     public function update(SlipUpdateRequest $request, Slip $slip, SlipService $slipService)
@@ -51,8 +49,10 @@ class SlipController extends Controller
 
     public function destroy(Slip $slip, SlipService $slipService)
     {
-        if (!$slipService->delete($slip)) {
-            redirect()->back()->withErrors(['message' => 'Something went wrong, Slip have not been deleted!']);
+        try {
+            $slipService->delete($slip);
+        } catch (\Exception $e) {
+            redirect()->back()->withErrors(['message' => $e]);
         }
 
         return Redirect::back();
