@@ -4,6 +4,11 @@ module.exports = {
         ecmaVersion: 'latest',
         sourceType: 'module',
     },
+    globals: {
+        "$snackbar": true,
+        "route": true,
+        "axios": true,
+    },
     env: {
         amd: true,
         browser: true,
