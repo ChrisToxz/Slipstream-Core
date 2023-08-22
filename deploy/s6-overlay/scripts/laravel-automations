@@ -34,6 +34,10 @@ if [ ! -f $WEBUSER_HOME/.env ]; then
     ln -s $WEBUSER_HOME/data/.env $WEBUSER_HOME/.env
 fi
 
+if [ ! -f $WEBUSER_HOME/storage/logs/slipstream.log ]; then
+    ln -s $WEBUSER_HOME/data/slipstream.log $WEBUSER_HOME/storage/logs/slipstream.log
+fi
+
  if [ -d $WEBUSER_HOME/public/storage ]; then
     echo "✅ Storage already linked..."
 else
