@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Artisan;
 use Illuminate\Console\Command;
 
+use function Laravel\Prompts\confirm;
+
 class CleanAll extends Command
 {
     /**
@@ -12,7 +14,7 @@ class CleanAll extends Command
      *
      * @var string
      */
-    protected $signature = 'ss:cleanall';
+    protected $signature = 'ss:clean-all';
 
     /**
      * The console command description.
@@ -26,9 +28,13 @@ class CleanAll extends Command
      */
     public function handle()
     {
-        Artisan::call('ss:clean-temp');
-        $this->info(Artisan::output());
-        Artisan::call('ss:cleanslips --migrate');
-        $this->info(Artisan::output());
+        $this->alert('This will delete all temporary files and Slips!');
+        if (confirm('Are you sure you want to continue?', false)) {
+            Artisan::call('ss:clean-temp --force');
+            $this->info(Artisan::output());
+            Artisan::call('ss:clean-slips --force');
+            $this->info(Artisan::output());
+        }
+
     }
 }
