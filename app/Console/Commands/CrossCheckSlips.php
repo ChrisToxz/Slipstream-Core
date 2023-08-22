@@ -6,6 +6,8 @@ use App\Models\Slip;
 use Illuminate\Console\Command;
 use Storage;
 
+use function Laravel\Prompts\select;
+
 class CrossCheckSlips extends Command
 {
     /**
@@ -28,7 +30,14 @@ class CrossCheckSlips extends Command
     public function handle()
     {
 
-        $choice = $this->choice('Check Slips, folders or both?', ['both', 'slips', 'folders'], 0);
+        $spectrum = select(
+            'Check Slips, folders, or both?',
+            [
+                'both' => 'Both',
+                'slips' => 'Only Slips',
+                'folders' => 'Only folders'
+            ]
+        );
 
         $slips = Slip::all();
         $folders = collect(Storage::disk('slips')->directories());
@@ -36,7 +45,7 @@ class CrossCheckSlips extends Command
         $invalid_folders = [];
         $invalid_slips = [];
 
-        if ($choice === 'slips' or $choice === 'both') {
+        if ($spectrum === 'slips' or $spectrum === 'both') {
             $this->info('Checking Slips...');
             foreach ($slips as $slip) {
                 if (!$folders->contains($slip->token)) {
@@ -45,7 +54,7 @@ class CrossCheckSlips extends Command
             }
         }
 
-        if ($choice === 'folders' or $choice === 'both') {
+        if ($spectrum === 'folders' or $spectrum === 'both') {
             $this->info('Checking Folders...');
             foreach ($folders as $folder) {
                 if (!$slips->contains(function ($key) use ($folder) {
