@@ -5,6 +5,14 @@ use Illuminate\Http\UploadedFile;
 beforeEach(function () {
     $this->user = createUser();
     actingAs($this->user);
+
+    $this->file = new UploadedFile(
+        base_path('./tests/Assets/video.mp4'), // Path to the file
+        'video.mp4', // Original file name
+        mime_content_type(base_path('./tests/Assets/video.mp4')), // Mime type
+        null, // Error code
+        true
+    );
 });
 
 it('it can upload a valid file to the tmp folder', function () {
@@ -37,17 +45,9 @@ it('dispatches jobs after successfully uploaded file', function () {
 
 it('processes the slip', function () {
 
-    $filePath = base_path('./tests/Assets/video.mp4');
-
     $this->post(route('slips.tempupload'),
         [
-            'file' => new UploadedFile(
-                $filePath, // Path to the file
-                'video.mp4', // Original file name
-                mime_content_type($filePath), // Mime type
-                null, // Error code
-                true
-            )// Test mode, this ensures the file isn't actually moved
+            'file' => $this->file// Test mode, this ensures the file isn't actually moved
         ])->assertSessionHas('tmpPath');;
 
     $slip = \App\Models\Slip::create([
