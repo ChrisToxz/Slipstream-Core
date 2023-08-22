@@ -19,7 +19,7 @@ class CleanUpSlipsDisk extends Command
      *
      * @var string
      */
-    protected $signature = 'ss:cleanslips {--force}';
+    protected $signature = 'ss:clean-slips {--force}';
 
     /**
      * The console command description.
