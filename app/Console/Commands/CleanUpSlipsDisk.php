@@ -2,9 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Slip;
+use App\Services\SlipService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
+
+use function Laravel\Prompts\confirm;
+
+use function Laravel\Prompts\info;
+use function Laravel\Prompts\warning;
 
 class CleanUpSlipsDisk extends Command
 {
@@ -13,7 +19,7 @@ class CleanUpSlipsDisk extends Command
      *
      * @var string
      */
-    protected $signature = 'ss:cleanslips {--migrate}';
+    protected $signature = 'ss:cleanslips {--force}';
 
     /**
      * The console command description.
@@ -25,26 +31,40 @@ class CleanUpSlipsDisk extends Command
     /**
      * Execute the console command.
      */
-
-    // TODO: Check if Slip contains in DB as well, and remove, for now will ask to just do a `migrate:fresh`
-    public function handle()
+    public function handle(SlipService $slipService)
     {
-        if ($this->option('migrate') || $this->confirm('Do you want to run `migrate:fresh` as well?', true)) { // Temporary just default yes
-            Artisan::call('migrate:fresh');
-            $this->info('`migrate:fresh` ran successfully');
+        if (!$this->option('force')) {
+            $this->alert('This command will delete all `slips` and related files');
         }
 
-        $disk = Storage::disk('slips');
 
-        $dirs = $disk->directories();
+        if ($this->option('force') || confirm(
+                'Are you sure you want to continue?',
+                false
+            )) {
 
-        $deleted = 0;
-        foreach ($dirs as $dir) {
-            $disk->deleteDirectory($dir);
-            $this->info('Deleted directory: ' . $dir);
-            $deleted++;
+            $deleted = 0;
+            $slips = Slip::all();
+
+            foreach ($slips as $slip) {
+                $slipService->delete($slip);
+                $deleted++;
+            }
+            info("Done! {$deleted} slips deleted");
+
+            $folders = collect(Storage::disk('slips')->directories());
+
+            if ($folders->count()) {
+                $deleted = 0;
+                warning('For some reasons we noticed there are still files in the `Slip` storage');
+                if ($this->option('force') || confirm('Do you want to delete those too?', true)) {
+                    foreach ($folders as $folder) {
+                        Storage::disk('slips')->deleteDirectory($folder);
+                        $deleted++;
+                    }
+                    info("Done! {$deleted} additional folders deleted");
+                }
+            }
         }
-
-        $this->info('Disk cleanup completed, deleted ' . $deleted . ' directories');
     }
 }
