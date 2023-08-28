@@ -9,19 +9,16 @@ import {Link, usePage} from '@inertiajs/vue3'
 
 let showUploadModal = ref(false)
 let showSettingsModal = ref(false)
-
 </script>
 
 <template>
-  <div class="bg-neutral-900 min-h-screen">
+  <div class="bg-neutral-950 min-h-screen">
     <div class="flex">
       <!-- Main wrapper -->
       <div class="flex flex-col basis-full mb-10">
         <!-- Header -->
-        <header class="flex h-20 justify-between mt-5 mx-8">
-          <div class="self-center">
-            <ApplicationLogo />
-          </div>
+        <header class="flex h-20 justify-between mt-5 mx-8 min-h-fit">
+          <ApplicationLogo />
           <!-- Navigation -->
           <nav class="self-center bg-brand-secondary-700 rounded-md">
             <div v-if="usePage().props.auth.user">
@@ -33,7 +30,7 @@ let showSettingsModal = ref(false)
                 <li><NavItem class="text-gray-200 hover:text-gray-400"><Link :href="route('logout')" method="POST" as="button">Logout</Link></NavItem></li>
               </ul>
             </div>
-            <div v-else>
+            <div v-else-if="usePage().url !== '/login'">
               <NavItem><Link :href="route('login')" class="text-gray-200 hover:text-gray-400">Login</Link></NavItem>
             </div>
           </nav>

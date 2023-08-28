@@ -1,3 +1,3 @@
 <template>
-  <img src="/img/logo.png" alt="Slipstream Logo" />
+  <img class="h-full" src="/img/slipstream-logo.png" alt="Slipstream Logo" />
 </template>
