@@ -14,10 +14,10 @@ echo "⚙️  Setting up Slipstream..."
 echo ""
 
 # Fix permissions
-echo "🔒 Fixing app path file permissions..."
-chmod -R 755 $WEBUSER_HOME/data
-chown -R webuser:webgroup $WEBUSER_HOME/data
-echo "✅  Permissions fixed."
+#echo "🔒 Fixing app path file permissions..."
+#chmod -R 755 $WEBUSER_HOME/data
+#chown -R webuser:webgroup $WEBUSER_HOME/data
+#echo "✅  Permissions fixed."
 
 # Check for env file
 if [ ! -f $WEBUSER_HOME/data/.env ]; then

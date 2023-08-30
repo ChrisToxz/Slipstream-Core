@@ -5,9 +5,9 @@ module.exports = {
         sourceType: 'module',
     },
     globals: {
-        "$snackbar": true,
-        "route": true,
-        "axios": true,
+        '$snackbar': true,
+        'route': true,
+        'axios': true,
     },
     env: {
         amd: true,
@@ -16,23 +16,35 @@ module.exports = {
     },
     overrides: [
         {
-            "files": [
-                ".eslintrc.{js,cjs}"
+            'files': [
+                '.eslintrc.{js,cjs}',
             ],
-            "parserOptions": {
-                "sourceType": "script"
+            'parserOptions': {
+                'sourceType': 'script',
             },
+        },
+        {
+            files: ['*.vue'],
+            rules: {
+                'vue/html-indent': ['error', 4],
+                'vue/script-indent': ['error', 4],
+                'vue/html-closing-bracket-newline': [
+                    {
+                        singleline: 'ignore',
+                        multiline: 'ignore',
+                    },
+                ],
+            }
         }
     ],
     plugins: [
-        "vue"
+        'vue',
     ],
     rules: {
-        indent: ['error', 2],
+        indent: ['error', 4],
         quotes: ['warn', 'single'],
         semi: ['warn', 'never'],
         'no-unused-vars': ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: true }],
-        'comma-dangle': ['warn', 'always-multiline'],
         'vue/multi-word-component-names': 'off',
         'vue/max-attributes-per-line': 'off',
         'vue/no-v-html': 'off',

@@ -1,5 +1,5 @@
 <template>
-  <button class="bg-brand-primary-600 py-2 w-full rounded-lg transition-all duration-300 ease hover:-translate-y-0.5 hover:bg-brand-primary-700 text-gray-200">
+  <button class="bg-[#294DCF] py-2 px-4 w-fit rounded-lg transition-all duration-300 ease hover:scale-105 hover:bg-opacity-90 text-white">
     <slot />
   </button>
 </template>
