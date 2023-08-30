@@ -6,10 +6,11 @@ use Spatie\LaravelSettings\Settings;
 
 class GeneralSettings extends Settings
 {
-
     public string $site_name;
 
     public bool $guests_can_see_video_info;
+
+    public int $file_size_limit;
 
     public array $streaming_bitrates;
 

@@ -1,11 +1,11 @@
 <script setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
 import NavItem from '@/Components/UI/NavItem.vue'
 import ApplicationLogo from '@/Components/UI/ApplicationLogo.vue'
 import UploadModal from '@/Components/Dashboard/UploadModal.vue'
-import {Vue3Snackbar} from 'vue3-snackbar'
+import { Vue3Snackbar } from 'vue3-snackbar'
 import SettingsModal from '@/Components/Settings/SettingsModal.vue'
-import {Link, usePage} from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 
 let showUploadModal = ref(false)
 let showSettingsModal = ref(false)
@@ -13,51 +13,75 @@ let showSettingsModal = ref(false)
 </script>
 
 <template>
-  <div class="bg-neutral-900 min-h-screen">
-    <div class="flex">
-      <!-- Main wrapper -->
-      <div class="flex flex-col basis-full mb-10">
-        <!-- Header -->
-        <header class="flex h-20 justify-between mt-5 mx-8">
-          <div class="self-center">
-            <ApplicationLogo />
-          </div>
-          <!-- Navigation -->
-          <nav class="self-center bg-brand-secondary-700 rounded-md">
-            <div v-if="usePage().props.auth.user">
-              <ul class="flex justify-around gap-8 sm:gap-2">
-                <li><NavItem class="text-gray-300">Welcome, {{ $page.props.auth.user.name }}</NavItem></li>
-                <li><NavItem link="dashboard" class="text-brand-primary-500" as="button">Dashboard </NavItem></li>
-                <li><NavItem class="text-gray-200 hover:text-gray-400" as="button" @click="showSettingsModal = true">Settings</NavItem></li>
-                <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showUploadModal = true">Upload</NavItem></li>
-                <li><NavItem class="text-gray-200 hover:text-gray-400"><Link :href="route('logout')" method="POST" as="button">Logout</Link></NavItem></li>
-              </ul>
+    <div class="bg-neutral-900 min-h-screen">
+        <div class="flex">
+            <!-- Main wrapper -->
+            <div class="flex flex-col basis-full mb-10">
+                <!-- Header -->
+                <header class="flex h-20 justify-between mt-5 mx-8">
+                    <div class="self-center">
+                        <ApplicationLogo />
+                    </div>
+                    <!-- Navigation -->
+                    <nav class="self-center bg-brand-secondary-700 rounded-md">
+                        <div v-if="usePage().props.auth.user">
+                            <ul class="flex justify-around gap-8 sm:gap-2">
+                                <li>
+                                    <NavItem class="text-gray-300">
+                                        Welcome, {{ $page.props.auth.user.name }}
+                                    </NavItem>
+                                </li>
+                                <li>
+                                    <NavItem link="dashboard" class="text-brand-primary-500" as="button">
+                                        Dashboard
+                                    </NavItem>
+                                </li>
+                                <li>
+                                    <NavItem class="text-gray-200 hover:text-gray-400" as="button"
+                                        @click="showSettingsModal = true">
+                                        Settings
+                                    </NavItem>
+                                </li>
+                                <li>
+                                    <NavItem class="text-gray-200 hover:text-gray-400" @click="showUploadModal = true">
+                                        Upload
+                                    </NavItem>
+                                </li>
+                                <li>
+                                    <NavItem class="text-gray-200 hover:text-gray-400">
+                                        <Link :href="route('logout')" method="POST" as="button">Logout</Link>
+                                    </NavItem>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div v-else>
+                            <NavItem>
+                                <Link :href="route('login')" class="text-gray-200 hover:text-gray-400">Login</Link>
+                            </NavItem>
+                        </div>
+                    </nav>
+                </header>
             </div>
-            <div v-else>
-              <NavItem><Link :href="route('login')" class="text-gray-200 hover:text-gray-400">Login</Link></NavItem>
-            </div>
-          </nav>
-        </header>
-      </div>
+        </div>
+        <!-- Content -->
+        <section id="content">
+            <slot />
+        </section>
     </div>
-    <!-- Content -->
-    <section id="content">
-      <slot />
-    </section>
-  </div>
-  <UploadModal v-if="showUploadModal" @close="showUploadModal = false" />
-  <transition name="modal">
-    <SettingsModal v-if="showSettingsModal" @close="showSettingsModal = false" />
-  </transition>
-  <vue3-snackbar top right />
-  <div class="fixed bottom-0 left-0 bg-stone-800 bg-opacity-90 w-screen h-6 flex flex-row justify-end items-center">
-    <div class="mx-5 text-gray-300 text-sm">
-      <span v-if="usePage().props.version.latest" class="mr-4 text-green-500 font-bold">
-        Update available!
-      </span>
-      Powered by Slipstream - v{{ usePage().props.version.current }}
+    <UploadModal v-if="showUploadModal" @close="showUploadModal = false" />
+    <transition name="modal">
+        <SettingsModal v-if="showSettingsModal" @close="showSettingsModal = false" />
+    </transition>
+    <vue3-snackbar top right />
+    <div class="fixed bottom-0 left-0 bg-stone-800 bg-opacity-90 w-screen h-6 flex flex-row justify-end items-center">
+        <div class="mx-5 text-gray-300 text-sm">
+            <span v-if="usePage().props.version.latest" class="mr-4 text-green-500 font-bold">
+                Update available!
+            </span>
+            Powered by Slipstream - v{{ usePage().props.version.current }}
+        </div>
     </div>
-  </div>
 </template>
 
 <style scoped>

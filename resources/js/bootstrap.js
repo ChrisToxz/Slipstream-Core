@@ -6,7 +6,6 @@
 
 import axios from 'axios'
 import Echo from 'laravel-echo'
-import {SnackbarService} from 'vue3-snackbar'
 import 'vue3-snackbar/styles'
 
 import Pusher from 'pusher-js'
@@ -24,14 +23,14 @@ window.Pusher = Pusher
 
 
 window.Echo = new Echo({
-  broadcaster: 'pusher',
-  key: import.meta.env.VITE_PUSHER_APP_KEY ?? 'app-key',
-  cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
-  wsHost: `socket.${window.location.host}`,
-  wsPort: 80,
-  wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
-  forceTLS: false,
-  enabledTransports: ['ws'],
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY ?? 'app-key',
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'mt1',
+    wsHost: `socket.${window.location.host}`,
+    wsPort: 80,
+    wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
+    forceTLS: false,
+    enabledTransports: ['ws'],
 })
 
 const ws = window.Echo.connector.pusher.connection
@@ -39,12 +38,12 @@ const ws = window.Echo.connector.pusher.connection
 
 
 ws.bind('connected', () => {
-  console.log('Websocket connected!')
+    console.log('Websocket connected!')
 })
 ws.bind('unavailable', () => {
-  console.error('Websocket connection lost')
-  $snackbar.add({
-    type: 'warning',
-    text: 'Connection lost...',
-  })
+    console.error('Websocket connection lost')
+    $snackbar.add({
+        type: 'warning',
+        text: 'Connection lost...',
+    })
 })

@@ -22,9 +22,9 @@ class SlipTempUploadRequest extends FormRequest
      */
     public function rules(): array
     {
-        // TODO: File size limit by settings
+        $max = app(GeneralSettings::class)->file_size_limit;
         return [
-            'file' => ['file', 'max:999999', new SupportedMimeTypes()]
+            'file' => ['file', "max:{$max}", new SupportedMimeTypes()]
         ];
     }
 }

@@ -1,4 +1,4 @@
-import {onMounted, ref} from 'vue'
+import { onMounted, ref } from 'vue'
 
 export default function useCanvas() {
   let canvas = ref(null)

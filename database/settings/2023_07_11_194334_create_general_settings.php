@@ -7,6 +7,7 @@ return new class extends SettingsMigration {
     {
         $this->migrator->add('general.site_name', 'Slipstream');
         $this->migrator->add('general.guests_can_see_video_info', true);
+        $this->migrator->add('general.file_size_limit', 999999);
         $this->migrator->add('general.streaming_bitrates', [
                 2160 => 4000,
                 1440 => 3000,
