@@ -1,6 +1,6 @@
 <script setup>
 import MainLayout from '@/Layouts/MainLayout.vue'
-import {Head, useForm} from '@inertiajs/vue3'
+import { Head, useForm } from '@inertiajs/vue3'
 import PrimaryTextInput from '@/Components/UI/PrimaryTextInput.vue'
 import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
 
@@ -10,7 +10,8 @@ const form = useForm({
 })
 
 const login = () => {
-  form.post(route('login'))}
+  form.post(route('login'))
+}
 </script>
 
 <template>
@@ -44,6 +45,4 @@ const login = () => {
   </MainLayout>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

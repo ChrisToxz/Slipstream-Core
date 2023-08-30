@@ -1,11 +1,11 @@
 <script setup>
-import {ref} from 'vue'
+import { ref } from 'vue'
 import NavItem from '@/Components/UI/NavItem.vue'
 import ApplicationLogo from '@/Components/UI/ApplicationLogo.vue'
 import UploadModal from '@/Components/Dashboard/UploadModal.vue'
-import {Vue3Snackbar} from 'vue3-snackbar'
+import { Vue3Snackbar } from 'vue3-snackbar'
 import SettingsModal from '@/Components/Settings/SettingsModal.vue'
-import {Link, usePage} from '@inertiajs/vue3'
+import { Link, usePage } from '@inertiajs/vue3'
 
 let showUploadModal = ref(false)
 let showSettingsModal = ref(false)
@@ -26,15 +26,30 @@ let showSettingsModal = ref(false)
           <nav class="self-center bg-brand-secondary-700 rounded-md">
             <div v-if="usePage().props.auth.user">
               <ul class="flex justify-around gap-8 sm:gap-2">
-                <li><NavItem class="text-gray-300">Welcome, {{ $page.props.auth.user.name }}</NavItem></li>
-                <li><NavItem link="dashboard" class="text-brand-primary-500" as="button">Dashboard </NavItem></li>
-                <li><NavItem class="text-gray-200 hover:text-gray-400" as="button" @click="showSettingsModal = true">Settings</NavItem></li>
-                <li><NavItem class="text-gray-200 hover:text-gray-400" @click="showUploadModal = true">Upload</NavItem></li>
-                <li><NavItem class="text-gray-200 hover:text-gray-400"><Link :href="route('logout')" method="POST" as="button">Logout</Link></NavItem></li>
+                <li>
+                  <NavItem class="text-gray-300">Welcome, {{ $page.props.auth.user.name }}</NavItem>
+                </li>
+                <li>
+                  <NavItem link="dashboard" class="text-brand-primary-500" as="button">Dashboard </NavItem>
+                </li>
+                <li>
+                  <NavItem class="text-gray-200 hover:text-gray-400" as="button" @click="showSettingsModal = true">
+                    Settings</NavItem>
+                </li>
+                <li>
+                  <NavItem class="text-gray-200 hover:text-gray-400" @click="showUploadModal = true">Upload</NavItem>
+                </li>
+                <li>
+                  <NavItem class="text-gray-200 hover:text-gray-400">
+                    <Link :href="route('logout')" method="POST" as="button">Logout</Link>
+                  </NavItem>
+                </li>
               </ul>
             </div>
             <div v-else>
-              <NavItem><Link :href="route('login')" class="text-gray-200 hover:text-gray-400">Login</Link></NavItem>
+              <NavItem>
+                <Link :href="route('login')" class="text-gray-200 hover:text-gray-400">Login</Link>
+              </NavItem>
             </div>
           </nav>
         </header>
@@ -62,26 +77,26 @@ let showSettingsModal = ref(false)
 
 <style scoped>
 .modal-enter-from {
-    transform: translateX(100%);
+  transform: translateX(100%);
 }
 
 .modal-enter-active {
-    transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 .modal-enter-to {
-    transform: translateX(0);
+  transform: translateX(0);
 }
 
 .modal-leave-active {
-    transition: all 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 .modal-leave-from {
-    transform: translateX(0);
+  transform: translateX(0);
 }
 
 .modal-leave-to {
-    transform: translateX(100%);
+  transform: translateX(100%);
 }
 </style>

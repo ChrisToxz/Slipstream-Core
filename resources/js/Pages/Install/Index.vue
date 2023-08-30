@@ -1,9 +1,9 @@
 <script setup>
 import Layout from '@/Layouts/InstallLayout.vue'
 import PrimaryButton from '@/Components/UI/PrimaryButton.vue'
-import {ref} from 'vue'
+import { ref } from 'vue'
 import PrimaryTextInput from '@/Components/UI/PrimaryTextInput.vue'
-import {useForm} from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
 
 
 const nextStep = ref(false)
@@ -32,7 +32,8 @@ const form = useForm({
 
             <div v-if="!nextStep">
               <div class="mt-8 space-y-8">
-                <p class="text-sm tracking-wide text-gray-300">Thank you for starting using Slipstream. Before you can start we have to finalize a short installation wizard</p>
+                <p class="text-sm tracking-wide text-gray-300">Thank you for starting using Slipstream. Before you can
+                  start we have to finalize a short installation wizard</p>
                 <PrimaryButton type="button" @click="toggle()">Lets start!</PrimaryButton>
               </div>
             </div>
@@ -56,8 +57,10 @@ const form = useForm({
                         <p v-if="form.errors.password" class="text-red-500 font-extrabold">{{ form.errors.password }}</p>
                       </div>
                       <div>
-                        <PrimaryTextInput v-model="form.password_confirmation" class="w-full" placeholder="Password repeat" type="password" />
-                        <p v-if="form.errors.password_confirmation" class="text-red-500 font-extrabold">{{ form.errors.password }}</p>
+                        <PrimaryTextInput v-model="form.password_confirmation" class="w-full"
+                          placeholder="Password repeat" type="password" />
+                        <p v-if="form.errors.password_confirmation" class="text-red-500 font-extrabold">{{
+                          form.errors.password }}</p>
                       </div>
                       <PrimaryButton type="submit">Create account</PrimaryButton>
                     </div>
@@ -71,5 +74,4 @@ const form = useForm({
     </div>
   </Layout>
 </template>
-<style>
-</style>
+<style></style>

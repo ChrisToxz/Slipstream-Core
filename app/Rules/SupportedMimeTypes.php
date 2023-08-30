@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use Closure;
+use Config;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Validation\ValidationException;
 
@@ -15,7 +16,7 @@ class SupportedMimeTypes implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $supportedMimeTypes = \Config::get('slipstream.supported_mimetypes');
+        $supportedMimeTypes = Config::get('slipstream.supported_mimetypes');
 
         try {
             $mimeType = $value->getClientMimeType();

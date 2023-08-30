@@ -19,9 +19,7 @@ class SlipProcessFinished implements ShouldBroadcastNow
     public function __construct(
         public Slip $slip,
         public bool $success = true
-    ) {
-        //
-    }
+    ) {}
 
     /**
      * Get the channels the event should broadcast on.

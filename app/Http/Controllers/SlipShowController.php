@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Slip;
-use Illuminate\Http\Request;
 
 class SlipShowController extends Controller
 {

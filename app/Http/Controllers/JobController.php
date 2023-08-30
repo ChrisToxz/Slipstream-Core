@@ -14,10 +14,8 @@ class JobController extends Controller
     /* TODO: Optimize this */
     public function requeue(Slip $slip)
     {
-
         $failedJobProvider = app(FailedJobProviderInterface::class);
         $failedJob = $failedJobProvider->find($slip->job_uuid);
-
 
         Queue::pushRaw($failedJob->payload);
         $slip->setStatus(SlipStatus::QUEUED);

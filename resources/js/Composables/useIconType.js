@@ -4,14 +4,14 @@ import StreamableType from '~icons/solar/play-stream-bold'
 
 const iconType = (type) => {
   switch (type) {
-  case 1:
-    return OriginalType
-  case 2:
-    return OptimizedType
-  case 3:
-    return StreamableType
-  default:
-    return OriginalType
+    case 1:
+      return OriginalType
+    case 2:
+      return OptimizedType
+    case 3:
+      return StreamableType
+    default:
+      return OriginalType
   }
 }
 
